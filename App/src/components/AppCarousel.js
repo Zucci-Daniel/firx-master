@@ -30,7 +30,6 @@ import AppPostVideo from './AppPostVideo';
 
 const AppCarousel = ({useData = [], shouldPlaySecondCondition=(index)=>{}}) => {
   const [currentMedia, setCurrentMedia] = useState(1);
-  console.log(' what => ', useData);
   const getCurrentIndex = event => {
     const index = Math.floor(
       event.nativeEvent.contentOffset.x /
@@ -104,5 +103,6 @@ const styles = StyleSheet.create({
   },
   FlatList: {
     // flex: 1,
+    backgroundColor:colors.skeletonBg
   },
 });

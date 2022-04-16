@@ -1,15 +1,17 @@
 import React, {useRef, useState} from 'react';
 import {Pressable, StyleSheet, View, Button} from 'react-native';
-import {width, height, postHeight} from '../config/config';
+import {width, height, postHeight, colors} from '../config/config';
 // import VideoPlayer from 'react-native-video-controls';
 import {useNavigation} from '@react-navigation/native';
 import {Video, AVPlaybackStatus} from 'expo-av';
-import PlayIcon from './PlayIcon';
+import ControlIcon from './ControlIcon';
 import MediaSkeleton from './MediaSkeleton';
+import ControlsWrapper from './ControlsWrapper';
 
 const AppPostVideo = ({
   videoUri = 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
   shouldPlay = false,
+  loop = false,
   useHeight = 400,
   thumbnail = 'https://baconmockup.com/300/200/',
 }) => {
@@ -17,45 +19,76 @@ const AppPostVideo = ({
   const videoRef = useRef(null);
   const [status, setStatus] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [sound, setSound] = useState(false);
+  const [error, setError] = useState(false);
+
+  // console.log(status, ' the vidoe satu');
 
   const handleStatus = () => {
-    console.log('free ');
     return status.isPlaying
       ? videoRef.current.pauseAsync()
       : videoRef.current.playAsync();
   };
 
+  const handleReload = () => videoRef.current.replayAsync();
+  const handleSound = () => setSound(!sound);
+
+  const size = isLoading ? 0 : '100%';
+
   return (
     <Pressable>
       <View style={[styles.container, {height: useHeight}]}>
-        
-          <Video
-          
-            style={{width: '100%', height: '100%',}}
-            ref={videoRef}
-            shouldPlay={shouldPlay}
-            source={{
-              uri: videoUri,
-            }}
-            posterSource={thumbnail}
-            posterStyle={{width: '100%', height: '100%'}}
-            useNativeControls
-            resizeMode="cover"
-            isLooping={true}
-            isMuted
-            onPlaybackStatusUpdate={status => setStatus(() => status)}
-            onReadyForDisplay={() => setIsLoading(false)}
-            onLoadStart={() => setIsLoading(true)}
-            onLoad={() => setIsLoading(false)}
-          />
-      
-        <MediaSkeleton />
+        <Video
+          style={{width: size, height: size}}
+          ref={videoRef}
+          shouldPlay={shouldPlay}
+          source={{
+            uri: videoUri,
+          }}
+          posterSource={thumbnail}
+          posterStyle={{width: '100%', height: '100%'}}
+          useNativeControls
+          resizeMode="cover"
+          isLooping={loop}
+          onError={() => setError(true)}
+          isMuted={sound}
+          onPlaybackStatusUpdate={status => setStatus(() => status)}
+          onReadyForDisplay={() => setIsLoading(false)}
+          onLoadStart={() => setIsLoading(true)}
+          onLoad={() => setIsLoading(false)}
+        />
+        <ControlsWrapper extraStyles={styles.middleControls}>
+          {error && (
+            <ControlIcon
+              color={colors.calmRed}
+              onPress={null}
+              iconName={'md-alert-circle'}
+              extraPlayStyles={styles.reload}
+              size={50}
+            />
+          )}
+          {status.didJustFinish && (
+            <ControlIcon
+              onPress={handleReload}
+              iconName={'md-reload-outline'}
+              extraPlayStyles={styles.reload}
+            />
+          )}
+        </ControlsWrapper>
+        {isLoading && <MediaSkeleton />}
       </View>
-      <PlayIcon
-        onPress={!isLoading ? handleStatus : null}
-        iconName={status.isPlaying ? 'pause' : 'play'}
-        extraPlayStyles={styles.extraPlayStyles}
-      />
+      <ControlsWrapper extraStyles={styles.bottomControls}>
+        {!status.didJustFinish && <ControlIcon
+          onPress={!isLoading ? handleStatus : null}
+          iconName={status.isPlaying ? 'pause' : 'play'}
+          extraPlayStyles={styles.extraPlayStyles}
+        />}
+        <ControlIcon
+          onPress={!isLoading ? handleSound : null}
+          iconName={!sound ? 'volume-high' : 'volume-mute'}
+          extraPlayStyles={styles.extraPlayStyles}
+        />
+      </ControlsWrapper>
     </Pressable>
   );
 };
@@ -67,11 +100,18 @@ const styles = StyleSheet.create({
     width: width,
     margin: 0,
     position: 'relative',
-    // backgroundColor:'orange'
   },
-  extraPlayStyles: {
+
+  bottomControls: {
     position: 'absolute',
-    bottom: 5,
-    left: 5,
+    bottom: 0,
+  },
+  middleControls: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    alignContent: 'space-between',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });

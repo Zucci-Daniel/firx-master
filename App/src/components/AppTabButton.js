@@ -25,14 +25,14 @@ export default AppTabButton = ({
       onPress={onPress}
       style={[
         styles.button,
-        {backgroundColor: isActive ? colors.hairLineColor : colors.pureWhite},
+        {backgroundColor: isActive ? colors.brandBg : colors.brandBg},
       ]}
       contentStyle={styles.innerButton}
       accessibilityRole="link">
       {/* {children} */}
       <Ionicons
         name={name}
-        color={isActive ? 'white' : 'black'}
+        color={isActive ? 'white' : 'gray'}
         size={size}
         style={{fontWeight: 'bold'}}
       />
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     borderWidth: 0,
+    borderRadius:0
   },
   innerButton: {
     height: '100%',

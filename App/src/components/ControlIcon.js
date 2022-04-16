@@ -3,7 +3,7 @@ import {View, StyleSheet, TouchableNativeFeedback} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {width} from '../config/config';
 
-const PlayIcon = ({
+const ControlIcon = ({
   iconName = 'play',
   size = 30,
   color = 'white',
@@ -24,7 +24,7 @@ const PlayIcon = ({
   );
 };
 
-export default PlayIcon;
+export default ControlIcon;
 
 const styles = StyleSheet.create({
   shadow: {

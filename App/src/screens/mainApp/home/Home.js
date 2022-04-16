@@ -61,7 +61,6 @@ const Home = ({navigation}) => {
           //prepare the data. because u don't want to store every user from the db to the local storage, we're basically taking what we want.
           const responseObj = {...response.data()};
 
-
           const userBasicInfo = {
             birthdate: responseObj.birthdate,
             gender: responseObj.gender,
@@ -125,7 +124,6 @@ const Home = ({navigation}) => {
     //set the global sign up info context to that currentUserObject u fetched.
   };
 
-
   const getBlackLists = () => {
     try {
       const subscriber = firestore()
@@ -158,24 +156,22 @@ const Home = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    if(check) getBlackLists();
-    
+    if (check) getBlackLists();
   }, [check]);
 
   useEffect(() => {
-
-    if(check){
+    if (check) {
       const baseUrl = firestore().collection('AllPosts');
       const postCondition =
         blackLists.myPostsBlackList.length > 0
           ? baseUrl.where('postID', 'not-in', blackLists.myPostsBlackList)
           : baseUrl;
-  
+
       //get the post.
       //refactor this.
       const subscriber = postCondition.onSnapshot(querySnapshot => {
         const posts = [];
-  
+
         querySnapshot.forEach(documentSnapshot => {
           if (
             blackLists.myProfilesBlackList
@@ -190,19 +186,17 @@ const Home = ({navigation}) => {
           } else {
           }
         });
-  
+
         setAllPost(posts);
-  
+
         setIsFetchingData(false);
       });
-  
+
       // Unsubscribe from events when no longer in use
       return () => subscriber();
-
-    }else{
-      console.log("mobile data is turned off")
+    } else {
+      console.log('mobile data is turned off');
     }
-
   }, [check]);
 
   if (isFetchingData) return <FeedLoadingSkeleton />;

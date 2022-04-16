@@ -72,7 +72,7 @@ const InsideApp = ({navigation}) => {
               <AppTabButton
                 isActive={currentRoute === route.name ? true : false}
                 onPress={() => handleRouteChange('notification', route.name)}
-                name="notifications-outline"
+                name="search"
                 size={20}
               />
             ),

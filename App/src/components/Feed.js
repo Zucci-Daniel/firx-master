@@ -2,11 +2,12 @@ import React, {useState, useRef, useCallback, useMemo} from 'react';
 import {View, FlatList, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import {universalPadding, height,colors} from '../config/config';
+import {universalPadding, height, colors} from '../config/config';
 import AppLoading from './AppLoading';
 import Post from './Post/Post';
 import AppCarousel from './AppCarousel';
 import BottomSheet from '@gorhom/bottom-sheet';
+import ListSeparator from './ListSeparator';
 const viewabilityConfig = {viewAreaCoveragePercentThreshold: 50};
 
 const Feed = ({useData = [], userUID}) => {
@@ -79,7 +80,6 @@ const Feed = ({useData = [], userUID}) => {
           renderItem={({item}) => renderItem(item, userUID)}
           ItemSeparatorComponent={seperator}
           extraData={useData}
-          ListEmptyComponent={ListEmptyComponent}
         />
       ) : (
         <AppLoading message="oops no post available" loop={false} />
@@ -91,7 +91,7 @@ const Feed = ({useData = [], userUID}) => {
         snapPoints={snapPoints}
         backgroundStyle={{backgroundColor: 'red'}}
         onChange={handleSheetChanges}>
-        <View style={{backgroundColor: 'black', flex: 1,zIndex:100}}>
+        <View style={{backgroundColor: 'black', flex: 1, zIndex: 100}}>
           <Text>Awesome 🎉</Text>
         </View>
       </BottomSheet>
@@ -101,23 +101,7 @@ const Feed = ({useData = [], userUID}) => {
 
 export default Feed;
 
-const seperator = () => (
-  <View
-    style={{
-      height: universalPadding / 3,
-      width: '100%',
-      backgroundColor: colors.pureWhite,
-    }}
-  />
-);
-const ListEmptyComponent = () => (
-  <View
-    style={{
-      height: universalPadding,
-      width: '100%',
-      backgroundColor: 'red',
-    }}
-  />
-);
+const seperator = () => <ListSeparator />;
+
 
 const styles = StyleSheet.create({});

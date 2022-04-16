@@ -13,6 +13,7 @@ const colors = {
   brandBg: '#010101',
   // brandBg:'#1A2B61',
   pureWhite: '#E1E9EE',
+  // pureWhite: '#E1E9EE',
   inputUnderLineColor: '#6A7085',
   placeHolder: '#1A2B61',
   hairLineColor: '#010101',

@@ -27,7 +27,7 @@ const AppFloatMenu = ({onPressButton}) => {
     <View style={styles.container}>
       <FloatingAction
         actions={actions}
-        buttonSize={70}
+        buttonSize={50}
         color={'#010101'}
         tintColor="white"
         onPressItem={name => {

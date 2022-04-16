@@ -11,7 +11,7 @@ export const checkNetworkStatus = () => {
   console.log(subscribeToNetworkStats, ' network directly from the hook');
   const networkStatus = () => {
     return commonFunctions.showToast(
-      'hi',
+      '',
       `you are ${netInfo.isInternetReachable ? `online` : `offline`}`,
       `${netInfo.isInternetReachable ? `success` : `alert`}`,
     );
