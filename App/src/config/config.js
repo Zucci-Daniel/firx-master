@@ -9,6 +9,8 @@ const brandFont = {
 };
 
 const colors = {
+  initials: '#dee3de',
+  neonBg: '#00022e',
   brandColor: '#fafafa',
   brandBg: '#010101',
   // brandBg:'#1A2B61',
@@ -44,11 +46,11 @@ const avatarWidth = width / 13;
 
 //for the bottom navigation
 const tabBarBottomConfig = {
-  backgroundColor: colors.hairLineColor,
+  backgroundColor: colors.neonBg,
   // height: height / 17,
   border: '0',
   borderTopWidth: 0,
-  borderTopColor: colors.hairLineColor,
+  borderTopColor: colors.neonBg,
   justifyContent: 'center',
 };
 

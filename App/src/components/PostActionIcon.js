@@ -2,19 +2,20 @@ import React from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { colors } from '../config/config';
 
 const PostActionIcon = ({
   onPress,
   value = 4300,
   iconName = 'heart-sharp',
-  color = 'black',
+  color = colors.pureWhite,
   showIcon = true,
   showText = true,
   size = 25,
   extraIconStyles,
   useDefault = true,
   columnMode = false,
-  valueColor='black',
+  valueColor=colors.pureWhite,
   valueSize=12
 }) => {
   return (

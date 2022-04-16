@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: undefined,
     width: width,
-    backgroundColor: colors.pureWhite,
+    backgroundColor: colors.neonBg,
     justifyContent: 'center',
   },
   heading: {

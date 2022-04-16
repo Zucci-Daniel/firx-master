@@ -25,7 +25,7 @@ export default AppTabButton = ({
       onPress={onPress}
       style={[
         styles.button,
-        {backgroundColor: isActive ? colors.brandBg : colors.brandBg},
+        {backgroundColor: isActive ? colors.neonBg : colors.neonBg},
       ]}
       contentStyle={styles.innerButton}
       accessibilityRole="link">

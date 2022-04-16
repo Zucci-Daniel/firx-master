@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {postSize, universalPadding, width} from '../../config/config';
+import {colors, postSize, universalPadding, width} from '../../config/config';
 import PosterImg from './utils/PosterImg';
 import PosterInitials from './utils/PosterInitials';
 import PostActionIcon from './../PostActionIcon';
@@ -28,6 +28,7 @@ const PostHeader = ({
           onPress={onPressPostMenu}
           iconName="ellipsis-vertical-outline"
           showText={false}
+          color={colors.pureWhite}
         />
       </View>
     </View>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {
+  colors,
   height,
   postHeight,
   postSize,
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   desc: {
-    color: '#010',
+    color: colors.pureWhite,
     fontWeight: '400',
   },
   postMediaWrapper: {

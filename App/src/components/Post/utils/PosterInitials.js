@@ -33,19 +33,19 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    color: colors.hairLineColor,
+    color: colors.initials,
     fontWeight: '700',
     fontSize: 13,
     textTransform: 'capitalize',
   },
   date: {
-    color: colors.hairLineColor,
+    color: colors.initials,
     fontWeight: '300',
     textTransform: 'lowercase',
     fontSize: 10,
   },
   location: {
-    color: colors.hairLineColor,
+    color: colors.initials,
     fontWeight: '500',
     textTransform: 'capitalize',
   },

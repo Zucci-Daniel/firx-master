@@ -50,7 +50,7 @@ export default Post;
 const styles = StyleSheet.create({
   postContainer: {
     position: 'relative',
-    backgroundColor: colors.pureWhite,
+    backgroundColor: colors.neonBg,
     width: width,
     alignContent: 'space-between',
   },

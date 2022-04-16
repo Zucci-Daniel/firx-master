@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, View,TouchableOpacity, StyleSheet} from 'react-native';
-import {avatarWidth} from '../../../config/config';
+import {avatarWidth, colors} from '../../../config/config';
 
 const PosterImg = ({profileImage,onTapImage}) => {
   return (
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: colors.fadeWhite,
   },
   img: {
     height: '100%',
