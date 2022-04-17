@@ -28,7 +28,7 @@ const PostHeader = ({
           onPress={onPressPostMenu}
           iconName="ellipsis-vertical-outline"
           showText={false}
-          color={colors.postActions}
+          color={'#a3bae3'}
         />
       </View>
     </View>

@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   date: {
-    color: colors.initials,
+    color: '#aec9eb',
     fontWeight: '300',
     textTransform: 'lowercase',
     fontSize: 10,
