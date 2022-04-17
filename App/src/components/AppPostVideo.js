@@ -22,7 +22,6 @@ const AppPostVideo = ({
   const [sound, setSound] = useState(false);
   const [error, setError] = useState(false);
 
-  console.log(status, ' the vidoe satu');
 
   const handleStatus = () => {
     return status.isPlaying

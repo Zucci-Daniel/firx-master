@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   textarea: {
     fontSize: 16,
-    color: '#010101',
+    color: colors.fadeWhite,
     fontWeight: '400',
   },
 });

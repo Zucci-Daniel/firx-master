@@ -32,7 +32,7 @@ export default AppTabButton = ({
       {/* {children} */}
       <Ionicons
         name={name}
-        color={isActive ? 'white' : 'gray'}
+        color={isActive ? 'white' : colors.calmBlue}
         size={size}
         style={{fontWeight: 'bold'}}
       />

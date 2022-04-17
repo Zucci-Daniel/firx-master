@@ -89,7 +89,7 @@ export default AppCarousel;
 const styles = StyleSheet.create({
   imageIndicator: {
     color: 'white',
-    backgroundColor: '#010',
+    backgroundColor: colors.neonBg,
     fontWeight: '700',
     fontStyle: 'italic',
     fontSize: 10,
