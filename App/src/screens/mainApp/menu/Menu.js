@@ -15,7 +15,8 @@ const Menu = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        headerTintColor: colors.hairLineColor,
+        headerTintColor: colors.fadeWhite,
+        headerStyle:{backgroundColor:colors.neonBg},
         headerShadowVisible: false,
         animation: 'slide_from_right',
         headerTitleStyle: {
@@ -30,12 +31,12 @@ const Menu = () => {
         options={{
           headerTitle: 'Your recent posts',
           headerShown: true,
-          // headerRight: () => (
-          //   <ButtonText
-          //     title="Create A Post!"
-          //     onPress={() => navigation.navigate('createPost')}
-          //   />
-          // ),
+          headerRight: () => (
+            <ButtonText
+              title="Post"
+              onPress={() => navigation.navigate('camera')}
+            />
+          ),
           animationTypeForReplace:'push'
         }}
       />
@@ -45,12 +46,6 @@ const Menu = () => {
         options={{
           headerTitle: 'Your saved posts',
           headerShown: true,
-          // headerRight: () => (
-          //   <ButtonText
-          //     title="Create A Post!"
-          //     onPress={() => navigation.navigate('createPost')}
-          //   />
-          // ),
           animationTypeForReplace:'push'
         }}
       />

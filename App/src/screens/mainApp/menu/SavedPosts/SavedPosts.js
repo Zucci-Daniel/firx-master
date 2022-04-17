@@ -19,6 +19,8 @@ import {
 } from './../../../../hooks/postOperations';
 import PostActions from '../../../../components/PostActions';
 import {getDocSnapshot} from './../../../../hooks/useOperation';
+import Feed from './../../../../components/Feed';
+import FeedLoadingSkeleton from './../../../../components/FeedLoadingSkeleton';
 ///use a flast list
 
 const SavedPosts = () => {
@@ -60,7 +62,6 @@ const SavedPosts = () => {
       } else return;
     } catch (error) {
       setIsFetchingData(false);
-      commonFunctions.showToast(null, 'you have no saved posts.', 'alert');
     }
 
     return () => {};
@@ -71,49 +72,13 @@ const SavedPosts = () => {
     confirmAction(postID, deleteAction);
   };
 
-  const hideSheet = id => SheetManager.hideAll();
 
-  if (isFetchingData) return <AppLoading loop={isFetchingData} />;
+  if (isFetchingData) return <FeedLoadingSkeleton />;
 
   return (
     <View style={styles.container}>
       {savedPosts.length > 0 ? (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={savedPosts}
-          keyExtractor={item => item.postID}
-          renderItem={({item}, index) => (
-            <SponsorPost
-              onTapPost={null}
-              onPressPostMenu={() => {
-                SheetManager.show(item.postID);
-              }}
-              mini={false}
-              postMedias={item.postMedias}
-              profileImage={item.posterAvatar}
-              name={item.posterName}
-              description={item.postCaption}
-              date={'today :23:00pm wat'}
-              pushValue={item.postPushes.length}
-              // date={item.postedOn.toString()}
-            >
-              <PostActions
-                actionRef={item.postID}
-                iAuthoredThis={true}
-                deletePost={() => _deletePost(item.postID, handleDeletePost)}
-              />
-            </SponsorPost>
-          )}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                height: universalPadding / 3,
-                width: '100%',
-                backgroundColor: 'white',
-              }}
-            />
-          )}
-        />
+        <Feed useData={savedPosts} />
       ) : (
         <Link
           text={'no recent post yet, create a post'}

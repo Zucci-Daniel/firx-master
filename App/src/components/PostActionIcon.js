@@ -8,14 +8,14 @@ const PostActionIcon = ({
   onPress,
   value = 4300,
   iconName = 'heart-sharp',
-  color = colors.postActions,
+  color = colors.calmBlue,
   showIcon = true,
   showText = true,
   size = 25,
   extraIconStyles,
   useDefault = true,
   columnMode = false,
-  valueColor = colors.postActions,
+  valueColor = colors.calmBlue,
   valueSize = 10,
 }) => {
   return (

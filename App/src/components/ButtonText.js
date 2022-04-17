@@ -30,9 +30,10 @@ const styles = StyleSheet.create({
     color: colors.pureWhite,
     fontFamily: brandFont.medium,
     fontWeight: 'bold',
-    paddingHorizontal: universalPadding / 5,
+    paddingHorizontal: universalPadding/1.2,
     paddingVertical: universalPadding / 10,
-    borderRadius: 12,
+    borderRadius: 5,
     fontSize: 12,
+    textTransform:'capitalize'
   },
 });

@@ -65,9 +65,7 @@ const Camera = () => {
 
   const selectedMedia = data => {
     const stateMedia = post.postMedias;
-    console.log(data, ' ================================================');
-    console.log(data, ' you selected this..');
-    console.log(data, ' ================================================');
+
     let awaitingMedias = [];
 
     data.map((item, index) => {
@@ -89,7 +87,7 @@ const Camera = () => {
       const exist = stateMedia.find(media => media.path == newItem.path)
         ? true
         : false;
-    exist == false ? awaitingMedias.push(newItem) : null;
+      exist == false ? awaitingMedias.push(newItem) : null;
     });
 
     setPost({...post, postMedias: [...post.postMedias, ...awaitingMedias]});
@@ -129,7 +127,6 @@ const Camera = () => {
     let mediaFiles = [];
 
     try {
-      
       for (const media of post.postMedias) {
         const uri = await uploadFile(media.path);
         let thumbnail = null;
@@ -179,24 +176,21 @@ const Camera = () => {
     //prepare the post informations and send to AllPosts collection.
   };
 
-  useEffect(() => {
-    if (finishedUploadingMedia == true) {
-      console.log(post, ' post ready to published');
-    } else {
-      console.log('useEffect is useless now');
-    }
-  }, [finishedUploadingMedia]);
-
-
-  console.log(' the camera posting state, ', post.postMedias)
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <AppCancel useStyles={false} onCancel={handleBack} />
-        <ButtonText bg="cadetblue" title="post" onPress={handleSubmitPost} />
+        <AppCancel useStyles={false} onCancel={handleBack} size={40} />
+        {(post.postCaption !== '' || post.postMedias.length !== 0) && (
+          <ButtonText
+            bg={colors.neonBg}
+            title="post"
+            onPress={handleSubmitPost}
+          />
+        )}
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <FlatList
+          style={styles.FlatList}
           ref={flatListRef}
           onContentSizeChange={() =>
             flatListRef.current.scrollToEnd({animated: true})
@@ -229,7 +223,7 @@ const Camera = () => {
           value={post.postCaption}
           onChange={text => setPost({...post, postCaption: text})}
           extraContainerStyles={styles.extraTextAreaStyles}
-          placeHolder={'caption'}
+          placeHolder={'write a caption'}
         />
 
         <AppIconButton
@@ -252,7 +246,7 @@ export default Camera;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.neonBg,
     width: width,
     height: height,
   },
@@ -263,6 +257,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  FlatList: {
+    marginTop: universalPadding/2,
   },
   imagesContainer: {
     width: width / 3,
@@ -283,7 +280,7 @@ const styles = StyleSheet.create({
   },
   extraTextAreaStyles: {
     width: '100%',
-    backgroundColor: colors.pureWhite,
+    backgroundColor: 'transparent',
     height: height / 3,
   },
 });

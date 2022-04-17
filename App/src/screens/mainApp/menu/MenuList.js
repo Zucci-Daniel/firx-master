@@ -26,14 +26,14 @@ const MenuList = ({navigation}) => {
     },
     {
       id: 3,
-      optionColor: colors.calmGreen,
+      optionColor: colors.pureWhite,
       onPress: () => null,
       title: `following ${1.4}k`,
       iconName: 'people',
     },
     {
       id: 4,
-      optionColor: colors.calmGreen,
+      optionColor: colors.pureWhite,
       onPress: () => null,
       title: `followed by ${3.4}m people`,
       iconName: 'people-outline',
@@ -129,7 +129,7 @@ export default MenuList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.brandBg,
+    backgroundColor: colors.neonBg,
     position: 'relative',
     padding: universalPadding / 4,
   },

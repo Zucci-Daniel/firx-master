@@ -41,27 +41,17 @@ export default function ProfilePane({
           styles.container,
           {
             borderBottomColor: !showBorder && 'transparent',
-            backgroundColor: dark ? '#010101' : !dark ? 'white' : bg,
+            backgroundColor: 'transparent',
           },
           extraStyle,
         ]}>
         <AppImage readOnly />
 
         <View style={[styles.wrapper, extraNamesWrapperStyle]}>
-          <Subheading
-            style={[
-              styles.Subheading,
-              {color: useDarkUserName && colors.hairLineColor},
-              extraUserNameStyle,
-            ]}>
+          <Subheading style={[styles.Subheading, extraUserNameStyle]}>
             {username ? username : `${firstName} ${lastName}`}
           </Subheading>
-          <Subheading
-            style={[
-              styles.SuperSubHeading,
-              {color: useDarkName && colors.hairLineColor},
-              extraNameStyles,
-            ]}>
+          <Subheading style={[styles.SuperSubHeading, extraNameStyles]}>
             {schoolInfo ? schoolInfo : `${department} | ${level}Level`}
           </Subheading>
         </View>
@@ -95,14 +85,14 @@ const styles = StyleSheet.create({
   Subheading: {
     fontSize: 23,
     fontWeight: '800',
-    color: colors.pureWhite,
+    color: colors.calmBlue,
     fontFamily: brandFont.semiBold,
   },
   SuperSubHeading: {
     fontSize: 14,
     textTransform: 'capitalize',
     fontWeight: '600',
-    color: colors.pureWhite,
+    color: colors.calmBlue,
     fontFamily: brandFont.semiBold,
   },
 });

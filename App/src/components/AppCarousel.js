@@ -43,7 +43,7 @@ const AppCarousel = ({useData = [], shouldPlaySecondCondition=(index)=>{}}) => {
     ) : (
       <>
         <AppPostVideo
-          shouldPlay={index == 0 && shouldPlaySecondCondition(0)}
+          shouldPlay={false}
           key={item.id}
           useHeight={'100%'}
           videoUri={item?.url}

@@ -18,6 +18,8 @@ import {
   confirmAction,
 } from './../../../../hooks/postOperations';
 import PostActions from '../../../../components/PostActions';
+import Feed from './../../../../components/Feed';
+import FeedLoadingSkeleton from './../../../../components/FeedLoadingSkeleton';
 ///use a flast list
 
 const AuthoredPosts = () => {
@@ -56,51 +58,12 @@ const AuthoredPosts = () => {
     confirmAction(postID, deleteAction);
   };
 
-  const hideSheet = id => SheetManager.hideAll();
-
-  if (isFetchingData) return <AppLoading />;
+  if (isFetchingData) return <FeedLoadingSkeleton />;
 
   return (
     <View style={styles.container}>
       {authoredPosts.length > 0 ? (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={authoredPosts}
-          keyExtractor={item => item.postID}
-          renderItem={({item}, index) => (
-            <SponsorPost
-              onTapPost={() =>
-                navigation.navigate('viewPost', {postId: item.postID})
-              }
-              onPressPostMenu={() => {
-                SheetManager.show(item.postID);
-              }}
-              mini={false}
-              postMedias={item.postMedias}
-              profileImage={item.posterAvatar}
-              name={item.posterName}
-              description={item.postCaption}
-              date={'today :23:00pm wat'}
-              pushValue={item.postPushes.length}
-              // date={item.postedOn.toString()}
-            >
-              <PostActions
-                actionRef={item.postID}
-                iAuthoredThis={true}
-                deletePost={() => _deletePost(item.postID, handleDeletePost)}
-              />
-            </SponsorPost>
-          )}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                height: universalPadding / 3,
-                width: '100%',
-                backgroundColor: 'white',
-              }}
-            />
-          )}
-        />
+        <Feed useData={authoredPosts} />
       ) : (
         <Link
           text={'no recent post yet, create a post'}
@@ -116,7 +79,7 @@ export default AuthoredPosts;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.pureWhite,
+    backgroundColor: colors.neonBg,
     width: width,
     justifyContent: 'center',
   },

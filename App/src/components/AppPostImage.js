@@ -7,22 +7,18 @@ import ControlIcon from './ControlIcon';
 
 const AppPostImage = ({imageUri, useHeight = height / 2}) => {
   const [isLoading, setIsLoading] = useState(true);
-  const size = isLoading ? 0 : '100%';
+  const size = isLoading ? '100%' : '100%';
 
   return (
     <Pressable>
       <View style={[styles.container, {height: useHeight}]}>
         <FastImage
-          onLoadStart={() => setIsLoading(true)}
-          onLoad={() => setIsLoading(false)}
-          onLoadEnd={() => setIsLoading(false)}
           source={
             imageUri ? {uri: imageUri} : require('../../src/assets/henessy.jpg')
           }
           resizeMode={FastImage.resizeMode.cover}
           style={{width: size, height: size}}
         />
-        {isLoading && <MediaSkeleton />}
       </View>
       <ControlIcon
         onPress={null}

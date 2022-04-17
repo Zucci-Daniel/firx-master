@@ -9,6 +9,7 @@ const brandFont = {
 };
 
 const colors = {
+  calmBlue: '#a3bae3',
   postActions: '#d2d4c3',
   initials: '#dee3de',
   neonBg: '#03012d',

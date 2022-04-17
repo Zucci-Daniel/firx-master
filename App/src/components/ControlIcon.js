@@ -37,5 +37,6 @@ const styles = StyleSheet.create({
     shadowRadius: 13.97,
 
     elevation: 21,
+    backgroundColor:"red"
   },
 });

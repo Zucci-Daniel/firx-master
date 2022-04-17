@@ -38,7 +38,7 @@ export default function MenuItem({
                 <MaterialIcons
                   name={iconName}
                   size={menuIconSize}
-                  color={iconColor ? iconColor : colors.pureWhite}
+                  color={iconColor ? iconColor : colors.calmBlue}
                 />
               )
             }

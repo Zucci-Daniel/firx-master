@@ -22,7 +22,7 @@ const AppPostVideo = ({
   const [sound, setSound] = useState(false);
   const [error, setError] = useState(false);
 
-  // console.log(status, ' the vidoe satu');
+  console.log(status, ' the vidoe satu');
 
   const handleStatus = () => {
     return status.isPlaying
@@ -31,6 +31,7 @@ const AppPostVideo = ({
   };
 
   const handleReload = () => videoRef.current.replayAsync();
+  // const handleSound = () => setStatus({...status,isMuted:!status.isMuted});
   const handleSound = () => setSound(!sound);
 
   const size = isLoading ? 0 : '100%';
