@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
 
   name: {
     color: colors.initials,
-    fontWeight: '700',
-    fontSize: 13,
+    fontWeight: '600',
+    fontSize: 10,
     textTransform: 'capitalize',
   },
   date: {

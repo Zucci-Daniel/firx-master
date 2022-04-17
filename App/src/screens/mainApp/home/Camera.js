@@ -165,7 +165,7 @@ const Camera = () => {
       setFinishedUploadingMedia(true);
       commonFunctions.showToast('SUCCESSFUL', 'post is live!', 'SUCCESS');
     } catch (error) {
-      console.log(error.message, 'failed to post fiels');
+      console.log(error.message, 'failed to post files');
       commonFunctions.showToast(
         "can't upload a post",
         'check your internet connection and try again.',

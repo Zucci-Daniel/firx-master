@@ -9,8 +9,9 @@ const brandFont = {
 };
 
 const colors = {
+  postActions: '#d2d4c3',
   initials: '#dee3de',
-  neonBg: '#00022e',
+  neonBg: '#03012d',
   brandColor: '#fafafa',
   brandBg: '#010101',
   // brandBg:'#1A2B61',
@@ -30,8 +31,8 @@ const colors = {
   calmRed: '#D2686E',
   info: '#c9aa88',
   calmGreen: 'green',
-  skeletonBg: '#262626',
-  skeletonAnimationBg: '#303030',
+  skeletonBg: '#020035',
+  skeletonAnimationBg: '#002244',
 };
 
 const {width, height} = Dimensions.get('screen');

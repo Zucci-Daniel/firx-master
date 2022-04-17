@@ -7,13 +7,15 @@ import {useContext} from 'react';
 import {AppContext} from './../appContext';
 import MainApp from './../screens/mainApp/MainApp';
 
+import {Host} from 'react-native-portalize';
+
 const Navigation = () => {
   const {seenUserUID} = useContext(AppContext);
 
   return (
     <>
       <NavContainer>
-        {seenUserUID ? <MainApp /> : <Auth />}
+        <Host>{seenUserUID ? <MainApp /> : <Auth />}</Host>
       </NavContainer>
     </>
   );

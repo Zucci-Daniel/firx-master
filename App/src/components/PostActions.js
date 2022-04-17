@@ -2,10 +2,11 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import AppBottomSheet from './AppBottomSheet';
 import PostActionIcon from './PostActionIcon';
-import {height, universalPadding, width, colors} from '../config/config';
+import {height, universalPadding, width, colors, postHeight} from '../config/config';
+import Sheet from './Sheet';
 
 const PostActions = ({
-  actionRef,
+  sheetRef,
   onStopSeeingThis,
   onSavePost,
   onCopyPostLink,
@@ -19,10 +20,8 @@ const PostActions = ({
   const size = width / 10;
 
   return (
-    <AppBottomSheet
-      sheetID={actionRef}
-      sheetHieght={iAuthoredThis ? height / 5 : height / 3}>
-      <View style={styles.container}>
+    <Sheet sheetRef={sheetRef}>
+      <View style={[styles.container,{height:!iAuthoredThis?postHeight/1.5:postHeight/3}]}>
         {iAuthoredThis && (
           <View style={styles.iAuthoredThisStyles}>
             <PostActionIcon
@@ -105,7 +104,7 @@ const PostActions = ({
           </>
         )}
       </View>
-    </AppBottomSheet>
+    </Sheet>
   );
 };
 
@@ -114,9 +113,8 @@ export default PostActions;
 const styles = StyleSheet.create({
   container: {
     padding: universalPadding / 2,
-    height: '100%',
-    width: '100%',
-    backgroundColor: 'white',
+    width: width,
+    backgroundColor: colors.skeletonAnimationBg,
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-around',

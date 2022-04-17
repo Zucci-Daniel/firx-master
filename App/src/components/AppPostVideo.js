@@ -78,17 +78,26 @@ const AppPostVideo = ({
         {isLoading && <MediaSkeleton />}
       </View>
       <ControlsWrapper extraStyles={styles.bottomControls}>
-        {!status.didJustFinish && <ControlIcon
-          onPress={!isLoading ? handleStatus : null}
-          iconName={status.isPlaying ? 'pause' : 'play'}
-          extraPlayStyles={styles.extraPlayStyles}
-        />}
+        {status.didJustFinish ||
+          (!isLoading && (
+            <ControlIcon
+              onPress={!isLoading ? handleStatus : null}
+              iconName={status.isPlaying ? 'pause' : 'play'}
+              extraPlayStyles={styles.extraPlayStyles}
+            />
+          ))}
         <ControlIcon
           onPress={!isLoading ? handleSound : null}
           iconName={!sound ? 'volume-high' : 'volume-mute'}
           extraPlayStyles={styles.extraPlayStyles}
         />
       </ControlsWrapper>
+      <ControlIcon
+        onPress={null}
+        iconName={'videocam'}
+        extraPlayStyles={styles.videoIndicator}
+        size={20}
+      />
     </Pressable>
   );
 };
@@ -113,5 +122,10 @@ const styles = StyleSheet.create({
     alignContent: 'space-between',
     alignSelf: 'center',
     justifyContent: 'center',
+  },
+  videoIndicator: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
   },
 });

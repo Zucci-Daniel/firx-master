@@ -11,6 +11,8 @@ import {Button, View} from 'react-native';
 import {AppContext} from './../../appContext';
 import AppFloatMenu from './../../components/AppFloatMenu';
 
+
+
 const InsideApp = ({navigation}) => {
   const {showBottomTab} = useContext(AppContext);
   const [currentRoute, setCurrentRoute] = useState('homeStack');

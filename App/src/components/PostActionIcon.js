@@ -2,25 +2,29 @@ import React from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from '../config/config';
+import {colors} from '../config/config';
 
 const PostActionIcon = ({
   onPress,
   value = 4300,
   iconName = 'heart-sharp',
-  color = colors.pureWhite,
+  color = colors.postActions,
   showIcon = true,
   showText = true,
   size = 25,
   extraIconStyles,
   useDefault = true,
   columnMode = false,
-  valueColor=colors.pureWhite,
-  valueSize=12
+  valueColor = colors.postActions,
+  valueSize = 10,
 }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[columnMode ? styles.columnMode : styles.rowMode]}>
+      <View
+        style={[
+          styles.container,
+          columnMode ? styles.columnMode : styles.rowMode,
+        ]}>
         {showIcon && useDefault && (
           <Entypo
             name={iconName}
@@ -37,7 +41,16 @@ const PostActionIcon = ({
             style={[styles.icon, styles.shadow, extraIconStyles]}
           />
         )}
-        {showText && <Text style={[styles.value, styles.shadow,{color:valueColor,fontSize:valueSize}]}>{value}</Text>}
+        {showText && (
+          <Text
+            style={[
+              styles.value,
+              styles.shadow,
+              {color: valueColor, fontSize: valueSize},
+            ]}>
+            {value}
+          </Text>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -63,7 +76,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '500',
     fontSize: 10,
-    textTransform:'capitalize'
+    textTransform: 'capitalize',
   },
   shadow: {
     shadowColor: '#000',
