@@ -87,7 +87,7 @@ const AppPostVideo = ({
             />
           ))}
         <ControlIcon
-          onPress={!isLoading ? handleSound : null}
+          onPress={handleSound}
           iconName={!sound ? 'volume-high' : 'volume-mute'}
           extraPlayStyles={styles.extraPlayStyles}
         />
