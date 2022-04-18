@@ -34,13 +34,13 @@ const Post = ({
       <PostContent caption={caption} postMedias={postMedias}>
         {children}
       </PostContent>
-      <PostFooter
+      {/* <PostFooter
         onShare={onShare}
         onPush={onPush}
         pushValue={pushValue}
         onComment={onComment}
         extraIconStyles={extraIconStyles}
-      />
+      /> */}
     </View>
   );
 };

@@ -1,8 +1,9 @@
 import firestore from '@react-native-firebase/firestore';
-import {launchImageLibrary} from 'react-native-image-picker';
 import {commonFunctions} from '../imports/all_files';
 import {log} from './testLog';
 import ImagePicker from 'react-native-image-crop-picker';
+import {getObjectFromLocalStorage, storeLocally} from './useLocalStorageFunctions';
+import {useCheckNetworkStatus} from './justHooks';
 
 export const turnOfLocalPersistence = async () => {
   try {
@@ -90,24 +91,6 @@ export const getIfDocExist = async (colRef, docID) => {
   }
 };
 
-// export const handleImagePicker = async () => {
-//   //use image crop picker isntead
-//   try {
-//     let choosedImage;
-//     const result = await launchImageLibrary({mediaType: 'photo'});
-//     if (!result.didCancel) {
-//       console.log(
-//         result.assets[0].uri,
-//         ' file name from handleImagePicker function ',
-//       );
-//       choosedImage = result.assets[0].uri;
-//     }
-//     return choosedImage;
-//   } catch (error) {
-//     console.log(error.image, ' failed selecting an image');
-//   }
-// };
-
 export const handleImagePicker = async () => {
   try {
     const result = await ImagePicker.openPicker({
@@ -160,5 +143,66 @@ export const getPost = async (colRef = 'AllPosts', postId) => {
     return response;
   } catch (error) {
     commonFunctions.showToast('', 'cannot get post now!', 'ERROR');
+  }
+};
+
+
+export const useGetUserInformationFromFirestore = async id => {
+  try {
+    const response = await useGetNewUser('STUDENTS', id);
+
+    if (response) {
+      //prepare the data. because u don't want to store every user from the db to the local storage, we're basically taking what we want.
+      const responseObj = {...response.data()};
+
+      const userBasicInfo = {
+        birthdate: responseObj.birthdate,
+        gender: responseObj.gender,
+        firstName: responseObj.firstName,
+        lastName: responseObj.lastName,
+        typeOfStudent: responseObj.typeOfStudent,
+        school: responseObj.school,
+
+        department: responseObj.department,
+        level: responseObj.level,
+        profileImage: responseObj.profileImage,
+        phoneNumber: responseObj.phoneNumber,
+      };
+      try {
+        await storeLocally('currentUserBasicInfo', userBasicInfo);
+        return userBasicInfo;
+      } catch (error) {
+        log(' faild to store response locally', error.message);
+      }
+    } else {
+      log('failed to get user info from firebase ');
+    }
+  } catch (error) {
+    console.log(
+      'error from useOperation, failed to get user basic information , ',
+      error.message,
+    );
+  }
+};
+
+export const useGetUserBasicInformationFromLocalStorage = async id => {
+  try {
+    const responseFromStorage = await getObjectFromLocalStorage(
+      'currentUserBasicInfo',
+    );
+
+    if (responseFromStorage) {
+      console.log(`got basic info locally , setting user context `);
+      console.log(responseFromStorage, ' the response from local storage');
+      return responseFromStorage;
+    } else {
+      commonFunctions.showToast(
+        'operation failed',
+        `could'nt get basic info locally`,
+        'ERROR',
+      );
+    }
+  } catch (error) {
+    console.log(error.message, ' failed to get user information');
   }
 };

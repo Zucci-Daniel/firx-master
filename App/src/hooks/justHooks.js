@@ -1,7 +1,7 @@
 import {useNetInfo} from '@react-native-community/netinfo';
 import {commonFunctions} from '../imports/all_files';
 
-export const checkNetworkStatus = () => {
+export const useCheckNetworkStatus = () => {
   const netInfo = useNetInfo();
 
   let subscribeToNetworkStats = netInfo.isInternetReachable;

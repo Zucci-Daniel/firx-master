@@ -28,7 +28,7 @@ export default function ProfilePane({
   bg,
 }) {
   const {
-    user: {firstName, lastName, profileImage, department, level},
+    user: {firstName, lastName, department, level},
   } = useContext(SignUpInfoContext);
 
   return (

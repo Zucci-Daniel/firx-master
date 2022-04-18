@@ -18,12 +18,21 @@ export const getFromLocalStorage = async nameOfTheItem => {
   try {
     const theItem = await AsyncStorage.getItem(nameOfTheItem);
     if (theItem) {
-      if (typeof theItem === 'string') {
-        return theItem;
-      } else if (typeof theItem === 'object') {
-        console.log(theItem, ' from the getFromLocalStorage');
-        return (theItem = JSON.parse(theItem));
-      }
+      return theItem;
+    }
+  } catch (error) {
+    console.log(error.message, ' while getting user data locally');
+    response = 'failed to get value';
+  }
+  // return response;
+};
+export const getObjectFromLocalStorage = async nameOfTheItem => {
+  // let response;
+  try {
+    const theItem = await AsyncStorage.getItem(nameOfTheItem);
+    if (theItem) {
+      console.log(theItem, ' object from the getFromLocalStorage');
+      return JSON.parse(theItem);
     }
   } catch (error) {
     console.log(error.message, ' while getting user data locally');

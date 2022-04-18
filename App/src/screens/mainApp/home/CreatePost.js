@@ -23,12 +23,12 @@ import {useUploadFile} from './../../../hooks/useUploadFile';
 import {commonFunctions} from '../../../imports/all_files';
 import {log} from './../../../hooks/testLog';
 import AppLoading from '../../../components/AppLoading';
-import {checkNetworkStatus} from './../../../hooks/justHooks';
+import {useCheckNetworkStatus} from './../../../hooks/justHooks';
 import ImagePicker from 'react-native-image-crop-picker';
 
 //Might have to be a stack later on
 const CreatePost = ({navigation, route}) => {
-  const {networkStatus, subscribeToNetworkStats} = checkNetworkStatus();
+  const {networkStatus, subscribeToNetworkStats} = useCheckNetworkStatus();
 
   const {userUID} = useContext(AppContext);
   //for locating logs

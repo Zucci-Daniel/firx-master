@@ -6,7 +6,7 @@ const ListSeparator = () => {
   return (
     <View
       style={{
-        height: 1,
+        height: 20,
         width: '100%',
         backgroundColor: colors.neonBg,
       }}

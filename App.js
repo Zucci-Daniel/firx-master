@@ -8,7 +8,7 @@ import {SignUpInfoContextProvider} from './App/src/screens/forms/signUpInfoConte
 import {AppContext} from './App/src/appContext';
 import {getFromLocalStorage} from './App/src/hooks/useLocalStorageFunctions';
 import {log} from './App/src/hooks/testLog';
-import {checkNetworkStatus} from './App/src/hooks/justHooks';
+import {useCheckNetworkStatus} from './App/src/hooks/justHooks';
 import AppLoading from './App/src/components/AppLoading';
 import {turnOfLocalPersistence} from './App/src/hooks/useOperation';
 
@@ -18,7 +18,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler'
 //refactor
 
 export default App = () => {
-  const {networkStatus, subscribeToNetworkStats} = checkNetworkStatus();
+  const {networkStatus, subscribeToNetworkStats} = useCheckNetworkStatus();
 
   const page = 'app';
   const [showBottomTab, setShowBottomTab] = useState(true);
