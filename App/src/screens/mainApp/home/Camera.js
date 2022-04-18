@@ -220,6 +220,7 @@ const Camera = () => {
           )}
         />
         <AppTextArea
+          useBigFont={post.postMedias.length == 0 ? true : false}
           value={post.postCaption}
           onChange={text => setPost({...post, postCaption: text})}
           extraContainerStyles={styles.extraTextAreaStyles}
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   FlatList: {
-    marginTop: universalPadding/2,
+    marginTop: universalPadding / 2,
   },
   imagesContainer: {
     width: width / 3,

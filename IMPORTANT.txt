@@ -4,6 +4,25 @@ create a file for all the routes names,storage keys
 
 
 
+remove these packages
+
+@hirbod/react-native-otp-input
+@gorhom/bottom-sheet
+
+react-native-actions-sheet
+
+react-native-anchor-carousel
+react-native-countdown-circle-timer
+
+react-native-image-picker
+
+react-native-material-buttons
+react-native-video
+react-native-video-controls
+
+
+
+
 
 
 

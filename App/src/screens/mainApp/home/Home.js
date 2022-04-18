@@ -6,22 +6,11 @@ import {
   useState,
 } from '../../../imports/all_RnComponents';
 
-import {commonFunctions} from '../../../imports/all_files';
-import {
-  universalPadding,
-  colors,
-  width,
-  height,
-  postSize,
-} from '../../../config/config';
+import {universalPadding, colors, width} from '../../../config/config';
 import {useEffect, useContext} from 'react';
 import {AppContext} from './../../../appContext';
-import {useGetNewUser} from '../../../hooks/useOperation.js';
-import {getFromLocalStorage} from '../../../hooks/useLocalStorageFunctions';
 import {SignUpInfoContext} from './../../forms/signUpInfoContext';
 import firestore from '@react-native-firebase/firestore';
-import {storeLocally} from './../../../hooks/useLocalStorageFunctions';
-import {log} from './../../../hooks/testLog';
 
 import AppFloatMenu from '../../../components/AppFloatMenu';
 import Feed from './../../../components/Feed';
@@ -32,11 +21,11 @@ import {
   useGetUserBasicInformationFromLocalStorage,
 } from './../../../hooks/useOperation';
 
+
 const Home = ({navigation}) => {
   const {subscribeToNetworkStatus} = useCheckNetworkStatus();
   const online = subscribeToNetworkStatus();
 
-  let check = subscribeToNetworkStatus();
   const [allPosts, setAllPost] = useState([]);
   const [blackLists, setBlackLists] = useState({
     myPostsBlackList: [],
@@ -53,19 +42,23 @@ const Home = ({navigation}) => {
         .collection('STUDENTS')
         .doc(userUID)
         .onSnapshot(documentSnapshot => {
-          setBlackLists({
-            ...blackLists,
-            myPostsBlackList: documentSnapshot.data().postsBlackListed,
-            myProfilesBlackList: documentSnapshot.data().profilesBlackListed,
-          });
-          console.log(
-            documentSnapshot.data().profilesBlackListed,
-            ' blacklisted profiles',
-          );
-          console.log(
-            documentSnapshot.data().postsBlackListed,
-            ' blacklisted posts',
-          );
+          try {
+            setBlackLists({
+              ...blackLists,
+              myPostsBlackList: documentSnapshot.data().postsBlackListed,
+              myProfilesBlackList: documentSnapshot.data().profilesBlackListed,
+            });
+            console.log(
+              documentSnapshot.data().profilesBlackListed,
+              ' blacklisted profiles',
+            );
+            console.log(
+              documentSnapshot.data().postsBlackListed,
+              ' blacklisted posts',
+            );
+          } catch (error) {
+            console.log(error.message);
+          }
         });
 
       return () => subscriber();
@@ -98,11 +91,11 @@ const Home = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    if (check) getBlackLists();
-  }, [check]);
+    if (online) getBlackLists();
+  }, [online]);
 
   useEffect(() => {
-    if (check) {
+    if (online) {
       const baseUrl = firestore().collection('AllPosts');
       const postCondition =
         blackLists.myPostsBlackList.length > 0
@@ -123,7 +116,10 @@ const Home = ({navigation}) => {
               : true
           ) {
             posts.push({
-              ...documentSnapshot.data(),
+              item: {
+                ...documentSnapshot.data(),
+              },
+              type: 'normal',
             });
           } else {
           }
@@ -139,7 +135,8 @@ const Home = ({navigation}) => {
     } else {
       console.log('mobile data is turned off');
     }
-  }, [check]);
+  }, [online]);
+
 
   if (isFetchingData) return <FeedLoadingSkeleton />;
 
@@ -148,7 +145,7 @@ const Home = ({navigation}) => {
       <View style={styles.container}>
         <Feed useData={allPosts} userUID={userUID} />
       </View>
-      <AppFloatMenu onPressButton={name => navigation.navigate(name)} />
+      <AppFloatMenu handlePost={() => navigation.navigate('camera')} />
     </>
   );
 };

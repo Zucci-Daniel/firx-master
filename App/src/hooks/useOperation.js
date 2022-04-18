@@ -152,7 +152,7 @@ export const useGetUserInformationFromFirestore = async id => {
     const response = await useGetNewUser('STUDENTS', id);
 
     if (response) {
-      //prepare the data. because u don't want to store every user from the db to the local storage, we're basically taking what we want.
+     
       const responseObj = {...response.data()};
 
       const userBasicInfo = {

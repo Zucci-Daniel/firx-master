@@ -1,13 +1,13 @@
-import React, {useState, useRef, useCallback, useMemo} from 'react';
+import React, {useState, useEffect, useRef, useCallback, useMemo} from 'react';
 import {View, FlatList, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
 import {
   universalPadding,
   height,
   colors,
   postHeight,
   width,
+  postSize,
 } from '../config/config';
 import AppLoading from './AppLoading';
 import Post from './Post/Post';
@@ -16,46 +16,33 @@ import ListSeparator from './ListSeparator';
 
 import PostActions from './PostActions';
 
-const viewabilityConfig = {viewAreaCoveragePercentThreshold: 50};
+import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
 
 const Feed = ({useData = [], userUID}) => {
-  const flatRef = React.useRef(null);
-  const SheetRef = useRef(null);
+  const [data, setData] = useState({
+    dataProvider: new DataProvider((r1, r2) => r1 !== r2),
+    mainData: [],
+  });
 
-  const onOpen = () => SheetRef.current?.open();
+  const handleLayoutProvider = new LayoutProvider(
+    index => {
+      // console.log(data.dataProvider.getDataForIndex(index), ' yes sir');
+      return index;
+    },
+    (type, dim) => {
+      dim.width = width;
+      dim.height = postHeight;
+    },
+  );
 
-  const navigation = useNavigation();
-  const [currentScrolledVideo, setCurrentScrolledVideo] = useState(0);
-
-  // const onViewableItemsChanged = flatRef.current.onViewableItemsChanged(
-  //   (viewableItems) => console.log('see what im viewing ', viewableItems),
-  // );
-
-  const getCurrentIndex = event => {
-    const index = Math.floor(event.nativeEvent.contentOffset.y / 0.5);
-    setCurrentScrolledVideo(index.toString()[0]);
-  };
-
-  const handleShouldPlay = index => (currentScrolledVideo ? true : false);
-
-  const handleRepost = (postID, postImage, postCaption) => {
-    hideSheet(postID);
-    navigation.navigate('createPost', {
-      repostID: postID,
-      repostImage: postImage,
-      repostCaption: postCaption,
-    });
-  };
-
-  const renderItem = (item, userUID) => {
+  const handleRowRender = (type, data) => {
+    const {item} = data;
     return (
       <>
         <Post
           key={item.id}
-          onPressPostMenu={onOpen}
-          onTapPost={() =>
-            navigation.navigate('viewPost', {postId: item.postID})
-          }
+          onPressPostMenu={null}
+          onTapPost={() => null}
           onPush={() => null} //use transaction for this.
           profileImage={item.posterAvatar}
           name={item.posterName}
@@ -63,45 +50,60 @@ const Feed = ({useData = [], userUID}) => {
           date={'today :23:00pm wat'}>
           <AppCarousel
             useData={item.postMedias}
-            shouldPlaySecondCondition={index => handleShouldPlay(index)}
+            shouldPlaySecondCondition={null}
           />
         </Post>
-        <PostActions
-          sheetRef={SheetRef}
-          iAuthoredThis={item.posterUserUID !== userUID ? false : true}
-        />
+        <PostActions sheetRef={null} iAuthoredThis={null} />
       </>
     );
+    f;
   };
+
+  const loadMoreData = () => {
+    setTimeout(() => {
+      console.log('endineding');
+    }, 4000);
+  };
+
+  const animation = () => (
+    <Text style={{marginVertical: 10, backgroundColor: 'red'}}>loaidng</Text>
+  );
+
+  useEffect(() => {
+    setData({
+      ...data,
+      dataProvider: data.dataProvider.cloneWithRows([
+        ...data.mainData,
+        ...useData,
+      ]),
+      mainData: [...data.mainData, ...useData],
+    });
+  }, []);
 
   return (
     <>
-      {useData.length > 0 ? (
-        <FlatList
-          ref={flatRef}
-          // onViewableItemsChanged={onViewableItemsChanged}
-          // viewabilityConfig={viewabilityConfig}
-          // pagingEnabled={true}
-          onMomentumScrollEnd={event => getCurrentIndex(event)}
-          initialScrollIndex={0}
-          initialNumToRender={3}
-          maxToRenderPerBatch={3}
-          showsVerticalScrollIndicator={false}
-          data={useData}
-          keyExtractor={item => item.postID}
-          renderItem={({item}) => renderItem(item, userUID)}
-          ItemSeparatorComponent={seperator}
-          extraData={useData}
-        />
-      ) : (
-        <AppLoading message="oops no post available" loop={false} />
-      )}
+      <View style={{width: width, height: undefined}}>
+        {data.dataProvider._data.length !== 0 ? (
+          <RecyclerListView
+            forceNonDeterministicRendering={true} //to make sure it fits the height of it's content
+            dataProvider={data.dataProvider}
+            layoutProvider={handleLayoutProvider}
+            rowRenderer={handleRowRender}
+            onEndReached={loadMoreData}
+            onEndReachedThreshold={0.5}
+            renderFooter={animation}
+            scrollViewProps={{
+              showsVerticalScrollIndicator: false,
+              ItemSeparatorComponent: () => <ListSeparator />,
+            }}
+          />
+        ) : null}
+      </View>
     </>
   );
 };
 
 export default Feed;
 
-const seperator = () => <ListSeparator />;
 
 const styles = StyleSheet.create({});

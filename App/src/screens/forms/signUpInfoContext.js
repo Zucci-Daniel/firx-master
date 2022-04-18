@@ -18,7 +18,6 @@ export const SignUpInfoContextProvider = ({children}) => {
     profileImage: null,
     phoneNumber: '',
   });
-  console.log(user, 'the USER')
 
   return (
     <SignUpInfoContext.Provider

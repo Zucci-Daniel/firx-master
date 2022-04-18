@@ -53,5 +53,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neonBg,
     width: width,
     alignContent: 'space-between',
+    
   },
 });

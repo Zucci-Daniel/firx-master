@@ -15,7 +15,6 @@ const AppPostVideo = ({
   useHeight = 400,
   thumbnail = 'https://baconmockup.com/300/200/',
 }) => {
-  const navigation = useNavigation();
   const videoRef = useRef(null);
   const [status, setStatus] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +29,6 @@ const AppPostVideo = ({
   };
 
   const handleReload = () => videoRef.current.replayAsync();
-  // const handleSound = () => setStatus({...status,isMuted:!status.isMuted});
   const handleSound = () => setSound(!sound);
 
   const size = isLoading ? 0 : '100%';

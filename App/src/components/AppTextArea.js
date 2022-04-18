@@ -10,6 +10,7 @@ export default AppTextArea = ({
   extraContainerStyles,
   // value,
   value,
+  useBigFont=false
 }) => {
   const shadow = {
     shadowColor: '#000',
@@ -30,7 +31,11 @@ export default AppTextArea = ({
         extraContainerStyles,
         // showShadow ? shadow : null,
       ]}
-      style={[styles.textarea, extraTextAreaStyles]}
+      style={[
+        styles.textarea,
+        extraTextAreaStyles,
+        {fontSize: useBigFont ? 30 : 16},
+      ]}
       onChangeText={onChange}
       // defaultValue={defaultValue}
       value={value}
@@ -50,7 +55,6 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   textarea: {
-    fontSize: 16,
     color: colors.fadeWhite,
     fontWeight: '400',
   },
