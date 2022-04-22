@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {postSize, colors, width} from '../../config/config';
+import {postSize, colors, width, universalPadding} from '../../config/config';
 import PostContent from './PostContent';
 import PostFooter from './PostFooter';
 import PostHeader from './PostHeader';
@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neonBg,
     width: width,
     alignContent: 'space-between',
-    
+    paddingBottom: universalPadding / 2,
   },
 });

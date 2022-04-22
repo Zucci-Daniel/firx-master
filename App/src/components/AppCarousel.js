@@ -28,7 +28,11 @@ import {
 import AppPostImage from './AppPostImage';
 import AppPostVideo from './AppPostVideo';
 
-const AppCarousel = ({useData = [], shouldPlaySecondCondition=(index)=>{}}) => {
+const AppCarousel = ({
+  useData = [],
+  shouldPlaySecondCondition = index => {},
+  children,
+}) => {
   const [currentMedia, setCurrentMedia] = useState(1);
   const getCurrentIndex = event => {
     const index = Math.floor(
@@ -80,6 +84,7 @@ const AppCarousel = ({useData = [], shouldPlaySecondCondition=(index)=>{}}) => {
         snapToInterval={width}
         onMomentumScrollEnd={event => getCurrentIndex(event)}
       />
+      {children}
     </View>
   );
 };
@@ -103,6 +108,6 @@ const styles = StyleSheet.create({
   },
   FlatList: {
     // flex: 1,
-    backgroundColor:colors.skeletonBg
+    backgroundColor: colors.skeletonBg,
   },
 });

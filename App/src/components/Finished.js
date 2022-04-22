@@ -1,26 +1,41 @@
 import React from 'react';
-import {View} from 'react-native';
-import {width} from '../config/config';
+import {View, Text} from 'react-native';
+import {colors, height, width} from '../config/config';
 import LottieView from 'lottie-react-native';
 
 const Finished = () => {
   return (
     <View
       style={{
-        backgroundColor: 'transparent',
-        height: 400,
+        height: height / 3,
         width: width,
-        flex: 1,
+        marginBottom: height / 3,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 100,
+        backgroundColor: 'transparent',
       }}>
-      <LottieView
-        source={require('../assets/f.json')}
-        autoPlay
-        loop={false}
-        speed={2}
-      />
+      <View
+        style={{
+          backgroundColor: 'transparent',
+          height: '100%',
+          width: '100%',
+        }}>
+        <LottieView
+          source={require('../assets/f.json')}
+          autoPlay
+          loop={false}
+          speed={2}
+        />
+      </View>
+      <Text
+        style={{
+          fontSize: 24,
+          fontStyle: 'italic',
+          fontWeight: '400',
+          color: colors.calmBlue,
+        }}>
+        You're all caught up!
+      </Text>
     </View>
   );
 };

@@ -10,6 +10,7 @@ const ListSeparator = () => {
         width: width,
         backgroundColor: colors.neonBg,
         backgroundColor:'red',
+        zIndex:300
       }}
     />
   );

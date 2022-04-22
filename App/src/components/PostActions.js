@@ -2,26 +2,52 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import AppBottomSheet from './AppBottomSheet';
 import PostActionIcon from './PostActionIcon';
-import {height, universalPadding, width, colors, postHeight} from '../config/config';
+import {
+  height,
+  universalPadding,
+  width,
+  colors,
+  postHeight,
+} from '../config/config';
 import Sheet from './Sheet';
 
 const PostActions = ({
-  sheetRef,
-  onStopSeeingThis,
-  onSavePost,
-  onCopyPostLink,
-  onHightFive,
-  onRepost,
-  onUnfollow,
-  iAuthoredThis = false,
-  deletePost,
-  onPostInfo,
+  onStopSeeingThis = () => {
+    console.log('stop seing this');
+  },
+  onSavePost = () => {
+    console.log('save post');
+  },
+  onCopyPostLink = () => {
+    console.log('copy link');
+  },
+  onHightFive = () => {
+    console.log('high five');
+  },
+  onRepost = () => {
+    console.log('repost');
+  },
+  onUnfollow = () => {
+    console.log('unFollow');
+  },
+  iAuthoredThis = true,
+  deletePost = () => {
+    console.log('delete');
+  },
+  onPostInfo = () => {
+    console.log('info');
+  },
+  sheetRef
 }) => {
   const size = width / 10;
 
   return (
     <Sheet sheetRef={sheetRef}>
-      <View style={[styles.container,{height:!iAuthoredThis?postHeight/1.5:postHeight/3}]}>
+      <View
+        style={[
+          styles.container,
+          {height: !iAuthoredThis ? postHeight / 1.5 : postHeight / 3},
+        ]}>
         {iAuthoredThis && (
           <View style={styles.iAuthoredThisStyles}>
             <PostActionIcon
@@ -52,7 +78,7 @@ const PostActions = ({
             />
           </View>
         )}
-        {!iAuthoredThis && (
+        {iAuthoredThis == false && (
           <>
             <View style={styles.actionRow}>
               <PostActionIcon

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {View, FlatList, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -14,6 +14,13 @@ import AppCarousel from './AppCarousel';
 import ListSeparator from './ListSeparator';
 import PostActions from './PostActions';
 import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
+import {
+  confirmAction,
+  handleDeletePost,
+  handleSavePost,
+  handleStopSeeingPost,
+  handleUnfollowAuthor,
+} from '../hooks/postOperations';
 
 const Feed = ({
   useData = [],
@@ -23,10 +30,13 @@ const Feed = ({
     console.log('nothing is lodeing');
   },
 }) => {
+  const sheetRef = useRef(null);
+
   const [data, setData] = useState({
     dataProvider: new DataProvider((r1, r2) => r1 !== r2),
     mainData: [],
   });
+  const [selectedMyPost, setSelectedMyPost] = useState(false);
 
   const [handleLayoutProvider] = useState(
     new LayoutProvider(
@@ -40,14 +50,49 @@ const Feed = ({
     ),
   );
 
+  useEffect(() => {
+    // handleLayoutProvider.shouldRefreshWithAnchoring = false;
+    console.log('frank');
+    setData({
+      ...data,
+      dataProvider: data.dataProvider.cloneWithRows([
+        ...data.mainData,
+        ...useData,
+      ]),
+      mainData: [...data.mainData, ...useData],
+    });
+  }, [useData]);
+
+  const toggleSheet = (posterID, userUID) => {
+    setSelectedMyPost(posterID == userUID ? true : false);
+    sheetRef.current.open();
+  };
+
   const handleRowRender = (type, data, index, extendedState) => {
     const {item, type: innerType} = data;
+
+    const _deletePost = (postID, deleteAction) => {
+      console.log('deleting');
+      confirmAction(postID, deleteAction);
+    };
+    const _savePost = (postID, userUID) => {
+      console.log('saving');
+      handleSavePost(postID, userUID);
+    };
+    const _unFollow = (posterUID, userUID, posterName) => {
+      console.log('unfollow');
+      handleUnfollowAuthor(posterUID, userUID, posterName);
+    };
+    const _stopSeeingThis = (postID, userUID) => {
+      console.log('stop seeing this');
+      handleStopSeeingPost(postID, userUID);
+    };
 
     return (
       <>
         <Post
           key={item.id}
-          onPressPostMenu={null}
+          onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID)}
           onTapPost={() => null}
           onPush={() => null} //use transaction for this.
           profileImage={item.posterAvatar}
@@ -59,36 +104,36 @@ const Feed = ({
             shouldPlaySecondCondition={null}
           />
         </Post>
-        <PostActions sheetRef={null} iAuthoredThis={null} />
+        <PostActions
+          sheetRef={sheetRef}
+          iAuthoredThis={extendedState.selectedMyPost}
+          deletePost={() => _deletePost(item.postID, handleDeletePost)}
+          onSavePost={() => _savePost(item.postID, userUID)}
+          onUnfollow={() =>
+            _unFollow(item.posterUserUID, userUID, item.posterName)
+          }
+          onStopSeeingThis={() => _stopSeeingThis(item.postID, userUID)}
+          onPostInfo={()=>console.log('info ready')}
+        />
       </>
     );
   };
 
-  useEffect(() => {
-    // handleLayoutProvider.shouldRefreshWithAnchoring = false;
-
-    setData({
-      ...data,
-      dataProvider: data.dataProvider.cloneWithRows([
-        ...data.mainData,
-        ...useData,
-      ]),
-      mainData: [...data.mainData, ...useData],
-    });
-  }, [useData]);
   return (
     <>
       <View style={styles.container}>
         {data.dataProvider._data.length !== 0 ? (
           <RecyclerListView
+            style={{flex: 1}}
             forceNonDeterministicRendering={true} //to make sure it fits the height of it's content
             dataProvider={data.dataProvider}
             layoutProvider={handleLayoutProvider}
             rowRenderer={handleRowRender}
             onEndReached={() => loadMoreData()}
+            extendedState={{selectedMyPost: selectedMyPost}}
             onEndReachedThreshold={0.5}
             renderFooter={loading}
-            renderAheadOffset={1000000}
+            renderAheadOffset={200}
             scrollViewProps={{
               showsVerticalScrollIndicator: false,
               initialNumToRender: 4,
@@ -100,6 +145,18 @@ const Feed = ({
     </>
   );
 };
+
+// const handleRepost = (postID, postImage, postCaption) => {
+//   navigation.navigate('createPost', {
+//     repostID: postID,
+//     repostImage: postImage,
+//     repostCaption: postCaption,
+//   });
+// };
+
+// const _respost = (postID, postImage, postCaption) => {
+//   handleRepost(postID, postImage, postCaption);
+// };
 
 export default Feed;
 
