@@ -2,7 +2,10 @@ import firestore from '@react-native-firebase/firestore';
 import {commonFunctions} from '../imports/all_files';
 import {log} from './testLog';
 import ImagePicker from 'react-native-image-crop-picker';
-import {getObjectFromLocalStorage, storeLocally} from './useLocalStorageFunctions';
+import {
+  getObjectFromLocalStorage,
+  storeLocally,
+} from './useLocalStorageFunctions';
 import {useCheckNetworkStatus} from './justHooks';
 
 export const turnOfLocalPersistence = async () => {
@@ -55,22 +58,17 @@ export const getAllPost = async colRef => {
   }
 };
 
-export const addNewPost = async (colRef, docID, newUser) => {
-  await toggleNetwork();
-
-  const response = firestore()
+export const addNewPost = (colRef, docID, newUser) => {
+  firestore()
     .collection(colRef)
     .doc(docID)
     .set(newUser)
     .then(response => {
       console.log(`added a new post to ${colRef} collection`);
-      response = true;
     })
     .catch(error => {
       console.log(error.message, `can't create a post to ${colRef}`);
-      response = false;
     });
-  return response;
 };
 
 export const toggleNetwork = async () => {
@@ -146,13 +144,11 @@ export const getPost = async (colRef = 'AllPosts', postId) => {
   }
 };
 
-
 export const useGetUserInformationFromFirestore = async id => {
   try {
     const response = await useGetNewUser('STUDENTS', id);
 
     if (response) {
-     
       const responseObj = {...response.data()};
 
       const userBasicInfo = {
@@ -169,6 +165,7 @@ export const useGetUserInformationFromFirestore = async id => {
         phoneNumber: responseObj.phoneNumber,
       };
       try {
+        console.log('storing the information from firestore locally.');
         await storeLocally('currentUserBasicInfo', userBasicInfo);
         return userBasicInfo;
       } catch (error) {

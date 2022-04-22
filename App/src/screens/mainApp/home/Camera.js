@@ -130,18 +130,28 @@ const Camera = () => {
       for (const media of post.postMedias) {
         const uri = await uploadFile(media.path);
         let thumbnail = null;
-        if (uri && media.mime == 'video') {
+        if (uri !== false && media.mime == 'video') {
+          console.log('theres media');
+
           let response = await createThumbnail({
             url: uri,
             timeStamp: 10000,
           });
 
           const thumbnailUri = await uploadFile(response.path);
-          if (thumbnailUri) {
+
+          if (thumbnailUri !== false) {
+            console.log('theres thumbnail');
             thumbnail = thumbnailUri;
+          }
+          if (thumbnailUri == false) {
+            throw new Error('sorry create a thumbnail from our end');
           }
         }
 
+        if (uri == false) {
+          throw new Error("sorry can't upload your post from our end");
+        }
         const newMedia = {
           url: uri,
           thumbnail: thumbnail,
@@ -154,7 +164,7 @@ const Camera = () => {
         console.log(newMedia, ' before firestore');
         mediaFiles.push(newMedia);
       }
-
+      console.log('about to post');
       addNewPost('AllPosts', post.postID, {
         ...post,
         postMedias: mediaFiles,
@@ -224,7 +234,11 @@ const Camera = () => {
           value={post.postCaption}
           onChange={text => setPost({...post, postCaption: text})}
           extraContainerStyles={styles.extraTextAreaStyles}
-          placeHolder={'write a caption'}
+          placeHolder={
+            post.postMedias.length > 0
+              ? 'write a caption'
+              : `Hi ${user.firstName}! What's on your mind?`
+          }
         />
 
         <AppIconButton

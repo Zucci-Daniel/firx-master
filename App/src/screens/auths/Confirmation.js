@@ -55,12 +55,14 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
     console.log('automatically running check');
 
     //gonna run if real message was sent to that device
-    if (user && stopValidation == false){
+    if (user && stopValidation == false) {
       console.log(' the current user ,', user);
 
       checkIfUserHasCompletedSignUp(user['uid']);
+    } else {
+      console.log(user, ' the user NOT RUNNING CHECK');
     }
-  }, [user]);
+  }, [user, stopValidation]);
 
   useEffect(() => {
     const {phoneNumber} = route.params;

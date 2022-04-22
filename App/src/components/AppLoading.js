@@ -3,11 +3,11 @@ import {View, Text, StyleSheet} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {colors, universalPadding} from '../config/config';
 
-const AppLoading = ({message = '',loop}) => {
+const AppLoading = ({message = '', loop}) => {
   return (
     <View style={styles.container}>
       <LottieView
-        source={require('../assets/ding-dong.json')}
+        source={require('../assets/load.json')}
         autoPlay
         loop={loop}
         speed={2}

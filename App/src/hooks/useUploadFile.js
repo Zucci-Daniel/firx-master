@@ -12,40 +12,29 @@ export const useUploadFile = imageUri => {
 
   const uploadFile = async imageUri => {
     const uploadUri = imageUri;
-    // console.log(uploadUri, ' uploadUri');
-    const filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-    // console.log(filename, ' the filename');
-    setloading(true);
-    settransfered(0);
-    const storageRef = storage().ref(`media/${filename}`);
-    // console.log('the fucking storage ', storageRef);
-    const task = storageRef.putFile(uploadUri);
-    task.on('state_changed', taskSnapshot => {
-      console.log(
-        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-      );
-      // setUser({
-      //   ...user,
-      //   transferring:
-      //     Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-      //     100,
-      // });
-    });
-
-    //dan look into this function, it's doing more than it should, WTF!! will this tell the user that account has been created?
     try {
+      const filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+      setloading(true);
+      settransfered(0);
+      const storageRef = storage().ref(`media/${filename}`);
+      const task = storageRef.putFile(uploadUri);
+      task.on('state_changed', taskSnapshot => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+      });
+
       await task;
       const url = await storageRef.getDownloadURL();
       console.log(`this is your fxxx download url  ${url}`);
       setloading(false);
       settransfered(null);
-      // console.log('seting url to state');
       return url;
     } catch (error) {
       console.log(error);
       showToast('Failed', error.message, 'ERROR');
 
-      return null;
+      return false;
     }
   };
 

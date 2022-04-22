@@ -6,7 +6,7 @@ import {
   useState,
 } from '../../../imports/all_RnComponents';
 
-import {universalPadding, colors, width} from '../../../config/config';
+import {universalPadding, colors, width, height} from '../../../config/config';
 import {useEffect, useContext} from 'react';
 import {AppContext} from './../../../appContext';
 import {SignUpInfoContext} from './../../forms/signUpInfoContext';
@@ -20,21 +20,32 @@ import {
   useGetUserInformationFromFirestore,
   useGetUserBasicInformationFromLocalStorage,
 } from './../../../hooks/useOperation';
-
+import Skeleton from '../../../components/Skeleton';
+import Finished from '../../../components/Finished';
+import MiniLoading from '../../../components/MiniLoading';
 
 const Home = ({navigation}) => {
   const {subscribeToNetworkStatus} = useCheckNetworkStatus();
   const online = subscribeToNetworkStatus();
-
   const [allPosts, setAllPost] = useState([]);
   const [blackLists, setBlackLists] = useState({
     myPostsBlackList: [],
     myProfilesBlackList: [],
   });
+  const [postIsFinished, setPostIsFinished] = useState(false);
+  const [shouldGetInformation, setShouldGetInformation] = useState(true);
+  const [shouldGetPosts, setShouldGetPosts] = useState(true);
   const [isFetchingData, setIsFetchingData] = useState(true);
-
+  const [itemsPerPage] = useState(10);
+  const [lastPost, setLastPost] = useState(null);
   const {userUID} = useContext(AppContext);
   const {setUser} = useContext(SignUpInfoContext);
+
+  const baseUrl = firestore().collection('AllPosts');
+  const postCondition =
+    blackLists.myPostsBlackList.length > 0
+      ? baseUrl.where('postID', 'not-in', blackLists.myPostsBlackList)
+      : baseUrl;
 
   const getBlackLists = () => {
     try {
@@ -81,69 +92,100 @@ const Home = ({navigation}) => {
         if (response) return setUser(response);
       }
     } else {
+      console.log('getting your basic info locally');
       const response = await useGetUserBasicInformationFromLocalStorage();
       if (response) return setUser(response);
     }
   };
 
-  useEffect(() => {
-    getUserInformation();
-  }, []);
-
-  useEffect(() => {
-    if (online) getBlackLists();
-  }, [online]);
-
-  useEffect(() => {
-    if (online) {
-      const baseUrl = firestore().collection('AllPosts');
-      const postCondition =
-        blackLists.myPostsBlackList.length > 0
-          ? baseUrl.where('postID', 'not-in', blackLists.myPostsBlackList)
-          : baseUrl;
-
-      //get the post.
-      //refactor this.
-      const subscriber = postCondition.onSnapshot(querySnapshot => {
-        const posts = [];
-
-        querySnapshot.forEach(documentSnapshot => {
-          if (
-            blackLists.myProfilesBlackList
-              ? blackLists.myProfilesBlackList.includes(
-                  documentSnapshot.data().posterUserUID,
-                ) == false
-              : true
-          ) {
-            posts.push({
-              item: {
-                ...documentSnapshot.data(),
-              },
-              type: 'normal',
-            });
-          } else {
-          }
-        });
-
-        setAllPost(posts);
-
-        setIsFetchingData(false);
+  const storePosts = querySnapshot => {
+    var queryDocuments = querySnapshot.docs;
+    setLastPost(queryDocuments[queryDocuments.length - 1]);
+    if (queryDocuments.length == 0 || queryDocuments.length < itemsPerPage) {
+      console.log('==============================');
+      console.log('POST DON FINISH!!');
+      setPostIsFinished(true);
+      console.log('==============================');
+    }
+    const posts = [];
+    if (queryDocuments.length !== 0 || queryDocuments.length >= itemsPerPage) {
+      querySnapshot.forEach(documentSnapshot => {
+        if (
+          blackLists.myProfilesBlackList
+            ? blackLists.myProfilesBlackList.includes(
+                documentSnapshot.data().posterUserUID,
+              ) == false
+            : true
+        ) {
+          posts.push({
+            item: {
+              ...documentSnapshot.data(),
+            },
+            type: 'normal',
+          });
+        }
       });
-
-      // Unsubscribe from events when no longer in use
-      return () => subscriber();
+      setAllPost(posts);
+      // setAllPost([...allPosts, ...posts]);
+      setIsFetchingData(false);
     } else {
-      console.log('mobile data is turned off');
+      console.log(' NO MORE POSTS!!!');
+    }
+  };
+
+  const fetchPosts = async afterDoc => {
+    let query = postCondition.orderBy('postLikes', 'desc');
+    let query2 = afterDoc ? query.startAfter(afterDoc) : query;
+
+    const querySnapshot = await query2.limit(itemsPerPage).get();
+
+    if (querySnapshot) {
+      return storePosts(querySnapshot);
+    } else console.log('not ready to set state');
+  };
+
+  useEffect(() => {
+    if (online && shouldGetInformation) {
+      console.log('getting information beacuse im online');
+      getUserInformation();
+      setShouldGetInformation(false); //i don't want it to run again afterwards
     }
   }, [online]);
 
+  useEffect(() => {
+    if (online) getBlackLists(); //store this too in local storage.
+  }, []);
+
+  useEffect(() => {
+    if (online && shouldGetPosts) {
+      fetchPosts();
+      setShouldGetPosts(false);
+      console.log('fetching post.....');
+    }
+  }, [online]);
+
+  const handleLoadMoreData = async () => {
+    if (postIsFinished === false) {
+      await fetchPosts(lastPost);
+      console.log('loading more from home');
+    } else {
+      console.log("cant fetch any more post, its's finished");
+    }
+  };
 
   if (isFetchingData) return <FeedLoadingSkeleton />;
 
   return (
     <>
       <View style={styles.container}>
-        <Feed useData={allPosts} userUID={userUID} />
+        <Feed
+          useData={allPosts}
+          userUID={userUID}
+          loadMoreData={handleLoadMoreData}
+          loading={() =>
+            postIsFinished == false ? <MiniLoading /> : <Finished />
+          }
+        />
       </View>
       <AppFloatMenu handlePost={() => navigation.navigate('camera')} />
     </>
@@ -154,11 +196,10 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     height: undefined,
     width: width,
     backgroundColor: colors.neonBg,
-    justifyContent: 'center',
+    paddingBottom: universalPadding,
   },
   heading: {
     padding: universalPadding / 6,

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useCallback, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, FlatList, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -9,34 +9,40 @@ import {
   width,
   postSize,
 } from '../config/config';
-import AppLoading from './AppLoading';
 import Post from './Post/Post';
 import AppCarousel from './AppCarousel';
 import ListSeparator from './ListSeparator';
-
 import PostActions from './PostActions';
-
 import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
 
-const Feed = ({useData = [], userUID}) => {
+const Feed = ({
+  useData = [],
+  userUID,
+  loading,
+  loadMoreData = () => {
+    console.log('nothing is lodeing');
+  },
+}) => {
   const [data, setData] = useState({
     dataProvider: new DataProvider((r1, r2) => r1 !== r2),
     mainData: [],
   });
 
-  const handleLayoutProvider = new LayoutProvider(
-    index => {
-      // console.log(data.dataProvider.getDataForIndex(index), ' yes sir');
-      return index;
-    },
-    (type, dim) => {
-      dim.width = width;
-      dim.height = postHeight;
-    },
+  const [handleLayoutProvider] = useState(
+    new LayoutProvider(
+      index => {
+        return index;
+      },
+      (type, dim) => {
+        dim.width = 0;
+        dim.height = 0;
+      },
+    ),
   );
 
-  const handleRowRender = (type, data) => {
-    const {item} = data;
+  const handleRowRender = (type, data, index, extendedState) => {
+    const {item, type: innerType} = data;
+
     return (
       <>
         <Post
@@ -56,20 +62,11 @@ const Feed = ({useData = [], userUID}) => {
         <PostActions sheetRef={null} iAuthoredThis={null} />
       </>
     );
-    f;
   };
-
-  const loadMoreData = () => {
-    setTimeout(() => {
-      console.log('endineding');
-    }, 4000);
-  };
-
-  const animation = () => (
-    <Text style={{marginVertical: 10, backgroundColor: 'red'}}>loaidng</Text>
-  );
 
   useEffect(() => {
+    // handleLayoutProvider.shouldRefreshWithAnchoring = false;
+
     setData({
       ...data,
       dataProvider: data.dataProvider.cloneWithRows([
@@ -78,23 +75,24 @@ const Feed = ({useData = [], userUID}) => {
       ]),
       mainData: [...data.mainData, ...useData],
     });
-  }, []);
-
+  }, [useData]);
   return (
     <>
-      <View style={{width: width, height: undefined}}>
+      <View style={styles.container}>
         {data.dataProvider._data.length !== 0 ? (
           <RecyclerListView
             forceNonDeterministicRendering={true} //to make sure it fits the height of it's content
             dataProvider={data.dataProvider}
             layoutProvider={handleLayoutProvider}
             rowRenderer={handleRowRender}
-            onEndReached={loadMoreData}
+            onEndReached={() => loadMoreData()}
             onEndReachedThreshold={0.5}
-            renderFooter={animation}
+            renderFooter={loading}
+            renderAheadOffset={1000000}
             scrollViewProps={{
               showsVerticalScrollIndicator: false,
-              ItemSeparatorComponent: () => <ListSeparator />,
+              initialNumToRender: 4,
+              removeClippedSubviews: true,
             }}
           />
         ) : null}
@@ -105,5 +103,10 @@ const Feed = ({useData = [], userUID}) => {
 
 export default Feed;
 
-
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    width: width,
+    height: height,
+    paddingBottom: universalPadding,
+  },
+});
