@@ -1,6 +1,12 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {View, ScrollView, StyleSheet, Image, FlatList} from 'react-native';
-import {height, width, colors, universalPadding} from '../../../config/config';
+import {
+  height,
+  width,
+  colors,
+  universalPadding,
+  postSize,
+} from '../../../config/config';
 import ImagePicker from 'react-native-image-crop-picker';
 import Link from '../../../components/Link';
 import AppPostImage from '../../../components/AppPostImage';
@@ -53,6 +59,23 @@ const Camera = () => {
   });
 
   const camera = () => {
+    ImagePicker.openCamera({
+      width: width,
+      height: postSize,
+      cropping: true,
+    })
+      .then(dataArray => selectedMedia([dataArray]))
+      .catch(error => console.log(error.message, ' fail'));
+  };
+
+  const video = () => {
+    ImagePicker.openCamera({
+      mediaType: 'video',
+    })
+      .then(dataArray => selectedMedia([dataArray]))
+      .catch(error => console.log(error.message, ' fail'));
+  };
+  const gallery = () => {
     ImagePicker.openPicker({
       multiple: true,
       mediaType: 'any',
@@ -240,18 +263,13 @@ const Camera = () => {
               : `Hi ${user.firstName}! What's on your mind?`
           }
         />
-
-        <AppIconButton
-          onPress={camera}
-          extraStyle={styles.AppIconButtonStyles}
-        />
       </ScrollView>
-      {post.postMedias.length <= 0 ? (
-        <AppIconButton
-          extraStyle={{marginBottom: universalPadding}}
-          onPress={camera}
-        />
-      ) : null}
+
+      <View style={styles.actions}>
+        <AppIconButton onPress={gallery} iconName="images" />
+        <AppIconButton onPress={camera} iconName="camera-outline" />
+        <AppIconButton onPress={video} iconName="videocam-outline" />
+      </View>
     </View>
   );
 };
@@ -286,6 +304,7 @@ const styles = StyleSheet.create({
   },
   trash: {
     right: 10,
+    bottom: 0,
   },
   AppIconButtonStyles: {
     top: height / 1.8,
@@ -297,5 +316,12 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'transparent',
     height: height / 3,
+  },
+  actions: {
+    width: width,
+    height: undefined,
+    padding: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
