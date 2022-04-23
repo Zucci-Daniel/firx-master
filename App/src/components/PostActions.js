@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import AppBottomSheet from './AppBottomSheet';
 import PostActionIcon from './PostActionIcon';
 import {
   height,
@@ -10,6 +9,7 @@ import {
   postHeight,
 } from '../config/config';
 import Sheet from './Sheet';
+import {MenuItem} from '../imports/all_files';
 
 const PostActions = ({
   onStopSeeingThis = () => {
@@ -21,9 +21,6 @@ const PostActions = ({
   onCopyPostLink = () => {
     console.log('copy link');
   },
-  onHightFive = () => {
-    console.log('high five');
-  },
   onRepost = () => {
     console.log('repost');
   },
@@ -31,101 +28,109 @@ const PostActions = ({
     console.log('unFollow');
   },
   iAuthoredThis = true,
-  deletePost = () => {
+  onDeletePost = () => {
     console.log('delete');
   },
   onPostInfo = () => {
     console.log('info');
   },
-  sheetRef
+  sheetRef,
 }) => {
   const size = width / 10;
 
+  const authoredPostActions = [
+    {
+      title: 'Copy post link',
+      onPress: onCopyPostLink,
+      iconName: 'content-copy',
+    },
+    {
+      title: 'More info',
+      onPress: onPostInfo,
+      iconName: 'info-outline',
+    },
+    {
+      title: 'Delete',
+      onPress: onDeletePost,
+      iconName: 'delete',
+      color: colors.calmRed,
+      iconColor: colors.calmRed,
+    },
+  ];
+  const unAuthoredPostActions = [
+    {
+      title: 'Copy post link',
+      onPress: onCopyPostLink,
+      iconName: 'content-copy',
+    },
+    {
+      title: 'Save',
+      onPress: onSavePost,
+      iconName: 'save-alt',
+    },
+
+    {
+      title: 'Repost',
+      onPress: onRepost,
+      iconName: 'repeat',
+    },
+    {
+      title: 'Unfollow',
+      onPress: onUnfollow,
+      iconName: 'person-remove',
+      color: colors.calmRed,
+      iconColor: colors.calmRed,
+    },
+    {
+      title: 'Stop seeing this',
+      onPress: onStopSeeingThis,
+      iconName: 'remove-red-eye',
+      color: colors.calmRed,
+      iconColor: colors.calmRed,
+    },
+    {
+      title: 'Report',
+      onPress: null,
+      iconName: 'report-problem',
+      color: colors.calmRed,
+      iconColor: colors.calmRed,
+    },
+  ];
+
   return (
     <Sheet sheetRef={sheetRef}>
-      <View
-        style={[
-          styles.container,
-          {height: !iAuthoredThis ? postHeight / 1.5 : postHeight / 3},
-        ]}>
+      <View style={[styles.container, {height: undefined}]}>
         {iAuthoredThis && (
-          <View style={styles.iAuthoredThisStyles}>
-            <PostActionIcon
-              iconName="trash"
-              columnMode
-              size={size}
-              value="delete this post"
-              onPress={deletePost}
-              color={colors.calmRed}
-              valueColor={colors.calmRed}
-            />
-            <PostActionIcon
-              iconName="info"
-              columnMode
-              size={size}
-              value="post information"
-              onPress={onPostInfo}
-              color={colors.info}
-              valueColor={colors.info}
-            />
-            <PostActionIcon
-              iconName="copy"
-              useDefault
-              columnMode
-              size={size}
-              value="copy post link"
-              onPress={onCopyPostLink}
-            />
+          <View style={styles.actionRow}>
+            {authoredPostActions.map((action, index) => (
+              <MenuItem
+                key={index}
+                title={action.title}
+                optionColor={action.color ? action.color : colors.pureWhite}
+                iconColor={
+                  action.iconColor ? action.iconColor : colors.pureWhite
+                }
+                onPress={action.onPress}
+                iconName={action.iconName}
+              />
+            ))}
           </View>
         )}
         {iAuthoredThis == false && (
           <>
             <View style={styles.actionRow}>
-              <PostActionIcon
-                iconName="eye-with-line"
-                columnMode
-                size={size}
-                value="stop seeing this post"
-                onPress={onStopSeeingThis}
-              />
-              <PostActionIcon
-                iconName="save"
-                columnMode
-                size={size}
-                value="save this post"
-                onPress={onSavePost}
-              />
-              <PostActionIcon
-                iconName="copy"
-                useDefault
-                columnMode
-                size={size}
-                value="copy post link"
-                onPress={onCopyPostLink}
-              />
-            </View>
-            <View style={styles.actionRow}>
-              <PostActionIcon
-                iconName="hand"
-                columnMode
-                size={size}
-                value="high 5 this post"
-                onPress={onHightFive}
-              />
-              <PostActionIcon
-                iconName="cycle"
-                columnMode
-                size={size}
-                value="repost "
-                onPress={onRepost}
-              />
-              <PostActionIcon
-                iconName="circle-with-minus"
-                columnMode
-                size={size}
-                value="unfollow author"
-                onPress={onUnfollow}
-              />
+              {unAuthoredPostActions.map((action, index) => (
+                <MenuItem
+                  key={index}
+                  title={action.title}
+                  onPress={action.onPress}
+                  iconName={action.iconName}
+                  optionColor={action.color ? action.color : colors.pureWhite}
+                  iconColor={
+                    action.iconColor ? action.iconColor : colors.pureWhite
+                  }
+                />
+              ))}
             </View>
           </>
         )}
@@ -138,7 +143,8 @@ export default PostActions;
 
 const styles = StyleSheet.create({
   container: {
-    padding: universalPadding / 2,
+    paddingVertical: universalPadding / 2,
+    paddingHorizontal: universalPadding / 4,
     width: width,
     backgroundColor: colors.skeletonAnimationBg,
     flexDirection: 'row',
@@ -146,13 +152,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   actionRow: {
-    width: '80%',
-    justifyContent: 'space-between',
-  },
-  iAuthoredThisStyles: {
-    width: '95%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
+    width: '100%',
   },
 });

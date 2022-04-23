@@ -107,7 +107,7 @@ const Feed = ({
         <PostActions
           sheetRef={sheetRef}
           iAuthoredThis={extendedState.selectedMyPost}
-          deletePost={() => _deletePost(item.postID, handleDeletePost)}
+          onDeletePost={() => _deletePost(item.postID, handleDeletePost)}
           onSavePost={() => _savePost(item.postID, userUID)}
           onUnfollow={() =>
             _unFollow(item.posterUserUID, userUID, item.posterName)

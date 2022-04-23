@@ -10,7 +10,7 @@ export default AppTextArea = ({
   extraContainerStyles,
   // value,
   value,
-  useBigFont=false
+  useBigFont = false,
 }) => {
   const shadow = {
     shadowColor: '#000',

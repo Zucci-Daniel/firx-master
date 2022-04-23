@@ -35,11 +35,16 @@ const AuthoredPosts = () => {
         .collection('AllPosts')
         .where('posterUserUID', '==', userUID)
         .onSnapshot(querySnapshot => {
-          let post = [];
+          let posts = [];
           querySnapshot.forEach(postSnapShot => {
-            post.push({...postSnapShot.data()});
+            posts.push({
+              item: {
+                ...postSnapShot.data(),
+              },
+              type: 'normal',
+            });
           });
-          setAuthoredPosts(post);
+          setAuthoredPosts(posts);
           setIsFetchingData(false);
         });
     } catch (error) {
@@ -54,7 +59,6 @@ const AuthoredPosts = () => {
   }, []);
 
   const _deletePost = (postID, deleteAction) => {
-    hideSheet();
     confirmAction(postID, deleteAction);
   };
 
@@ -63,7 +67,15 @@ const AuthoredPosts = () => {
   return (
     <View style={styles.container}>
       {authoredPosts.length > 0 ? (
-        <Feed useData={authoredPosts} />
+        // <Feed useData={authoredPosts} />
+        <Feed
+          useData={authoredPosts}
+          userUID={userUID}
+          // loadMoreData={handleLoadMoreData}
+          // loading={() =>
+          //   postIsFinished == false ? <MiniLoading /> : <Finished />
+          // }
+        />
       ) : (
         <Link
           text={'no recent post yet, create a post'}

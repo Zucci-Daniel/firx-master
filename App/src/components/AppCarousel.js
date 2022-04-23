@@ -34,6 +34,7 @@ const AppCarousel = ({
   children,
 }) => {
   const [currentMedia, setCurrentMedia] = useState(1);
+  
   const getCurrentIndex = event => {
     const index = Math.floor(
       event.nativeEvent.contentOffset.x /
@@ -84,7 +85,6 @@ const AppCarousel = ({
         snapToInterval={width}
         onMomentumScrollEnd={event => getCurrentIndex(event)}
       />
-      {children}
     </View>
   );
 };
