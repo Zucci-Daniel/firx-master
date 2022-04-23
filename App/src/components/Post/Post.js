@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Pressable} from 'react-native';
 import {postSize, colors, width, universalPadding} from '../../config/config';
 import PostContent from './PostContent';
 import PostFooter from './PostFooter';
 import PostHeader from './PostHeader';
 
 const Post = ({
-  onTapImage,
+  onTapProfileImage,
   profileImage,
   name,
   date,
@@ -20,28 +20,33 @@ const Post = ({
   onComment,
   extraIconStyles,
   children,
+  onTapPost,
 }) => {
   return (
-    <View style={[styles.postContainer, {height: undefined}]}>
-      <PostHeader
-        onTapImage={onTapImage}
-        profileImage={profileImage}
-        name={name}
-        date={date}
-        location={location}
-        onPressPostMenu={onPressPostMenu}
-      />
-      <PostContent caption={caption} postMedias={postMedias}>
-        {children}
-      </PostContent>
-      {/* <PostFooter
+    <Pressable
+      hitSlop={{top: 0, bottom: 0, left: 0, right: 0}}
+      onPress={onTapPost}>
+      <View style={[styles.postContainer, {height: undefined}]}>
+        <PostHeader
+          onTapImage={onTapProfileImage}
+          profileImage={profileImage}
+          name={name}
+          date={date}
+          location={location}
+          onPressPostMenu={onPressPostMenu}
+        />
+        <PostContent caption={caption} postMedias={postMedias}>
+          {children}
+        </PostContent>
+        {/* <PostFooter
         onShare={onShare}
         onPush={onPush}
         pushValue={pushValue}
         onComment={onComment}
         extraIconStyles={extraIconStyles}
       /> */}
-    </View>
+      </View>
+    </Pressable>
   );
 };
 
@@ -53,6 +58,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neonBg,
     width: width,
     alignContent: 'space-between',
-    paddingBottom: universalPadding / 2,
+    marginBottom: universalPadding / 2,
   },
 });

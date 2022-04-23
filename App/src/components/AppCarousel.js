@@ -17,12 +17,12 @@ import {
   postHeight,
 } from '../config/config';
 
-import {SliderBox} from 'react-native-image-slider-box';
 import {
   FlatList,
   Image,
   Pressable,
   ScrollView,
+  TouchableNativeFeedback,
   TouchableOpacity,
 } from 'react-native';
 import AppPostImage from './AppPostImage';
@@ -32,9 +32,10 @@ const AppCarousel = ({
   useData = [],
   shouldPlaySecondCondition = index => {},
   children,
+  horizontal = true,
 }) => {
   const [currentMedia, setCurrentMedia] = useState(1);
-  
+
   const getCurrentIndex = event => {
     const index = Math.floor(
       event.nativeEvent.contentOffset.x /
@@ -77,7 +78,7 @@ const AppCarousel = ({
         showsHorizontalScrollIndicator={false}
         data={useData}
         initialNumToRender={3}
-        horizontal={true}
+        horizontal={horizontal}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => renderItem(item, index)}
         snapToAlignment="start"

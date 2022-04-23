@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {View, FlatList, StyleSheet, Text} from 'react-native';
+import {View, FlatList, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   universalPadding,
@@ -30,6 +30,7 @@ const Feed = ({
     console.log('nothing is lodeing');
   },
 }) => {
+  const navigation = useNavigation();
   const sheetRef = useRef(null);
 
   const [data, setData] = useState({
@@ -84,7 +85,7 @@ const Feed = ({
       handleUnfollowAuthor(posterUID, userUID, posterName);
     };
     const _stopSeeingThis = (postID, userUID) => {
-      console.log('stop seeing this');
+      console.log('stop seeing this', postID);
       handleStopSeeingPost(postID, userUID);
     };
 
@@ -93,7 +94,9 @@ const Feed = ({
         <Post
           key={item.id}
           onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID)}
-          onTapPost={() => null}
+          onTapPost={() =>
+            navigation.navigate('viewPost', {postId: item.postID})
+          }
           onPush={() => null} //use transaction for this.
           profileImage={item.posterAvatar}
           name={item.posterName}
@@ -113,7 +116,7 @@ const Feed = ({
             _unFollow(item.posterUserUID, userUID, item.posterName)
           }
           onStopSeeingThis={() => _stopSeeingThis(item.postID, userUID)}
-          onPostInfo={()=>console.log('info ready')}
+          onPostInfo={() => console.log('info ready')}
         />
       </>
     );

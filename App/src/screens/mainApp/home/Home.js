@@ -29,7 +29,12 @@ const Home = ({navigation}) => {
   const online = subscribeToNetworkStatus();
   const [allPosts, setAllPost] = useState([]);
   const [blackLists, setBlackLists] = useState({
-    myPostsBlackList: [],
+    myPostsBlackList: [
+      '9992eb62-f4f8-4f6c-ba92-7b6a59a2d078',
+      '06c12ad9-245a-4398-9ea9-87d4dbfc77d0',
+      '972cd5a9-84b4-4d4e-a0d0-1032a5f3233f',
+      '06e2f278-6f9c-4784-b401-4c451ccc91d4',
+    ],
     myProfilesBlackList: [],
   });
   const [postIsFinished, setPostIsFinished] = useState(false);
@@ -102,42 +107,46 @@ const Home = ({navigation}) => {
     var queryDocuments = querySnapshot.docs;
     setLastPost(queryDocuments[queryDocuments.length - 1]);
     if (queryDocuments.length == 0 || queryDocuments.length < itemsPerPage) {
-      console.log('==============================');
       console.log('POST DON FINISH!!');
       setPostIsFinished(true);
-      console.log('==============================');
-    }
-    const posts = [];
-    if (queryDocuments.length !== 0 || queryDocuments.length >= itemsPerPage) {
-      querySnapshot.forEach(documentSnapshot => {
-        if (
-          blackLists.myProfilesBlackList
-            ? blackLists.myProfilesBlackList.includes(
-                documentSnapshot.data().posterUserUID,
-              ) == false
-            : true
-        ) {
-          posts.push({
-            item: {
-              ...documentSnapshot.data(),
-            },
-            type: 'normal',
-          });
-        }
-      });
-      setAllPost(posts);
-      // setAllPost([...allPosts, ...posts]);
-      setIsFetchingData(false);
     } else {
-      console.log(' NO MORE POSTS!!!');
+      const posts = [];
+      if (
+        queryDocuments.length !== 0 ||
+        queryDocuments.length >= itemsPerPage
+      ) {
+        querySnapshot.forEach(documentSnapshot => {
+          if (
+            blackLists.myProfilesBlackList
+              ? blackLists.myProfilesBlackList.includes(
+                  documentSnapshot.data().posterUserUID,
+                ) == false
+              : true
+          ) {
+            posts.push({
+              item: {
+                ...documentSnapshot.data(),
+              },
+              type: 'normal',
+            });
+          }
+        });
+        setAllPost(posts);
+        // setAllPost([...allPosts, ...posts]);
+        setIsFetchingData(false);
+      } else {
+        console.log(' NO MORE POSTS!!!');
+      }
     }
   };
 
   const fetchPosts = async afterDoc => {
-    let query = postCondition.orderBy('postLikes', 'desc');
+    let query = postCondition.orderBy('postID', 'desc');
     let query2 = afterDoc ? query.startAfter(afterDoc) : query;
 
     const querySnapshot = await query2.limit(itemsPerPage).get();
+
+    console.log(query2, ' final query');
 
     if (querySnapshot) {
       return storePosts(querySnapshot);
@@ -162,7 +171,7 @@ const Home = ({navigation}) => {
       setShouldGetPosts(false);
       console.log('fetching post.....');
     }
-  }, [online]);
+  }, [online, blackLists.myPostsBlackList, blackLists.myProfilesBlackList]);
 
   const handleLoadMoreData = async () => {
     if (postIsFinished === false) {
