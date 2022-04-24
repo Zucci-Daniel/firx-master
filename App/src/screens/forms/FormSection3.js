@@ -6,12 +6,7 @@ import AppRadioField from './../../components/form-components/AppRadioField';
 import AppRadioOption from './../../components/AppRadioOption';
 import AppSelectField from './../../components/form-components/AppSelectField';
 import Link from '../../components/Link';
-
-const schools = [
-  {label: 'imo state university', value: 'imo state university'},
-  {label: 'kano state university', value: 'kano state university'},
-  {label: 'rivers state university', value: 'rivers state university'},
-];
+import {schools} from './../../hooks/utils';
 
 const FormSection3 = ({navigation}) => {
   const handleContinue = () => navigation.navigate('formSection4');
@@ -56,7 +51,6 @@ const FormSection3 = ({navigation}) => {
         title="continue"
       />
       <Link text={'go back'} onPress={() => navigation.goBack(1)} />
-
     </View>
   );
 };

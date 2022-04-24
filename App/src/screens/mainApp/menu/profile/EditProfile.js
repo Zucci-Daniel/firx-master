@@ -19,6 +19,13 @@ import Link from './../../../../components/Link';
 import {updateDocument} from '../../../../hooks/useOperation';
 import {useUploadFile} from './../../../../hooks/useUploadFile';
 import {AppContext} from './../../../../appContext';
+import AppInputField from '../../../../components/form-components/AppInputField';
+import {useForm} from 'react-hook-form';
+import AppSelectField from '../../../../components/form-components/AppSelectField';
+import {departments, levels, schools} from '../../../../hooks/utils';
+import AppRadioField from '../../../../components/form-components/AppRadioField';
+import AppRadioOption from '../../../../components/AppRadioOption';
+import AppImagePicker from '../../../../components/form-components/AppImagePicker';
 
 const {universalPadding, colors} = config;
 
@@ -41,59 +48,98 @@ const EditProfile = ({navigation}) => {
     typeOfStudent,
   } = user;
 
-  const [updatedInfo, setUpdatedInfo] = useState({
-    firstName,
-    lastName,
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      gender,
+      firstName,
+      lastName,
+      typeOfStudent,
+      school,
+      department,
+      level,
+      profileImage,
+    },
+    mode: 'all',
+    shouldUnregister: false,
   });
 
-  console.log('first question, did the state update?', didUpdateBasicInfo);
+  const handleUpdateProfile = async data => {
+    try {
+      if (data.profileImage !== profileImage) {
+        let imageUri = await uploadFile(data.profileImage);
+        updateDocument(userUID, 'STUDENTS', {...data, profileImage: imageUri});
+        //show a slight toast message here.
+      } else {
+        updateDocument(userUID, 'STUDENTS', data);
+      }
 
-  var isEqual = (...objects) =>
-    objects.every(obj => JSON.stringify(obj) === JSON.stringify(objects[0]));
-
-  const handleUpdateProfile = () => {
-    // console.log(updatedInfo, ' ready to update in firestore', userUID);
-    updateDocument(userUID, 'STUDENTS', updatedInfo);
-    setUser({...user, ...updatedInfo});
+      setUser({...user, ...data});
+    } catch (error) {
+      console.log('failed to update ur profile', error.message);
+    }
   };
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.wrapper}>
-          <AppImage />
+          <AppImagePicker name="profileImage" control={control} />
         </View>
         <View style={styles.inputWrapper}>
-          <AppInput2
-            value={updatedInfo.firstName}
-            showIcon={false}
-            placeholder={'first name'}
-            onChange={text => setUpdatedInfo({...updatedInfo, firstName: text})}
+          <AppInputField
+            control={control}
+            name="firstName"
+            label={'first name'}
+            required={{
+              required: 'hey...your first name?',
+              minLength: {value: 4, message: 'must be more than 4'},
+            }}
           />
-          <AppInput2
-            value={updatedInfo.lastName}
-            showIcon={false}
-            placeholder="last name"
-            onChange={text => setUpdatedInfo({...updatedInfo, lastName: text})}
+          <AppInputField
+            control={control}
+            name="lastName"
+            label={'last name'}
+            required={{
+              required: 'hey...your last name?',
+              minLength: {value: 4, message: 'must be more than 4'},
+            }}
           />
-          <AppTextArea
-            showShadow={false}
-            placeHolder={'click to write a short note about your status'}
+          <AppSelectField
+            placeholder="select your school"
+            name="school"
+            control={control}
+            required={{required: 'your school'}}
+            data={schools}
+          />
+          <AppSelectField
+            placeholder="select your department"
+            name="department"
+            control={control}
+            required={{required: 'your department'}}
+            data={departments}
           />
 
-          {/* <AppInput2 iconName="logo-instagram" />
-          <AppInput2 iconName="logo-twitter" />
-          <AppInput2 iconName="logo-facebook" /> */}
-        </View>
-
-        <View style={styles.inputWrapper}>
-          <AppInput2
-            iconName="mail-open-outline"
-            placeholder="Register email"
+          <AppSelectField
+            placeholder="select your level"
+            name="level"
+            control={control}
+            required={{required: 'your levels'}}
+            data={levels}
           />
+          <AppRadioField
+            name={'typeOfStudent'}
+            required={{required: true}}
+            control={control}>
+            <AppRadioOption value={'Aspirant'} />
+            <AppRadioOption value={'Admitted'} />
+          </AppRadioField>
         </View>
       </ScrollView>
-      <Link text="update" onPress={handleUpdateProfile} />
+      <Link text="update" onPress={handleSubmit(handleUpdateProfile)} />
     </View>
   );
 };
@@ -103,6 +149,7 @@ export default EditProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.neonBg,
   },
   scrollView: {
     padding: universalPadding / 2,

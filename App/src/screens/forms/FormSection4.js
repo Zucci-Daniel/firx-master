@@ -14,19 +14,9 @@ import AppLoading from './../../components/AppLoading';
 import Link from './../../components/Link';
 import {subscribeToNetworkStats} from './../../hooks/justHooks';
 import {useNetInfo} from '@react-native-community/netinfo';
+import {departments, levels} from '../../hooks/utils';
 
 //refactor later
-
-const departments = [
-  {label: 'computer scienece', value: 'computer scienece'},
-  {label: 'maths scienece', value: 'maths scienece'},
-  {label: 'biochemistry science', value: 'biochemistry science'},
-];
-const levels = [
-  {label: 100, value: 100},
-  {label: 200, value: 200},
-  {label: 300, value: 300},
-];
 
 const FormSection4 = ({navigation}) => {
   const netInfo = useNetInfo();
@@ -109,17 +99,7 @@ const FormSection4 = ({navigation}) => {
           //serialize user obj due to local storage obj rules
 
           const response = await storeLocally('currentUserBasicInfo', newUser);
-          // if (response) {
-          //   //which navigates to the mainNavigation, go checkout Navigation.js and read it if u are confused.
-          //     setIsCreatingStudent(false);
-          //   return setSeenUserUID(true);
-          // } else {
-          //   commonFunctions.showToast(
-          //     'FAILED!',
-          //     'failed storing users locally, cant go inside the app',
-          //     'WARNING',
-          //   );
-          // }
+
           if (response)
             console.log('successfully stored the user details ', response);
           setIsCreatingStudent(false);

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     padding: universalPadding / 6,
   },
   Subheading: {
-    fontSize: 23,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.calmBlue,
     fontFamily: brandFont.semiBold,
