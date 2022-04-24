@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
   const [itemsPerPage] = useState(10);
   const [lastPost, setLastPost] = useState(null);
   const {userUID} = useContext(AppContext);
-  const {setUser} = useContext(SignUpInfoContext);
+  const {user, setUser} = useContext(SignUpInfoContext);
 
   const baseUrl = firestore().collection('AllPosts');
   const postCondition =
@@ -159,13 +159,14 @@ const Home = ({navigation}) => {
       getUserInformation();
       setShouldGetInformation(false); //i don't want it to run again afterwards
     }
-  }, [online]);
+  }, [online, user]);
 
   useEffect(() => {
     if (online) getBlackLists(); //store this too in local storage.
   }, []);
 
   useEffect(() => {
+    console.log(user,' the user itself')
     if (online && shouldGetPosts) {
       fetchPosts();
       setShouldGetPosts(false);

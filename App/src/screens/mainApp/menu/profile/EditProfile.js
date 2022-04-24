@@ -17,12 +17,15 @@ import {SignUpInfoContext} from '../../../forms/signUpInfoContext';
 import {useContext, useState} from 'react';
 import Link from './../../../../components/Link';
 import {updateDocument} from '../../../../hooks/useOperation';
-import { useUploadFile } from './../../../../hooks/useUploadFile';
+import {useUploadFile} from './../../../../hooks/useUploadFile';
+import {AppContext} from './../../../../appContext';
 
 const {universalPadding, colors} = config;
 
 const EditProfile = ({navigation}) => {
-  const uploadFile= useUploadFile();
+  const uploadFile = useUploadFile();
+  const {userUID} = useContext(AppContext);
+
   const {user, setUser, didUpdateBasicInfo, setDidUpdateBasicInfo} =
     useContext(SignUpInfoContext);
   const {
@@ -30,7 +33,6 @@ const EditProfile = ({navigation}) => {
     department,
     firstName,
     gender,
-    id,
     lastName,
     level,
     phoneNumber,
@@ -40,17 +42,8 @@ const EditProfile = ({navigation}) => {
   } = user;
 
   const [updatedInfo, setUpdatedInfo] = useState({
-    birthdate,
-    department,
     firstName,
-    gender,
-    id,
     lastName,
-    level,
-    phoneNumber,
-    profileImage,
-    school,
-    typeOfStudent,
   });
 
   console.log('first question, did the state update?', didUpdateBasicInfo);
@@ -58,25 +51,10 @@ const EditProfile = ({navigation}) => {
   var isEqual = (...objects) =>
     objects.every(obj => JSON.stringify(obj) === JSON.stringify(objects[0]));
 
-  const handleUpdate = () => {
-    //later, update the state if the updated info is different from the prvious one, otherwise don't update it.
-
-    //send the updated info to firebase.
-    updateDocument(user.id, 'STUDENTS', updatedInfo);
-    //go and add a snpshot listener to this doc in the home.
-
-    // return navigation.goBack(1);
-  };
-
-  // useEffect(() => {
-  //   console.log(
-  //     '====================================running the useEffect in edit mode',
-  //   );
-  //   handleUpdateDb();
-  // }, [didUpdateBasicInfo]);
-
-  const handleUpdateDb = () => {
-    console.log(user, ' ready to update in firestore');
+  const handleUpdateProfile = () => {
+    // console.log(updatedInfo, ' ready to update in firestore', userUID);
+    updateDocument(userUID, 'STUDENTS', updatedInfo);
+    setUser({...user, ...updatedInfo});
   };
 
   return (
@@ -115,7 +93,7 @@ const EditProfile = ({navigation}) => {
           />
         </View>
       </ScrollView>
-      <Link text="update" onPress={handleUpdate} />
+      <Link text="update" onPress={handleUpdateProfile} />
     </View>
   );
 };
