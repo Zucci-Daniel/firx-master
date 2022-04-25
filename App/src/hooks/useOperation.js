@@ -112,6 +112,26 @@ export const updateDocument = (id, colRef = 'STUDENTS', newDetails) => {
     .catch(error => console.log('failed, ', error.message));
 };
 
+export const updateAllPostsFields = async (
+  id,
+  colRef = 'AllPosts',
+  newDetails,
+) => {
+  const allPosts = await firestore()
+    .collection(colRef)
+    .where('posterUserUID', '==', id)
+    .get();
+
+  const batchPost = firestore().batch();
+
+  if (allPosts) {
+    allPosts.forEach(postSnapShot =>
+      batchPost.update(postSnapShot.ref, newDetails),
+    );
+    return batchPost.commit();
+  }
+};
+
 export const addToArray = (
   colRef = 'STUDENTS',
   id,

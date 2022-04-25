@@ -14,22 +14,28 @@ const PostHeader = ({
   date,
   location,
   onPressPostMenu,
+  showMenu = true,
+  showNameAndLocation = true,
+  showSeperator = true,
 }) => {
   return (
     <View style={[styles.postHeader]}>
       <View style={[styles.container]}>
         <View style={[styles.wrapper]}>
           <PosterImg profileImage={profileImage} />
-          <PosterInitials name={name} date={date} location={location} />
+
+          <PosterInitials showSeperator={showSeperator} name={name} date={date} location={location} />
         </View>
 
-        <PostActionIcon
-          useDefault={false}
-          onPress={onPressPostMenu}
-          iconName="ellipsis-vertical-outline"
-          showText={false}
-          color={colors.calmBlue}
-        />
+        {showMenu && (
+          <PostActionIcon
+            useDefault={false}
+            onPress={onPressPostMenu}
+            iconName="ellipsis-vertical-outline"
+            showText={false}
+            color={colors.calmBlue}
+          />
+        )}
       </View>
     </View>
   );

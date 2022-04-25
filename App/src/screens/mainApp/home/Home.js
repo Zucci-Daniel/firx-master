@@ -29,24 +29,31 @@ const Home = ({navigation}) => {
   const online = subscribeToNetworkStatus();
   const [allPosts, setAllPost] = useState([]);
   const [blackLists, setBlackLists] = useState({
-    myPostsBlackList: [
-      '9992eb62-f4f8-4f6c-ba92-7b6a59a2d078',
-      '06c12ad9-245a-4398-9ea9-87d4dbfc77d0',
-      '972cd5a9-84b4-4d4e-a0d0-1032a5f3233f',
-      '06e2f278-6f9c-4784-b401-4c451ccc91d4',
-    ],
+    myPostsBlackList: [],
     myProfilesBlackList: [],
   });
   const [postIsFinished, setPostIsFinished] = useState(false);
   const [shouldGetInformation, setShouldGetInformation] = useState(true);
   const [shouldGetPosts, setShouldGetPosts] = useState(true);
+  const [doneFetchingBlackList, setDoneFetchingBlackList] = useState(false);
   const [isFetchingData, setIsFetchingData] = useState(true);
   const [itemsPerPage] = useState(10);
   const [lastPost, setLastPost] = useState(null);
   const {userUID} = useContext(AppContext);
   const {user, setUser} = useContext(SignUpInfoContext);
 
-  const baseUrl = firestore().collection('AllPosts');
+  // const baseUrl = firestore().collection('AllPosts');
+  const baseUrl = firestore()
+    .collectionGroup('AllPosts')
+    .orderBy('postID', 'desc');
+  // const postCondition = true
+  //   ? baseUrl.where('postID', 'not-in', [
+  //       'f92caa16-d975-4552-ac9c-0cd87cde0222',
+  //       'ff5c1c0d-a0a2-497e-9252-673cc83784d7',
+  //       'd4e6cff9-0ab5-41b0-8b2f-b95c3754ad06',
+  //       'ba3f0376-e149-4b9b-90e6-7003949ad8fc',
+  //     ])
+  //   : baseUrl;
   const postCondition =
     blackLists.myPostsBlackList.length > 0
       ? baseUrl.where('postID', 'not-in', blackLists.myPostsBlackList)
@@ -76,7 +83,7 @@ const Home = ({navigation}) => {
             console.log(error.message);
           }
         });
-
+      setDoneFetchingBlackList(true);
       return () => subscriber();
     } catch (error) {
       console.log(error.message);
@@ -141,12 +148,10 @@ const Home = ({navigation}) => {
   };
 
   const fetchPosts = async afterDoc => {
-    let query = postCondition.orderBy('postID', 'desc');
+    let query = postCondition;
     let query2 = afterDoc ? query.startAfter(afterDoc) : query;
 
     const querySnapshot = await query2.limit(itemsPerPage).get();
-
-    console.log(query2, ' final query');
 
     if (querySnapshot) {
       return storePosts(querySnapshot);
@@ -154,20 +159,22 @@ const Home = ({navigation}) => {
   };
 
   useEffect(() => {
+    getUserInformation();
+  }, [online]);
+
+  useEffect(() => {
     if (online && shouldGetInformation) {
-      console.log('getting information beacuse im online');
-      getUserInformation();
       setShouldGetInformation(false); //i don't want it to run again afterwards
     }
   }, [online, user]);
 
   useEffect(() => {
     if (online) getBlackLists(); //store this too in local storage.
-  }, []);
+  }, [online]);
 
   useEffect(() => {
-    console.log(user,' the user itself')
-    if (online && shouldGetPosts) {
+    if (online && shouldGetPosts && doneFetchingBlackList) {
+      console.log('post blacklist now ', blackLists.myPostsBlackList);
       fetchPosts();
       setShouldGetPosts(false);
       console.log('fetching post.....');

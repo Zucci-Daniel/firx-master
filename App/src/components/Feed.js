@@ -21,6 +21,7 @@ import {
   handleStopSeeingPost,
   handleUnfollowAuthor,
 } from '../hooks/postOperations';
+import PostHeader from './Post/PostHeader';
 
 const Feed = ({
   useData = [],
@@ -34,10 +35,13 @@ const Feed = ({
   const sheetRef = useRef(null);
 
   const [data, setData] = useState({
-    dataProvider: new DataProvider((r1, r2) => r1 !== r2),
+    dataProvider: new DataProvider((r1, r2) => {
+      r1.item.postID !== r2.item.postID;
+    }),
     mainData: [],
   });
   const [selectedMyPost, setSelectedMyPost] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   const [handleLayoutProvider] = useState(
     new LayoutProvider(
@@ -52,8 +56,7 @@ const Feed = ({
   );
 
   useEffect(() => {
-    // handleLayoutProvider.shouldRefreshWithAnchoring = false;
-    console.log('frank');
+    handleLayoutProvider.shouldRefreshWithAnchoring = false;
     setData({
       ...data,
       dataProvider: data.dataProvider.cloneWithRows([
@@ -64,7 +67,9 @@ const Feed = ({
     });
   }, [useData]);
 
-  const toggleSheet = (posterID, userUID) => {
+  const toggleSheet = (posterID, userUID, item) => {
+    console.log(item, ' item');
+    setSelectedPost({...item});
     setSelectedMyPost(posterID == userUID ? true : false);
     sheetRef.current.open();
   };
@@ -93,7 +98,7 @@ const Feed = ({
       <>
         <Post
           key={item.id}
-          onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID)}
+          onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID, item)}
           onTapPost={() =>
             navigation.navigate('viewPost', {postId: item.postID})
           }
@@ -110,14 +115,29 @@ const Feed = ({
         <PostActions
           sheetRef={sheetRef}
           iAuthoredThis={extendedState.selectedMyPost}
-          onDeletePost={() => _deletePost(item.postID, handleDeletePost)}
-          onSavePost={() => _savePost(item.postID, userUID)}
-          onUnfollow={() =>
-            _unFollow(item.posterUserUID, userUID, item.posterName)
+          onDeletePost={() =>
+            _deletePost(selectedPost.postID, handleDeletePost)
           }
-          onStopSeeingThis={() => _stopSeeingThis(item.postID, userUID)}
-          onPostInfo={() => console.log('info ready')}
-        />
+          onSavePost={() => _savePost(selectedPost.postID, userUID)}
+          onUnfollow={() =>
+            _unFollow(
+              selectedPost.posterUserUID,
+              userUID,
+              selectedPost.posterName,
+            )
+          }
+          onStopSeeingThis={() => _stopSeeingThis(selectedPost.postID, userUID)}
+          onPostInfo={() => console.log('info ready')}>
+          <PostHeader
+            showMenu={false}
+            showNameAndLocation={false}
+            profileImage={selectedPost?.posterAvatar}
+            name={selectedPost?.posterName}
+            date={null}
+            showSeperator={false}
+            location={`${selectedPost?.postCaption}`}
+          />
+        </PostActions>
       </>
     );
   };
@@ -133,10 +153,13 @@ const Feed = ({
             layoutProvider={handleLayoutProvider}
             rowRenderer={handleRowRender}
             onEndReached={() => loadMoreData()}
-            extendedState={{selectedMyPost: selectedMyPost}}
-            onEndReachedThreshold={0.5}
+            extendedState={{
+              selectedMyPost: selectedMyPost,
+              selectedPost: selectedPost,
+            }}
+            onEndReachedThreshold={1}
             renderFooter={loading}
-            renderAheadOffset={200}
+            renderAheadOffset={1000}
             scrollViewProps={{
               showsVerticalScrollIndicator: false,
               initialNumToRender: 4,

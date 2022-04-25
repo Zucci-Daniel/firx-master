@@ -35,6 +35,7 @@ const PostActions = ({
     console.log('info');
   },
   sheetRef,
+  children,
 }) => {
   const size = width / 10;
 
@@ -99,6 +100,14 @@ const PostActions = ({
 
   return (
     <Sheet sheetRef={sheetRef}>
+      <View
+        style={{
+          width: width,
+          height: 55,
+          backgroundColor: colors.skeletonAnimationBg,
+        }}>
+        {children}
+      </View>
       <View style={[styles.container, {height: undefined}]}>
         {iAuthoredThis && (
           <View style={styles.actionRow}>

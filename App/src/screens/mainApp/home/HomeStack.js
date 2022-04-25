@@ -29,7 +29,7 @@ const HomeStack = ({navigation}) => {
         screenOptions={{
           animation: 'slide_from_left',
           headerShadowVisible: false,
-         
+
           headerLeft: () => (
             <AppCancel
               useStyles={false}

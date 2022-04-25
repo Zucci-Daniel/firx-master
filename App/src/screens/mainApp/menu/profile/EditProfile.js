@@ -16,7 +16,10 @@ import {Avatar, IconButton, Colors} from '../../../../imports/all_packages';
 import {SignUpInfoContext} from '../../../forms/signUpInfoContext';
 import {useContext, useState} from 'react';
 import Link from './../../../../components/Link';
-import {updateDocument} from '../../../../hooks/useOperation';
+import {
+  updateAllPostsFields,
+  updateDocument,
+} from '../../../../hooks/useOperation';
 import {useUploadFile} from './../../../../hooks/useUploadFile';
 import {AppContext} from './../../../../appContext';
 import AppInputField from '../../../../components/form-components/AppInputField';
@@ -31,6 +34,7 @@ const {universalPadding, colors} = config;
 
 const EditProfile = ({navigation}) => {
   const uploadFile = useUploadFile();
+
   const {userUID} = useContext(AppContext);
 
   const {user, setUser, didUpdateBasicInfo, setDidUpdateBasicInfo} =
@@ -67,17 +71,38 @@ const EditProfile = ({navigation}) => {
     shouldUnregister: false,
   });
 
+  console.log(profileImage, ' outside');
+
   const handleUpdateProfile = async data => {
+    //no need for extra works, firebase won't update the fields if the old value and the new values are still the same, the issue u need to look here later is the fact that, what you are sending via data is much, even if the details are still the same, look for a way to know the particular field the user changed, and only send those. GOOD JOBS SO FAR!!, i'm proud of you.
     try {
       if (data.profileImage !== profileImage) {
-        let imageUri = await uploadFile(data.profileImage);
-        updateDocument(userUID, 'STUDENTS', {...data, profileImage: imageUri});
+        console.log(data.profileImage, ' data image');
+        console.log(profileImage, ' raw profile iamge');
+        // let imageUri = await uploadFile(data.profileImage);
+
+        // if (imageUri) {
+        //   console.log(imageUri, ' image uri');
+        //   updateDocument(userUID, 'STUDENTS', {
+        //     ...data,
+        //     profileImage: imageUri,
+        //   });
+        //   updateAllPostsFields(userUID, 'AllPosts', {
+        //     posterAvatar: imageUri,
+        //     posterName: `${data.firstName} ${data.lastName}`,
+        //   });
+        // }
+
         //show a slight toast message here.
       } else {
+        console.log(data.profileImage, ' not eaqual');
         updateDocument(userUID, 'STUDENTS', data);
+        updateAllPostsFields(userUID, 'AllPosts', {
+          posterName: `${data.firstName} ${data.lastName}`,
+        });
       }
 
-      setUser({...user, ...data});
+      // setUser({...user, ...data});
     } catch (error) {
       console.log('failed to update ur profile', error.message);
     }
