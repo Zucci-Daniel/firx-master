@@ -11,7 +11,6 @@ import {
 } from '../config/config';
 import Post from './Post/Post';
 import AppCarousel from './AppCarousel';
-import ListSeparator from './ListSeparator';
 import PostActions from './PostActions';
 import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
 import {
@@ -42,7 +41,17 @@ const Feed = ({
     mainData: [],
   });
   const [selectedMyPost, setSelectedMyPost] = useState(false);
-  const [selectedPost, setSelectedPost] = useState('');
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const updateState = id => {
+    let copiedPost = data.mainData;
+    let updatedPosts = copiedPost.filter(item => item.item.postID !== id);
+    setData({
+      ...data,
+      dataProvider: data.dataProvider.cloneWithRows([...updatedPosts]),
+      mainData: [...updatedPosts],
+    });
+  };
 
   const [handleLayoutProvider] = useState(
     new LayoutProvider(
@@ -68,10 +77,9 @@ const Feed = ({
     });
   }, [useData]);
 
-  const toggleSheet = (posterID, userUID, selectedUser) => {
-    console.log(selectedUser, ' item');
+  const toggleSheet = (posterID, userUID, item) => {
+    setSelectedPost({...item});
     setSelectedMyPost(posterID == userUID ? true : false);
-    setSelectedPost(selectedUser);
     sheetRef.current.open();
   };
 
@@ -88,6 +96,7 @@ const Feed = ({
     handleUnfollowAuthor(posterUID, userUID, posterName);
   };
   const _stopSeeingThis = (postID, userUID) => {
+    updateState(postID);
     console.log('stop seeing this', postID);
     handleStopSeeingPost(postID, userUID);
   };
@@ -98,9 +107,7 @@ const Feed = ({
     return (
       <>
         <Post
-          onPressPostMenu={() =>
-            toggleSheet(item.posterUserUID, userUID, item.posterName)
-          }
+          onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID, item)}
           onTapPost={() =>
             navigation.navigate('viewPost', {postId: item.postID})
           }
@@ -116,7 +123,7 @@ const Feed = ({
         </Post>
         <PostActions
           sheetRef={sheetRef}
-          iAuthoredThis={selectedMyPost}
+          iAuthoredThis={extendedState.selectedMyPost}
           onDeletePost={() =>
             _deletePost(selectedPost.postID, handleDeletePost)
           }
@@ -128,12 +135,11 @@ const Feed = ({
               selectedPost.posterName,
             )
           }
-          onStopSeeingThis={() =>
-            _stopSeeingThis(selectedPost.postID, userUID)
-          }>
+          onStopSeeingThis={() => _stopSeeingThis(selectedPost.postID, userUID)}
+          onPostInfo={() => console.log('info ready')}>
           <PosterInitials
             extraInitialsStyles={styles.extraInitialsStyles}
-            name={`perform actions for ${selectedPost}`}
+            name={`perform actions for ${selectedPost?.posterName}`}
             showDateAndLocation={false}
           />
         </PostActions>
@@ -154,7 +160,8 @@ const Feed = ({
             onEndReached={() => loadMoreData()}
             extendedState={{
               selectedMyPost: selectedMyPost,
-              // selectedPost: selectedPost,
+              selectedPost: selectedPost,
+              postArray: data.dataProvider,
             }}
             onEndReachedThreshold={1}
             renderFooter={loading}
@@ -193,6 +200,6 @@ const styles = StyleSheet.create({
   },
   extraInitialsStyles: {
     fontWeight: 'bold',
-    fontSize:14
+    fontSize: 14,
   },
 });

@@ -162,7 +162,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   sheetStyle: {
-    padding: universalPadding / 6,
     backgroundColor: colors.skeletonAnimationBg,
   },
 });

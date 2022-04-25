@@ -133,7 +133,7 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
         });
       }
     } catch (error) {
-      commonFunctions.showToast('', 'code is not correct', 'error');
+      commonFunctions.showToast('INCORRECT', 'code is not correct', 'error');
       console.log('Invalid code....', error.message);
     }
   };
