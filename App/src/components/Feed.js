@@ -22,6 +22,7 @@ import {
   handleUnfollowAuthor,
 } from '../hooks/postOperations';
 import PostHeader from './Post/PostHeader';
+import PosterInitials from './Post/utils/PosterInitials';
 
 const Feed = ({
   useData = [],
@@ -41,7 +42,7 @@ const Feed = ({
     mainData: [],
   });
   const [selectedMyPost, setSelectedMyPost] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState('');
 
   const [handleLayoutProvider] = useState(
     new LayoutProvider(
@@ -67,38 +68,39 @@ const Feed = ({
     });
   }, [useData]);
 
-  const toggleSheet = (posterID, userUID, item) => {
-    console.log(item, ' item');
-    setSelectedPost({...item});
+  const toggleSheet = (posterID, userUID, selectedUser) => {
+    console.log(selectedUser, ' item');
     setSelectedMyPost(posterID == userUID ? true : false);
+    setSelectedPost(selectedUser);
     sheetRef.current.open();
+  };
+
+  const _deletePost = (postID, deleteAction) => {
+    console.log('deleting');
+    confirmAction(postID, deleteAction);
+  };
+  const _savePost = (postID, userUID) => {
+    console.log('saving');
+    handleSavePost(postID, userUID);
+  };
+  const _unFollow = (posterUID, userUID, posterName) => {
+    console.log('unfollow');
+    handleUnfollowAuthor(posterUID, userUID, posterName);
+  };
+  const _stopSeeingThis = (postID, userUID) => {
+    console.log('stop seeing this', postID);
+    handleStopSeeingPost(postID, userUID);
   };
 
   const handleRowRender = (type, data, index, extendedState) => {
     const {item, type: innerType} = data;
 
-    const _deletePost = (postID, deleteAction) => {
-      console.log('deleting');
-      confirmAction(postID, deleteAction);
-    };
-    const _savePost = (postID, userUID) => {
-      console.log('saving');
-      handleSavePost(postID, userUID);
-    };
-    const _unFollow = (posterUID, userUID, posterName) => {
-      console.log('unfollow');
-      handleUnfollowAuthor(posterUID, userUID, posterName);
-    };
-    const _stopSeeingThis = (postID, userUID) => {
-      console.log('stop seeing this', postID);
-      handleStopSeeingPost(postID, userUID);
-    };
-
     return (
       <>
         <Post
-          key={item.id}
-          onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID, item)}
+          onPressPostMenu={() =>
+            toggleSheet(item.posterUserUID, userUID, item.posterName)
+          }
           onTapPost={() =>
             navigation.navigate('viewPost', {postId: item.postID})
           }
@@ -114,7 +116,7 @@ const Feed = ({
         </Post>
         <PostActions
           sheetRef={sheetRef}
-          iAuthoredThis={extendedState.selectedMyPost}
+          iAuthoredThis={selectedMyPost}
           onDeletePost={() =>
             _deletePost(selectedPost.postID, handleDeletePost)
           }
@@ -126,16 +128,13 @@ const Feed = ({
               selectedPost.posterName,
             )
           }
-          onStopSeeingThis={() => _stopSeeingThis(selectedPost.postID, userUID)}
-          onPostInfo={() => console.log('info ready')}>
-          <PostHeader
-            showMenu={false}
-            showNameAndLocation={false}
-            profileImage={selectedPost?.posterAvatar}
-            name={selectedPost?.posterName}
-            date={null}
-            showSeperator={false}
-            location={`${selectedPost?.postCaption}`}
+          onStopSeeingThis={() =>
+            _stopSeeingThis(selectedPost.postID, userUID)
+          }>
+          <PosterInitials
+            extraInitialsStyles={styles.extraInitialsStyles}
+            name={`perform actions for ${selectedPost}`}
+            showDateAndLocation={false}
           />
         </PostActions>
       </>
@@ -155,7 +154,7 @@ const Feed = ({
             onEndReached={() => loadMoreData()}
             extendedState={{
               selectedMyPost: selectedMyPost,
-              selectedPost: selectedPost,
+              // selectedPost: selectedPost,
             }}
             onEndReachedThreshold={1}
             renderFooter={loading}
@@ -191,5 +190,9 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     paddingBottom: universalPadding,
+  },
+  extraInitialsStyles: {
+    fontWeight: 'bold',
+    fontSize:14
   },
 });

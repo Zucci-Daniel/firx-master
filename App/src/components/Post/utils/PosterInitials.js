@@ -7,17 +7,20 @@ const PosterInitials = ({
   name = 'Zucci Daniel',
   location = 'london africa',
   date = '22/3/100',
-  showSeperator = true,
+  showName = true,
+  showDateAndLocation = true,
+  extraInitialsStyles,
 }) => {
   return (
     <TouchableOpacity activeOpacity={0.4} onPress={onTapInitials}>
       <View style={styles.initials}>
-        <Text style={styles.name}>{name}</Text>
+        <Text style={[styles.name, extraInitialsStyles]}>{name}</Text>
 
-        <Text style={styles.date}>
-          {date} {`${showSeperator ? `|` : `-`}`}
-          <Text style={styles.location}> {location}</Text>
-        </Text>
+        {showDateAndLocation && (
+          <Text style={styles.date}>
+            {date} |<Text style={styles.location}> {location}</Text>
+          </Text>
+        )}
       </View>
     </TouchableOpacity>
   );

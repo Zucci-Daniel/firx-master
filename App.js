@@ -12,8 +12,8 @@ import {useCheckNetworkStatus} from './App/src/hooks/justHooks';
 import AppLoading from './App/src/components/AppLoading';
 import {turnOfLocalPersistence} from './App/src/hooks/useOperation';
 
-
-import {GestureHandlerRootView} from 'react-native-gesture-handler'
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 //refactor
 
@@ -48,7 +48,8 @@ export default App = () => {
 
   useEffect(() => {
     LogBox.ignoreLogs([
-      'Require cycles are allowed, but can result in uninitialized values.',"[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!"
+      'Require cycles are allowed, but can result in uninitialized values.',
+      "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
     ]);
   }, []);
 
@@ -74,23 +75,25 @@ export default App = () => {
   if (!isReady) return <AppLoading message="" />;
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AppContext.Provider
-        value={{
-          seenUserUID,
-          setSeenUserUID,
-          userUID,
-          setUserUID,
-          showBottomTab,
-          setShowBottomTab,
-          hasCompletedSignUp,
-        }}>
-        <SignUpInfoContextProvider>
-          <StatusBar backgroundColor={statusBarColor} />
-          <Navigation />
-          <Toast config={toastConfig} topOffset={0} />
-        </SignUpInfoContextProvider>
-      </AppContext.Provider>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <AppContext.Provider
+          value={{
+            seenUserUID,
+            setSeenUserUID,
+            userUID,
+            setUserUID,
+            showBottomTab,
+            setShowBottomTab,
+            hasCompletedSignUp,
+          }}>
+          <SignUpInfoContextProvider>
+            <StatusBar backgroundColor={statusBarColor} />
+            <Navigation />
+            <Toast config={toastConfig} topOffset={0} />
+          </SignUpInfoContextProvider>
+        </AppContext.Provider>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 };

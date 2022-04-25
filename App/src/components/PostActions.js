@@ -99,15 +99,7 @@ const PostActions = ({
   ];
 
   return (
-    <Sheet sheetRef={sheetRef}>
-      <View
-        style={{
-          width: width,
-          height: 55,
-          backgroundColor: colors.skeletonAnimationBg,
-        }}>
-        {children}
-      </View>
+    <Sheet sheetRef={sheetRef} modalStyle={styles.sheetStyle}>
       <View style={[styles.container, {height: undefined}]}>
         {iAuthoredThis && (
           <View style={styles.actionRow}>
@@ -128,6 +120,14 @@ const PostActions = ({
         {iAuthoredThis == false && (
           <>
             <View style={styles.actionRow}>
+              <View
+                style={{
+                  width: width,
+                  height: undefined,
+                  backgroundColor: colors.skeletonAnimationBg,
+                }}>
+                {children}
+              </View>
               {unAuthoredPostActions.map((action, index) => (
                 <MenuItem
                   key={index}
@@ -153,14 +153,16 @@ export default PostActions;
 const styles = StyleSheet.create({
   container: {
     paddingVertical: universalPadding / 2,
-    paddingHorizontal: universalPadding / 4,
     width: width,
     backgroundColor: colors.skeletonAnimationBg,
     flexDirection: 'row',
-    alignItems: 'stretch',
     justifyContent: 'space-around',
   },
   actionRow: {
     width: '100%',
+  },
+  sheetStyle: {
+    padding: universalPadding / 6,
+    backgroundColor: colors.skeletonAnimationBg,
   },
 });

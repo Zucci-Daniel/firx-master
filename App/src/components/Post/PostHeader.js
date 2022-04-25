@@ -17,6 +17,8 @@ const PostHeader = ({
   showMenu = true,
   showNameAndLocation = true,
   showSeperator = true,
+  showAvatar = false,
+  showLocation = false,
 }) => {
   return (
     <View style={[styles.postHeader]}>
@@ -24,7 +26,12 @@ const PostHeader = ({
         <View style={[styles.wrapper]}>
           <PosterImg profileImage={profileImage} />
 
-          <PosterInitials showSeperator={showSeperator} name={name} date={date} location={location} />
+          <PosterInitials
+            showSeperator={showSeperator}
+            name={name}
+            date={date}
+            location={location}
+          />
         </View>
 
         {showMenu && (
