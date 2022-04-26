@@ -1,7 +1,7 @@
-import {React} from '../../../../imports/all_RnComponents';
-import {FrontPage, EditProfile} from '../../../../imports/all_files';
+import React from 'react';
 import {Stack} from '../../../../navigation/create/CreateNavigation';
 import ButtonText from './../../../../components/ButtonText';
+import FrontPage from './FrontPage';
 
 const Profile = ({navigation}) => {
   return (
@@ -24,13 +24,6 @@ const Profile = ({navigation}) => {
               onPress={() => navigation.navigate('editProfile')}
             />
           ),
-        }}
-      />
-      <Stack.Screen
-        name="editProfile"
-        component={EditProfile}
-        options={{
-          headerTitle: 'Edit Profile',
         }}
       />
     </Stack.Navigator>

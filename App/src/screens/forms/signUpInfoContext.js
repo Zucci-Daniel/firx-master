@@ -16,6 +16,7 @@ export const SignUpInfoContextProvider = ({children}) => {
     department: '',
     level: '',
     profileImage: null,
+    profileImageLocalPath: null,
     phoneNumber: '',
   });
 

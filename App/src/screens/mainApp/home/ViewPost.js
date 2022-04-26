@@ -62,24 +62,28 @@ const ViewPost = ({navigation, route}) => {
         name={selectedPost.posterName}
         caption={selectedPost.postCaption}
         date={'today :23:00pm wat'}>
-        <AppScrollView extraStyle={{paddingBottom: 350}}>
-          {selectedPost.postMedias.map(media => {
-            return media.type == 'picture' ? (
-              <AppPostImage
-                useHeight={postHeight}
-                key={media.id}
-                imageUri={media?.url}
-              />
-            ) : (
-              <AppPostVideo
-                key={media.id}
-                useHeight={postHeight}
-                shouldPlay={false}
-                videoUri={media?.url}
-                thumbnail={media?.thumbnail}
-              />
-            );
-          })}
+        <AppScrollView
+        
+         >
+          <View style={styles.scrollContainer}>
+            {selectedPost.postMedias.map(media => {
+              return media.type == 'picture' ? (
+                <AppPostImage
+                  useHeight={postHeight}
+                  key={media.id}
+                  imageUri={media?.url}
+                />
+              ) : (
+                <AppPostVideo
+                  key={media.id}
+                  useHeight={postHeight}
+                  shouldPlay={false}
+                  videoUri={media?.url}
+                  thumbnail={media?.thumbnail}
+                />
+              );
+            })}
+          </View>
         </AppScrollView>
       </Post>
     </View>
@@ -92,11 +96,13 @@ const styles = StyleSheet.create({
   container: {
     height: height,
     width: width,
-    // paddingBottom: 400,
     backgroundColor: colors.neonBg,
   },
   media: {
     height: postSize,
     width: width,
+  },
+  scrollContainer: {
+    paddingBottom: 300,
   },
 });

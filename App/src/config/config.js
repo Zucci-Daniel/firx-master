@@ -31,6 +31,7 @@ const colors = {
   fadeWhite: '#ccc',
   calmRed: '#D2686E',
   info: '#c9aa88',
+  dropDownBg: '#e9aa88',
   calmGreen: 'green',
   skeletonBg: '#020035',
   skeletonAnimationBg: '#002244',
@@ -45,6 +46,7 @@ const postHeight = height / 1.7;
 
 const postSize = height / 1.5;
 const avatarWidth = width / 13;
+const avatarEditWidth = width / 3;
 
 //for the bottom navigation
 const tabBarBottomConfig = {
@@ -69,4 +71,5 @@ export {
   postSize,
   avatarWidth,
   postHeight,
+  avatarEditWidth,
 };

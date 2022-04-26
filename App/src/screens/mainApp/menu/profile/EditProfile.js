@@ -3,18 +3,10 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  useEffect,
 } from '../../../../imports/all_RnComponents';
-import {
-  AppButton,
-  config,
-  AppTextArea,
-  AppInput2,
-  AppImage,
-} from '../../../../imports/all_files';
-import {Avatar, IconButton, Colors} from '../../../../imports/all_packages';
+import {AppButton, config, AppTextArea} from '../../../../imports/all_files';
 import {SignUpInfoContext} from '../../../forms/signUpInfoContext';
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import Link from './../../../../components/Link';
 import {
   updateAllPostsFields,
@@ -28,34 +20,38 @@ import AppSelectField from '../../../../components/form-components/AppSelectFiel
 import {departments, levels, schools} from '../../../../hooks/utils';
 import AppRadioField from '../../../../components/form-components/AppRadioField';
 import AppRadioOption from '../../../../components/AppRadioOption';
-import AppImagePicker from '../../../../components/form-components/AppImagePicker';
+import AppImage from './../../../../components/AppImage';
 
-const {universalPadding, colors} = config;
+const {universalPadding, colors, avatarEditWidth} = config;
 
 const EditProfile = ({navigation}) => {
   const uploadFile = useUploadFile();
 
   const {userUID} = useContext(AppContext);
 
-  const {user, setUser, didUpdateBasicInfo, setDidUpdateBasicInfo} =
-    useContext(SignUpInfoContext);
+  const {user, setUser} = useContext(SignUpInfoContext);
+
   const {
-    birthdate,
     department,
     firstName,
     gender,
     lastName,
     level,
-    phoneNumber,
     profileImage,
     school,
     typeOfStudent,
+    bio,
   } = user;
+
+  const [everthingIsTheSame, setEverthingIsTheSame] = useState(true);
+  const [imageChanged, setImageChanged] = useState(false);
+  const [currentProfileImage, setCurrentProfileImage] = useState(profileImage);
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    watch,
+    formState: {isValid},
   } = useForm({
     defaultValues: {
       gender,
@@ -65,57 +61,89 @@ const EditProfile = ({navigation}) => {
       school,
       department,
       level,
-      profileImage,
+      bio,
     },
     mode: 'all',
     shouldUnregister: false,
   });
 
-  console.log(profileImage, ' outside');
-
   const handleUpdateProfile = async data => {
     //no need for extra works, firebase won't update the fields if the old value and the new values are still the same, the issue u need to look here later is the fact that, what you are sending via data is much, even if the details are still the same, look for a way to know the particular field the user changed, and only send those. GOOD JOBS SO FAR!!, i'm proud of you.
-    try {
-      if (data.profileImage !== profileImage) {
-        console.log(data.profileImage, ' data image');
-        console.log(profileImage, ' raw profile iamge');
-        // let imageUri = await uploadFile(data.profileImage);
-
-        // if (imageUri) {
-        //   console.log(imageUri, ' image uri');
-        //   updateDocument(userUID, 'STUDENTS', {
-        //     ...data,
-        //     profileImage: imageUri,
-        //   });
-        //   updateAllPostsFields(userUID, 'AllPosts', {
-        //     posterAvatar: imageUri,
-        //     posterName: `${data.firstName} ${data.lastName}`,
-        //   });
-        // }
-
-        //show a slight toast message here.
-      } else {
-        console.log(data.profileImage, ' not eaqual');
-        updateDocument(userUID, 'STUDENTS', data);
-        updateAllPostsFields(userUID, 'AllPosts', {
-          posterName: `${data.firstName} ${data.lastName}`,
-        });
-      }
-
-      // setUser({...user, ...data});
-    } catch (error) {
-      console.log('failed to update ur profile', error.message);
+    //check if he changed the image state
+    if (imageChanged) {
+      let imageUri = await uploadFile(currentProfileImage);
+      updateDocument(userUID, 'STUDENTS', {
+        ...data,
+        profileImage: imageUri,
+      });
+      updateAllPostsFields(userUID, 'AllPosts', {
+        posterAvatar: imageUri,
+        posterName: `${data.firstName} ${data.lastName}`,
+      });
+    } else {
+      updateDocument(userUID, 'STUDENTS', {
+        ...data,
+      });
+      updateAllPostsFields(userUID, 'AllPosts', {
+        posterName: `${data.firstName} ${data.lastName}`,
+      });
     }
+    setUser({...user, ...data});
   };
+
+  const handleProfileImageSelection = image => {
+    setImageChanged(image == false ? false : true);
+    image !== false && setCurrentProfileImage(image);
+  };
+
+  const watchForm = watch();
+
+  useEffect(() => {
+    const {
+      gender: oldGender,
+      firstName: oldFirstName,
+      lastName: oldLastName,
+      typeOfStudent: oldTypeOfStudent,
+      school: oldSchool,
+      department: oldDepartment,
+      level: oldLevel,
+    } = watchForm;
+
+    if (
+      oldGender == gender &&
+      oldFirstName == firstName &&
+      oldLastName == lastName &&
+      oldTypeOfStudent == typeOfStudent &&
+      oldSchool == school &&
+      oldDepartment == department &&
+      oldLevel == level &&
+      imageChanged == false
+    ) {
+      setEverthingIsTheSame(true);
+    } else {
+      setEverthingIsTheSame(false);
+    }
+  }, [watchForm]);
 
   return (
     <View style={styles.container}>
+      {!everthingIsTheSame && isValid && (
+        <Link
+          text="update"
+          extraStyle={styles.update}
+          onPress={handleSubmit(handleUpdateProfile)}
+        />
+      )}
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.wrapper}>
-          <AppImagePicker name="profileImage" control={control} />
+          <AppImage
+            size={avatarEditWidth}
+            theImage={image => handleProfileImageSelection(image)}
+          />
         </View>
         <View style={styles.inputWrapper}>
           <AppInputField
+            background={colors.info}
             control={control}
             name="firstName"
             label={'first name'}
@@ -125,12 +153,22 @@ const EditProfile = ({navigation}) => {
             }}
           />
           <AppInputField
+            background={colors.info}
             control={control}
             name="lastName"
             label={'last name'}
             required={{
               required: 'hey...your last name?',
               minLength: {value: 4, message: 'must be more than 4'},
+            }}
+          />
+          <AppInputField
+            background={colors.info}
+            control={control}
+            name="bio"
+            label={'About yourself...'}
+            required={{
+              required: false,
             }}
           />
           <AppSelectField
@@ -164,7 +202,6 @@ const EditProfile = ({navigation}) => {
           </AppRadioField>
         </View>
       </ScrollView>
-      <Link text="update" onPress={handleSubmit(handleUpdateProfile)} />
     </View>
   );
 };
@@ -191,5 +228,10 @@ const styles = StyleSheet.create({
   inputWrapper: {
     width: '100%',
     marginTop: universalPadding,
+  },
+  update: {
+    alignSelf: 'flex-end',
+    color: colors.fadeWhite,
+    fontWeight: 'bold',
   },
 });

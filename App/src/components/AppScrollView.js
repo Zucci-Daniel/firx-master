@@ -9,10 +9,16 @@ import {
 import {universalPadding} from '../config/config';
 import {Touchable} from 'react-native';
 
-export default AppScrollView = ({children,extraStyle}) => {
+export default AppScrollView = ({children, extraStyle, ...props}) => {
   return (
-    <View style={[styles.container,extraStyle]}>
-      <ScrollView contentContainerStyle={styles.view}>{children}</ScrollView>
+    <View style={[styles.container, extraStyle]}>
+      <ScrollView
+        contentContainerStyle={styles.view}
+        alwaysBounceVertical
+        showsVerticalScrollIndicator={false}
+        {...props}>
+        {children}
+      </ScrollView>
     </View>
   );
 };

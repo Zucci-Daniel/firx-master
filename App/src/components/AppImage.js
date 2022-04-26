@@ -15,7 +15,6 @@ import {handleImagePicker} from './../hooks/useOperation';
 import {width} from '../config/config';
 import {theme} from 'react-native-paper';
 
-
 export default AppImage = ({
   clustered,
   onPress,
@@ -33,6 +32,9 @@ export default AppImage = ({
     if (image) {
       setUser({...user, profileImage: image});
       theImage && theImage(image);
+    } else {
+      console.log(' user canceled selection ');
+      theImage(false);
     }
   };
 

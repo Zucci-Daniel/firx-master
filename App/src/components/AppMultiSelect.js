@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
+import {colors} from '../config/config';
 
 const dataArray = [
   {label: 'Item 1', value: '1'},
@@ -26,10 +27,8 @@ const AppMultiSelect = ({
   onBlur,
   onChange,
   initialLabel,
-...props
+  ...props
 }) => {
-  const [isFocused, setisFocused] = useState(false);
-
   return (
     <Dropdown
       containerStyle={styles.container}
@@ -62,14 +61,14 @@ export default AppMultiSelect;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'cadetblue',
+    backgroundColor: colors.dropDownBg,
   },
   dropdown: {
-    borderColor: 'gray',
+    borderColor: colors.info,
     borderWidth: 0.5,
     borderRadius: 3,
     paddingHorizontal: 8,
-    backgroundColor: 'gray',
+    backgroundColor: colors.info,
     padding: 10,
     textTransform: 'capitalize',
     marginBottom: 30,
@@ -99,10 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     margin: 30,
     backgroundColor: 'white',
-    color: 'gray',
+    color: colors.info,
     borderRadius: 4,
-  },
-  selectedStyle: {
-    backgroundColor: 'black',
   },
 });

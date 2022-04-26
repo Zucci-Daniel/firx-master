@@ -97,9 +97,11 @@ export const handleImagePicker = async () => {
       cropping: true,
       mediaType: 'photo',
     });
+    console.log('result path ', result.path);
     return result.path;
   } catch (error) {
     console.log(error.image, ' failed selecting an image');
+    return false;
   }
 };
 
@@ -182,6 +184,7 @@ export const useGetUserInformationFromFirestore = async id => {
         department: responseObj.department,
         level: responseObj.level,
         profileImage: responseObj.profileImage,
+        profileImageLocalPath: responseObj.profileImageLocalPath,
         phoneNumber: responseObj.phoneNumber,
       };
       try {

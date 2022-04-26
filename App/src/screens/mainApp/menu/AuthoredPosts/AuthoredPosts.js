@@ -58,16 +58,11 @@ const AuthoredPosts = () => {
     return () => {};
   }, []);
 
-  const _deletePost = (postID, deleteAction) => {
-    confirmAction(postID, deleteAction);
-  };
-
   if (isFetchingData) return <FeedLoadingSkeleton />;
 
   return (
     <View style={styles.container}>
       {authoredPosts.length > 0 ? (
-        // <Feed useData={authoredPosts} />
         <Feed
           useData={authoredPosts}
           userUID={userUID}
@@ -90,9 +85,8 @@ export default AuthoredPosts;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: undefined,
     backgroundColor: colors.neonBg,
     width: width,
-    justifyContent: 'center',
   },
 });

@@ -52,6 +52,17 @@ const Feed = ({
       mainData: [...updatedPosts],
     });
   };
+  const updateStateForUnfollow = posterID => {
+    let copiedPost = data.mainData;
+    let updatedPosts = copiedPost.filter(
+      item => item.item.posterUserUID !== posterID,
+    );
+    setData({
+      ...data,
+      dataProvider: data.dataProvider.cloneWithRows([...updatedPosts]),
+      mainData: [...updatedPosts],
+    });
+  };
 
   const [handleLayoutProvider] = useState(
     new LayoutProvider(
@@ -77,27 +88,33 @@ const Feed = ({
     });
   }, [useData]);
 
+  const closeSheet = () => sheetRef.current.close();
+
   const toggleSheet = (posterID, userUID, item) => {
+    sheetRef.current.open();
+    console.log(posterID, item);
     setSelectedPost({...item});
     setSelectedMyPost(posterID == userUID ? true : false);
-    sheetRef.current.open();
   };
 
   const _deletePost = (postID, deleteAction) => {
-    console.log('deleting');
+    closeSheet();
+    updateState(postID);
     confirmAction(postID, deleteAction);
   };
   const _savePost = (postID, userUID) => {
+    closeSheet();
     console.log('saving');
     handleSavePost(postID, userUID);
   };
   const _unFollow = (posterUID, userUID, posterName) => {
-    console.log('unfollow');
+    closeSheet();
     handleUnfollowAuthor(posterUID, userUID, posterName);
+    updateStateForUnfollow(posterUID);
   };
   const _stopSeeingThis = (postID, userUID) => {
+    closeSheet();
     updateState(postID);
-    console.log('stop seeing this', postID);
     handleStopSeeingPost(postID, userUID);
   };
 
@@ -109,7 +126,10 @@ const Feed = ({
         <Post
           onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID, item)}
           onTapPost={() =>
-            navigation.navigate('viewPost', {postId: item.postID})
+            navigation.navigate('viewPost', {
+              postId: item.postID,
+              selectedUser: item.posterName,
+            })
           }
           onPush={() => null} //use transaction for this.
           profileImage={item.posterAvatar}
@@ -197,6 +217,7 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     paddingBottom: universalPadding,
+    backgroundColor:colors.neonBg
   },
   extraInitialsStyles: {
     fontWeight: 'bold',

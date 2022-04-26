@@ -56,7 +56,10 @@ const Home = ({navigation}) => {
   //   : baseUrl;
   const postCondition =
     blackLists.myPostsBlackList.length > 0
-      ? baseUrl.where('postID', 'not-in', blackLists.myPostsBlackList)
+      ? baseUrl.where('postID', 'not-in', [
+          'f92caa16-d975-4552-ac9c-0cd87cde0222',
+          '88ae8ee6-4738-4da0-a0dc-e35933e6ac48',
+        ])
       : baseUrl;
 
   const getBlackLists = () => {
@@ -179,7 +182,12 @@ const Home = ({navigation}) => {
       setShouldGetPosts(false);
       console.log('fetching post.....');
     }
-  }, [online, blackLists.myPostsBlackList, blackLists.myProfilesBlackList]);
+  }, [
+    online,
+    blackLists.myPostsBlackList,
+    blackLists.myProfilesBlackList,
+    user,
+  ]);
 
   const handleLoadMoreData = async () => {
     if (postIsFinished === false) {

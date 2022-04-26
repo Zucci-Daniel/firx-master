@@ -46,14 +46,14 @@ const HomeStack = ({navigation}) => {
             headerShown: false,
           }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="viewPost"
           component={ViewPost}
           options={{
             headerShown: false,
             animation: 'slide_from_right',
           }}
-        />
+        /> */}
         <Stack.Screen
           name="createPost"
           component={CreatePost}

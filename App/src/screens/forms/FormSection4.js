@@ -58,10 +58,16 @@ const FormSection4 = ({navigation}) => {
           school: data.school,
           typeOfStudent: data.typeOfStudent,
           profileImage: theUrl,
+          profileImageLocalPath: data.profileImage,
         });
-
+        console.log(
+          ' to chck the local path just ',
+          user.profileImageLocalPath,
+        );
         //prepare data to send to firestore
         //u cant use the state context value in the same function you are setting it., that's y u should prepare the data.
+
+        //don't store all this object in the local storage, take the important ones
         const newUser = {
           id: userUID,
           birthdate: data.birthdate,
@@ -73,6 +79,7 @@ const FormSection4 = ({navigation}) => {
           school: data.school,
           typeOfStudent: data.typeOfStudent,
           profileImage: theUrl,
+          profileImageLocalPath: data.profileImage,
           phoneNumber: user.phoneNumber, //already taken before in confirmation screen.
           interests: [],
           personalities: [],
@@ -97,7 +104,10 @@ const FormSection4 = ({navigation}) => {
           log(userUID, page, '<===storing this now');
           storeLocally('userUID', userUID);
           //serialize user obj due to local storage obj rules
-
+          console.log(
+            ' to chck the local path again ',
+            user.profileImageLocalPath,
+          );
           const response = await storeLocally('currentUserBasicInfo', newUser);
 
           if (response)

@@ -34,7 +34,6 @@ const SavedPosts = () => {
   //try refactoring this.
   useEffect(() => {
     //get the snapShot of his saved posts from his doc
-
     const subscriber = firestore()
       .collection('STUDENTS')
       .doc(userUID)
@@ -52,11 +51,16 @@ const SavedPosts = () => {
           .collection('AllPosts')
           .where('postID', 'in', mySavedPostsIDs)
           .onSnapshot(querySnapshot => {
-            let post = [];
+            let posts = [];
             querySnapshot.forEach(postSnapShot => {
-              post.push({...postSnapShot.data()});
+              posts.push({
+                item: {
+                  ...postSnapShot.data(),
+                },
+                type: 'normal',
+              });
             });
-            setSavedPosts(post);
+            setSavedPosts(posts);
             return setIsFetchingData(false);
           });
       } else return;
@@ -72,18 +76,14 @@ const SavedPosts = () => {
     confirmAction(postID, deleteAction);
   };
 
-
   if (isFetchingData) return <FeedLoadingSkeleton />;
 
   return (
     <View style={styles.container}>
       {savedPosts.length > 0 ? (
-        <Feed useData={savedPosts} />
+        <Feed useData={savedPosts} userUID={userUID} />
       ) : (
-        <Link
-          text={'no recent post yet, create a post'}
-          onPress={() => navigation.navigate('createPost')}
-        />
+        <Text>no recent post yet, create a post</Text>
       )}
     </View>
   );
@@ -93,9 +93,8 @@ export default SavedPosts;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.pureWhite,
+    height: undefined,
+    backgroundColor: colors.neonBg,
     width: width,
-    justifyContent: 'center',
   },
 });
