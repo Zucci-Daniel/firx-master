@@ -80,13 +80,22 @@ const Feed = ({
     handleLayoutProvider.shouldRefreshWithAnchoring = false;
     setData({
       ...data,
-      dataProvider: data.dataProvider.cloneWithRows([
-        ...data.mainData,
-        ...useData,
-      ]),
-      mainData: [...data.mainData, ...useData],
+      dataProvider: data.dataProvider.cloneWithRows([...useData]),
+      mainData: [...useData],
     });
   }, [useData]);
+
+  // useEffect(() => {
+  //   handleLayoutProvider.shouldRefreshWithAnchoring = false;
+  //   setData({
+  //     ...data,
+  //     dataProvider: data.dataProvider.cloneWithRows([
+  //       ...data.mainData,
+  //       ...useData,
+  //     ]),
+  //     mainData: [...data.mainData, ...useData],
+  //   });
+  // }, [useData]);
 
   const closeSheet = () => sheetRef.current.close();
 
@@ -217,7 +226,7 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     paddingBottom: universalPadding,
-    backgroundColor:colors.neonBg
+    backgroundColor: colors.neonBg,
   },
   extraInitialsStyles: {
     fontWeight: 'bold',

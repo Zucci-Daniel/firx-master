@@ -14,6 +14,7 @@ import Camera from './Camera';
 import AppFloatMenu from './../../../components/AppFloatMenu';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import AppCancel from './../../../components/AppCancel';
+import {HomeContextProvider} from './homeContext';
 
 const HomeStack = ({navigation}) => {
   const {showBottomTab, setShowBottomTab} = useContext(AppContext);
@@ -24,7 +25,7 @@ const HomeStack = ({navigation}) => {
   };
 
   return (
-    <>
+    <HomeContextProvider>
       <Stack.Navigator
         screenOptions={{
           animation: 'slide_from_left',
@@ -46,14 +47,7 @@ const HomeStack = ({navigation}) => {
             headerShown: false,
           }}
         />
-        {/* <Stack.Screen
-          name="viewPost"
-          component={ViewPost}
-          options={{
-            headerShown: false,
-            animation: 'slide_from_right',
-          }}
-        /> */}
+
         <Stack.Screen
           name="createPost"
           component={CreatePost}
@@ -91,7 +85,7 @@ const HomeStack = ({navigation}) => {
           }}
         />
       </Stack.Navigator>
-    </>
+    </HomeContextProvider>
   );
 };
 

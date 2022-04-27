@@ -26,12 +26,14 @@ import {commonFunctions} from '../../../imports/all_files';
 import {useUploadFile} from './../../../hooks/useUploadFile';
 import {addNewPost} from '../../../hooks/useOperation';
 import {createThumbnail} from 'react-native-create-thumbnail';
+import {HomeContext} from './homeContext';
 
 const Camera = () => {
   const uploadFile = useUploadFile();
 
   const {userUID} = useContext(AppContext);
   const {user} = useContext(SignUpInfoContext);
+  const {posted, setPosted} = useContext(HomeContext);
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -204,6 +206,7 @@ const Camera = () => {
     }
 
     setFinishedUploadingMedia(true);
+    setPosted(posted + 1);
     setPost({...post, postMedias: [], postCaption: ''});
 
     //prepare the post informations and send to AllPosts collection.

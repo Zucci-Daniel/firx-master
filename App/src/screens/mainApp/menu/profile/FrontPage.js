@@ -1,10 +1,5 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  Button,
-} from '../../../../imports/all_RnComponents';
+import React from 'react';
+import {StyleSheet, View, Text, Button, Linking} from 'react-native';
 import {
   LeaderBoardPane,
   AppButton,
@@ -21,45 +16,40 @@ import {universalPadding, colors} from '../../../../config/config';
 import {useContext} from 'react';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import ProfilePane from './../../../../components/ProfilePane';
+import Phone from './../../../../components/icons/Phone';
+import WhatsApp from './../../../../components/icons/WhatsApp';
 
 const FrontPage = ({
   navigation,
   status = 'never have i lost any game, defeated 22games',
 }) => {
   const {user} = useContext(SignUpInfoContext);
+  console.log(user);
+  const openPhone = url => {
+    Linking.openURL('tel:' + user.phoneNumber);
+  };
+  const openWhatsApp = url => {
+    Linking.openURL(
+      `whatsapp://send?phone=${user.phoneNumber}=&text=${'my freiend'}`,
+    );
+  };
+  const openInstagram = url => {
+    Linking.openURL('https://instagram.com/zucciiiii?igshid=YmMyMTA2M2Y=');
+  };
+  const openTwitter = url => {
+    Linking.openURL(
+      'https://twitter.com/wizkidayo?t=YtOC4JTZclNqvhHQ5kLMHg&s=09',
+    );
+  };
 
-  const {
-    firstName,
-    lastName,
-    department,
-    level,
-    school,
-    typeOfStudent,
-    gender,
-    birthdate,
-    profileImage,
-  } = user;
-  console.log(profileImage, ' front page');
   return (
     <View style={styles.container}>
-      {/* <ProfileDetails
-        image={profileImage}
-        username={`${firstName} ${lastName}`}
-        name={`${department} | ${level}Level`}
-        brief={`Hi! i'm a student of ${school} university, currently in ${level}Level, my birthdate is ${birthdate} and i'm a ${gender}`}
-        readOnly
-        noPadding
-        extraNamesWrapperStyle={styles.extraNamesWrapperStyle}
-        useDarkUserName
-        useDarkName
-        showBorder={false}
-      /> */}
-
       <ProfilePane dark={true} readOnly />
       <View style={styles.socialHandlerWrapper}>
-        <SMHandle logo={<Ig />} handle="@afams_val" />
-        <SMHandle logo={<Twitter />} handle="@afams_vasl" />
-        <SMHandle logo={<Fb />} handle="@afams_val" />
+        <Twitter onPress={openTwitter} />
+        <WhatsApp onPress={openWhatsApp} />
+        <Ig onPress={openInstagram} />
+        <Phone onPress={openPhone} />
       </View>
     </View>
   );
@@ -78,13 +68,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-  },
-  extra: {
-    marginBottom: 0,
-    padding: 0,
-    fontSize: 15,
-  },
-  buttonStyles: {
-    margin: universalPadding / 6,
   },
 });

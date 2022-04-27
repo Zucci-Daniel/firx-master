@@ -20,10 +20,11 @@ import {
   useGetUserInformationFromFirestore,
   useGetUserBasicInformationFromLocalStorage,
 } from './../../../hooks/useOperation';
-import Skeleton from '../../../components/Skeleton';
 import Finished from '../../../components/Finished';
 import MiniLoading from '../../../components/MiniLoading';
+import {HomeContext} from './homeContext';
 
+///////
 const Home = ({navigation}) => {
   const {subscribeToNetworkStatus} = useCheckNetworkStatus();
   const online = subscribeToNetworkStatus();
@@ -41,6 +42,7 @@ const Home = ({navigation}) => {
   const [lastPost, setLastPost] = useState(null);
   const {userUID} = useContext(AppContext);
   const {user, setUser} = useContext(SignUpInfoContext);
+  const {posted} = useContext(HomeContext);
 
   // const baseUrl = firestore().collection('AllPosts');
   const baseUrl = firestore()
@@ -113,40 +115,50 @@ const Home = ({navigation}) => {
     }
   };
 
+  const pushPosts = (queryDocuments, querySnapshot) => {
+    const posts = [];
+    if (queryDocuments.length !== 0 || queryDocuments.length >= itemsPerPage) {
+      querySnapshot.forEach(documentSnapshot => {
+        if (
+          blackLists.myProfilesBlackList
+            ? blackLists.myProfilesBlackList.includes(
+                documentSnapshot.data().posterUserUID,
+              ) == false
+            : true
+        ) {
+          posts.push({
+            item: {
+              ...documentSnapshot.data(),
+            },
+            type: 'normal',
+          });
+        }
+      });
+      setAllPost(posts);
+      // setAllPost([...allPosts, ...posts]);
+      setIsFetchingData(false);
+    }
+  };
+
   const storePosts = querySnapshot => {
     var queryDocuments = querySnapshot.docs;
     setLastPost(queryDocuments[queryDocuments.length - 1]);
-    if (queryDocuments.length == 0 || queryDocuments.length < itemsPerPage) {
-      console.log('POST DON FINISH!!');
+
+    if (queryDocuments.length == 0) {
       setPostIsFinished(true);
+      setIsFetchingData(false);
+      console.log('POST DON FINISH!!');
+    }
+    if (queryDocuments.length < itemsPerPage) {
+      setPostIsFinished(true);
+      setIsFetchingData(false);
+      console.log(' no more posts');
+      //push items
+      pushPosts(queryDocuments, querySnapshot);
     } else {
-      const posts = [];
-      if (
-        queryDocuments.length !== 0 ||
-        queryDocuments.length >= itemsPerPage
-      ) {
-        querySnapshot.forEach(documentSnapshot => {
-          if (
-            blackLists.myProfilesBlackList
-              ? blackLists.myProfilesBlackList.includes(
-                  documentSnapshot.data().posterUserUID,
-                ) == false
-              : true
-          ) {
-            posts.push({
-              item: {
-                ...documentSnapshot.data(),
-              },
-              type: 'normal',
-            });
-          }
-        });
-        setAllPost(posts);
-        // setAllPost([...allPosts, ...posts]);
-        setIsFetchingData(false);
-      } else {
-        console.log(' NO MORE POSTS!!!');
-      }
+      pushPosts(queryDocuments, querySnapshot);
+      setIsFetchingData(false);
+      //push items
     }
   };
 
@@ -187,7 +199,12 @@ const Home = ({navigation}) => {
     blackLists.myPostsBlackList,
     blackLists.myProfilesBlackList,
     user,
+    posted,
   ]);
+
+  useEffect(() => {
+    if (posted !== 0) fetchPosts();
+  }, [posted]);
 
   const handleLoadMoreData = async () => {
     if (postIsFinished === false) {

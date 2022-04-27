@@ -1,13 +1,13 @@
 import {React, TouchableOpacity} from '../../imports/all_RnComponents';
 
-import Ph from '../../assets/svg-raw/phone.svg';
+import Tt from '../../assets/svg-raw/tiktok.svg';
 
-const Phone = ({onPress}) => {
+const TikTok = ({onPress}) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Ph width={40} height={40} />
+      <Tt width={40} height={40} />
     </TouchableOpacity>
   );
 };
 
-export default Phone;
+export default TikTok;
