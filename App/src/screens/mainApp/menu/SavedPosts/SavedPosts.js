@@ -1,6 +1,11 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {View, StyleSheet, ScrollView, FlatList, Text} from 'react-native';
-import {colors, universalPadding, width} from '../../../../config/config';
+import {
+  colors,
+  height,
+  universalPadding,
+  width,
+} from '../../../../config/config';
 import firestore from '@react-native-firebase/firestore';
 import {AppContext} from './../../../../appContext';
 import SponsorPost from './../../../../components/SponsorPost';
@@ -83,7 +88,10 @@ const SavedPosts = () => {
       {savedPosts.length > 0 ? (
         <Feed useData={savedPosts} userUID={userUID} />
       ) : (
-        <Text>no recent post yet, create a post</Text>
+        <Link
+          text={'no saved post yet, go save a post?'}
+          onPress={() => navigation.navigate('home')}
+        />
       )}
     </View>
   );
@@ -93,7 +101,7 @@ export default SavedPosts;
 
 const styles = StyleSheet.create({
   container: {
-    height: undefined,
+    minHeight: height,
     backgroundColor: colors.neonBg,
     width: width,
   },

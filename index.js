@@ -5,13 +5,17 @@ import * as React from 'react';
 import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
-import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import {
+  DefaultTheme,
+  Provider as PaperProvider,
+  configureFonts,
+} from 'react-native-paper';
 
 import color from 'color';
 import {brandFont} from './App/src/config/config';
-import { turnOfLocalPersistence } from './App/src/hooks/useOperation';
+import {turnOfLocalPersistence} from './App/src/hooks/useOperation';
 
-  turnOfLocalPersistence();
+turnOfLocalPersistence();
 
 //if u notice any off color from react native paper, change it here.
 const theme = {
@@ -31,31 +35,28 @@ const theme = {
     backdrop: color('black').alpha(0.5).rgb().string(),
     notification: 'cadetblue',
   },
-  fonts: {
+  fonts: configureFonts({
     regular: {
-      fontFamily: 'sans-serif',
+      fontFamily: 'Ubuntu Mono',
       fontWeight: '500',
     },
     medium: {
-      fontFamily: 'sans-serif-medium',
+      fontFamily: 'Ubuntu Mono',
       fontWeight: '800',
     },
     light: {
-      fontFamily: 'sans-serif-light',
+      fontFamily: 'Ubuntu Mono',
       fontWeight: '800',
     },
     thin: {
-      fontFamily: 'sans-serif-thin',
+      fontFamily: 'Ubuntu Mono',
       fontWeight: '800',
     },
-  },
+  }),
   animation: {
     scale: 1.0,
   },
 };
-
-
-
 
 export default function Main() {
   return (

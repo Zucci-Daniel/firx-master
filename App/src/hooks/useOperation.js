@@ -105,14 +105,25 @@ export const handleImagePicker = async () => {
   }
 };
 
-export const updateDocument = (id, colRef = 'STUDENTS', newDetails) => {
-  firestore()
-    .collection(colRef)
-    .doc(id)
-    .update(newDetails)
-    .then(() => console.log(' updated!'))
-    .catch(error => console.log('failed, ', error.message));
+export const updateDocument = async (id, colRef = 'STUDENTS', newDetails) => {
+  try {
+    await firestore().collection(colRef).doc(id).update(newDetails);
+
+    console.log('done updating');
+    return true;
+  } catch (error) {
+    console.log('failed to update, ', error.message);
+    return false;
+  }
 };
+// export const updateDocument = (id, colRef = 'STUDENTS', newDetails) => {
+//   firestore()
+//     .collection(colRef)
+//     .doc(id)
+//     .update(newDetails)
+//     .then(() => console.log(' updated!'))
+//     .catch(error => console.log('failed, ', error.message));
+// };
 
 export const updateAllPostsFields = async (
   id,
@@ -130,7 +141,8 @@ export const updateAllPostsFields = async (
     allPosts.forEach(postSnapShot =>
       batchPost.update(postSnapShot.ref, newDetails),
     );
-    return batchPost.commit();
+    batchPost.commit();
+    return true;
   }
 };
 
@@ -180,20 +192,27 @@ export const useGetUserInformationFromFirestore = async id => {
         lastName: responseObj.lastName,
         typeOfStudent: responseObj.typeOfStudent,
         school: responseObj.school,
-
+        bio: responseObj.bio,
         department: responseObj.department,
         level: responseObj.level,
         profileImage: responseObj.profileImage,
         profileImageLocalPath: responseObj.profileImageLocalPath,
         phoneNumber: responseObj.phoneNumber,
+        instagram: responseObj.instagram,
+        facebook: responseObj.facebook,
+        whatsapp: responseObj.whatsapp,
+        twitter: responseObj.twitter,
       };
       try {
-        console.log('storing the information from firestore locally.');
+        console.log(
+          'storing the information from firestore locally.',
+          userBasicInfo,
+        );
         await storeLocally('currentUserBasicInfo', userBasicInfo);
-        return userBasicInfo;
       } catch (error) {
         log(' faild to store response locally', error.message);
       }
+      return userBasicInfo;
     } else {
       log('failed to get user info from firebase ');
     }
@@ -224,5 +243,155 @@ export const useGetUserBasicInformationFromLocalStorage = async id => {
     }
   } catch (error) {
     console.log(error.message, ' failed to get user information');
+  }
+};
+
+export const useGetUserInformation = async (id, online) => {
+  if (online) {
+    try {
+      const response = await useGetUserInformationFromFirestore(id);
+      return response;
+    } catch (error) {
+      console.log(
+        "you're online but we failed to get your info from firstore, we're fetching your details locally",
+        error.message,
+      );
+      const response = await useGetUserBasicInformationFromLocalStorage(id);
+      return response;
+    }
+  } else {
+    console.log('getting your basic info locally');
+    const response = await useGetUserBasicInformationFromLocalStorage();
+    return response;
+  }
+};
+
+export const useFilteredPosts = async (
+  postsBlacklisted,
+  lastItem,
+  limit = 10,
+) => {
+  const baseUrl = firestore()
+    .collectionGroup('AllPosts')
+    .orderBy('postID', 'desc');
+  const postCondition = lastItem ? baseUrl.startAfter(lastItem) : baseUrl;
+
+  if (!postsBlacklisted.length > 0) {
+    //just get all random post.
+    let response = await postCondition.limit(limit).get();
+
+    if (response) {
+      //bring the store post func here from home
+
+      let results = response.docs.map(result => ({
+        id: result.id,
+        ...result.data(),
+      }));
+
+      return results;
+    } else {
+      console.log('check ur filterOutBlackList method');
+    }
+  } else {
+    console.log(' posts black list passed!!!', postsBlacklisted);
+  }
+
+  if (postsBlacklisted || postsBlacklisted.length > 0) {
+    //do not change the postsBlacklisted array
+    var copiedPostsBlacklisted = [...postsBlacklisted];
+    //remove the black listed post
+
+    var batches = [];
+
+    var index = 0;
+    while (index < copiedPostsBlacklisted.length) {
+      var batch = copiedPostsBlacklisted.splice(0, 10);
+
+      batches.push(
+        postCondition
+          .where('postID', 'not-in', [...batch])
+          .limit(limit)
+          .get()
+          .then(results => {
+            var output = results.docs.map(result => ({
+              id: result.id,
+              ...result.data(),
+            }));
+
+            // console.log(output, ' output', output.length);
+            return output;
+          }),
+      );
+      index++;
+    }
+
+    return Promise.all(batches).then(response => {
+      return response.flat();
+    });
+  }
+};
+
+export const useGetBlackLists = async id => {
+  let postsBlacklisted = [];
+  let profilesBlackListed = [];
+
+  try {
+    const response = await firestore().collection('STUDENTS').doc(id).get();
+
+    if (response) {
+      postsBlacklisted = [...response.data().postsBlackListed];
+      profilesBlackListed = [...response.data().profilesBlackListed];
+
+      return {
+        postsBlacklisted,
+        profilesBlackListed,
+      };
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const useFetchPosts = async (
+  blackListedPosts,
+  blackListedProfiles,
+  afterDoc,
+  limit,
+) => {
+  const querySnapshot = await useFilteredPosts(
+    blackListedPosts,
+    afterDoc,
+    limit,
+  );
+  if (querySnapshot) {
+    //get last post
+    var lastPost = querySnapshot[querySnapshot.length - 1];
+
+    //push the post to an array ,
+    const posts = [];
+    if (querySnapshot.length !== 0 || querySnapshot.length <= limit) {
+      querySnapshot.forEach(documentSnapshot => {
+        if (
+          blackListedProfiles
+            ? blackListedProfiles.includes(documentSnapshot.posterUserUID) ==
+              false
+            : true
+        ) {
+          posts.push({
+            item: {
+              ...documentSnapshot,
+            },
+            type: 'normal',
+          });
+        }
+      });
+    }
+
+    return {
+      lastPost,
+      posts,
+    };
+  } else {
+    console.log('theres is no snapshot');
   }
 };

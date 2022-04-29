@@ -1,7 +1,7 @@
 import {Dimensions, StyleSheet} from '../imports/all_RnComponents';
 
 const brandFont = {
-  medium: 'vantage',
+  medium: 'Ubuntu Mono',
   regular: 'Catamaran-Regular',
   mediumBold: 'Catamaran-Bold',
   semiBold: 'Catamaran-SemiBold',

@@ -63,14 +63,16 @@ const AuthoredPosts = () => {
   return (
     <View style={styles.container}>
       {authoredPosts.length > 0 ? (
-        <Feed
-          useData={authoredPosts}
-          userUID={userUID}
-          // loadMoreData={handleLoadMoreData}
-          // loading={() =>
-          //   postIsFinished == false ? <MiniLoading /> : <Finished />
-          // }
-        />
+        <>
+          <Feed
+            useData={authoredPosts}
+            userUID={userUID}
+            // loadMoreData={handleLoadMoreData}
+            // loading={() =>
+            //   postIsFinished == false ? <MiniLoading /> : <Finished />
+            // }
+          />
+        </>
       ) : (
         <Link
           text={'no recent post yet, create a post'}

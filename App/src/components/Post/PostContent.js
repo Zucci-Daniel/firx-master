@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {
+  brandFont,
   colors,
   height,
   postHeight,
@@ -40,7 +41,9 @@ const styles = StyleSheet.create({
   },
   desc: {
     color: colors.pureWhite,
-    fontWeight: '400',
+    fontWeight: '300',
+    fontFamily: brandFont.mediumBold,
+    fontSize: 16,
   },
   postMediaWrapper: {
     width: '90%',

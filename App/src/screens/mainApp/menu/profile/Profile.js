@@ -2,6 +2,7 @@ import React from 'react';
 import {Stack} from '../../../../navigation/create/CreateNavigation';
 import ButtonText from './../../../../components/ButtonText';
 import FrontPage from './FrontPage';
+import Link from './../../../../components/Link';
 
 const Profile = ({navigation}) => {
   return (
@@ -18,9 +19,8 @@ const Profile = ({navigation}) => {
           headerTitle: '',
           headerStyle: {backgroundColor: '#010101'},
           headerRight: () => (
-            <ButtonText
-              bg="cadetblue"
-              title="edit profile"
+            <Link
+              text="edit profile"
               onPress={() => navigation.navigate('editProfile')}
             />
           ),

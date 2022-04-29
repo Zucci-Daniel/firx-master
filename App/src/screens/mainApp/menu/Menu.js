@@ -5,6 +5,7 @@ import AuthoredPosts from './AuthoredPosts/AuthoredPosts';
 import ButtonText from './../../../components/ButtonText';
 import {useNavigation} from '@react-navigation/native';
 import SavedPosts from './SavedPosts/SavedPosts';
+import Link from './../../../components/Link';
 
 const {colors, brandFont} = config;
 
@@ -16,12 +17,15 @@ const Menu = () => {
       screenOptions={{
         headerShown: false,
         headerTintColor: colors.fadeWhite,
-        headerStyle:{backgroundColor:colors.neonBg},
+        headerStyle: {backgroundColor: colors.neonBg},
         headerShadowVisible: false,
         animation: 'slide_from_right',
         headerTitleStyle: {
           fontFamily: brandFont.medium,
         },
+        headerRight: () => (
+          <Link text="post" onPress={() => navigation.navigate('camera')} />
+        ),
       }}>
       <Stack.Screen name="menuList" component={MenuList} />
       <Stack.Screen name="profile" component={Profile} />
@@ -31,13 +35,8 @@ const Menu = () => {
         options={{
           headerTitle: 'Your recent posts',
           headerShown: true,
-          headerRight: () => (
-            <ButtonText
-              title="Post"
-              onPress={() => navigation.navigate('camera')}
-            />
-          ),
-          animationTypeForReplace:'push'
+
+          animationTypeForReplace: 'push',
         }}
       />
       <Stack.Screen
@@ -46,7 +45,7 @@ const Menu = () => {
         options={{
           headerTitle: 'Your saved posts',
           headerShown: true,
-          animationTypeForReplace:'push'
+          animationTypeForReplace: 'push',
         }}
       />
     </Stack.Navigator>

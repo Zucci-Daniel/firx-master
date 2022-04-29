@@ -1,10 +1,6 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  ScrollView,
-} from '../../../../imports/all_RnComponents';
-import {AppButton, config, AppTextArea} from '../../../../imports/all_files';
+import React from 'react';
+import {StyleSheet, View, ScrollView, ActivityIndicator} from 'react-native';
+import {config, Ig} from '../../../../imports/all_files';
 import {SignUpInfoContext} from '../../../forms/signUpInfoContext';
 import {useContext, useState, useEffect} from 'react';
 import Link from './../../../../components/Link';
@@ -21,10 +17,18 @@ import {departments, levels, schools} from '../../../../hooks/utils';
 import AppRadioField from '../../../../components/form-components/AppRadioField';
 import AppRadioOption from '../../../../components/AppRadioOption';
 import AppImage from './../../../../components/AppImage';
+import {HomeContext} from '../../home/homeContext';
+import SMHandle from './../../../../components/SMHandle';
+import WhatsApp from '../../../../components/icons/WhatsApp';
+import Fb from './../../../../components/icons/Fb';
+import Twitter from './../../../../components/icons/Twitter';
+import {postHeight} from '../../../../config/config';
 
-const {universalPadding, colors, avatarEditWidth} = config;
+const {universalPadding, colors, avatarEditWidth, width, height} = config;
 
 const EditProfile = ({navigation}) => {
+  const {posted, setPosted} = useContext(HomeContext);
+
   const uploadFile = useUploadFile();
 
   const {userUID} = useContext(AppContext);
@@ -41,12 +45,16 @@ const EditProfile = ({navigation}) => {
     school,
     typeOfStudent,
     bio,
+    instagram,
+    facebook,
+    whatsapp,
+    twitter,
   } = user;
-
   const [everthingIsTheSame, setEverthingIsTheSame] = useState(true);
   const [imageChanged, setImageChanged] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(null);
   const [currentProfileImage, setCurrentProfileImage] = useState(profileImage);
-
+  const [showSocialMedia, setShowSocialMedia] = useState(false);
   const {
     control,
     handleSubmit,
@@ -61,34 +69,89 @@ const EditProfile = ({navigation}) => {
       school,
       department,
       level,
-      bio,
+      bio: bio ? bio : 'enter bio...',
+      instagram: instagram ? instagram : 'instagram',
+      facebook: facebook ? facebook : 'facebook',
+      whatsapp: whatsapp ? whatsapp : 'whatsapp',
+      twitter: twitter ? twitter : 'twitter',
     },
     mode: 'all',
     shouldUnregister: false,
   });
 
-  const handleUpdateProfile = async data => {
-    //no need for extra works, firebase won't update the fields if the old value and the new values are still the same, the issue u need to look here later is the fact that, what you are sending via data is much, even if the details are still the same, look for a way to know the particular field the user changed, and only send those. GOOD JOBS SO FAR!!, i'm proud of you.
-    //check if he changed the image state
-    if (imageChanged) {
-      let imageUri = await uploadFile(currentProfileImage);
-      updateDocument(userUID, 'STUDENTS', {
+  const updateLocalState = validData => {
+    setImageChanged(false);
+    setPosted(posted + 1);
+    setUser({...user, ...validData});
+
+    setIsUpdating(false);
+  };
+
+  const updateMe = async (shouldAppendImageField, data, imageUri) => {
+    console.log(shouldAppendImageField, data, imageUri, ' xxxx');
+    if (shouldAppendImageField) {
+      const updateDocumentResponse = await updateDocument(userUID, 'STUDENTS', {
         ...data,
         profileImage: imageUri,
       });
-      updateAllPostsFields(userUID, 'AllPosts', {
-        posterAvatar: imageUri,
-        posterName: `${data.firstName} ${data.lastName}`,
-      });
+      if (updateDocumentResponse) {
+        const updateAllPostsFieldsResponse = await updateAllPostsFields(
+          userUID,
+          'AllPosts',
+          {
+            posterAvatar: imageUri,
+            posterName: `${data.firstName} ${data.lastName}`,
+          },
+        );
+
+        if (updateAllPostsFieldsResponse) return updateLocalState(data);
+        if (!updateAllPostsFieldsResponse) return setIsUpdating(false);
+      } else {
+        console.log('failed to update oo');
+        setIsUpdating(false);
+      }
     } else {
-      updateDocument(userUID, 'STUDENTS', {
+      const updateDocumentResponse = await updateDocument(userUID, 'STUDENTS', {
         ...data,
       });
-      updateAllPostsFields(userUID, 'AllPosts', {
-        posterName: `${data.firstName} ${data.lastName}`,
-      });
+
+      if (updateDocumentResponse) {
+        const updateAllPostsFieldsResponse = await updateAllPostsFields(
+          userUID,
+          'AllPosts',
+          {
+            posterName: `${data.firstName} ${data.lastName}`,
+          },
+        );
+
+        if (updateAllPostsFieldsResponse) updateLocalState(data);
+        if (!updateAllPostsFieldsResponse) setIsUpdating(false);
+      } else {
+        console.log(data);
+        console.log('failed to update oo00');
+        setIsUpdating(false);
+      }
     }
-    setUser({...user, ...data});
+  };
+
+  const handleUpdateProfile = async data => {
+    setIsUpdating(true);
+    //no need for extra works, firebase won't update the fields if the old value and the new values are still the same, the issue u need to look here later is the fact that, what you are sending via data is much, even if the details are still the same, look for a way to know the particular field the user changed, and only send those. GOOD JOBS SO FAR!!, i'm proud of you.
+    //check if he changed the image state
+    try {
+      if (imageChanged) {
+        let imageUri = await uploadFile(currentProfileImage);
+        if (imageUri) {
+          console.log(imageUri, ' image rui');
+          updateMe(true, data, imageUri);
+        }
+      } else updateMe(false, data);
+    } catch (error) {
+      console.log(data, ' faie');
+      console.log('failed to update man, ', error.message);
+      setIsUpdating(false);
+    }
+    console.log(data);
   };
 
   const handleProfileImageSelection = image => {
@@ -107,6 +170,11 @@ const EditProfile = ({navigation}) => {
       school: oldSchool,
       department: oldDepartment,
       level: oldLevel,
+      bio: oldBio,
+      instagram: oldInstagram,
+      facebook: oldFacebook,
+      whatsapp: oldWhatsapp,
+      twitter: oldTwitter,
     } = watchForm;
 
     if (
@@ -117,6 +185,11 @@ const EditProfile = ({navigation}) => {
       oldSchool == school &&
       oldDepartment == department &&
       oldLevel == level &&
+      oldBio == bio &&
+      oldInstagram == instagram &&
+      oldFacebook == facebook &&
+      oldWhatsapp == whatsapp &&
+      oldTwitter == twitter &&
       imageChanged == false
     ) {
       setEverthingIsTheSame(true);
@@ -127,13 +200,16 @@ const EditProfile = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      {!everthingIsTheSame && isValid && (
+      {!everthingIsTheSame && isValid && !isUpdating ? (
         <Link
           text="update"
           extraStyle={styles.update}
           onPress={handleSubmit(handleUpdateProfile)}
         />
-      )}
+      ) : isUpdating ? (
+        <ActivityIndicator color={'blue'} size={50} style={styles.activity} />
+      ) : null}
+
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.wrapper}>
           <AppImage
@@ -200,6 +276,55 @@ const EditProfile = ({navigation}) => {
             <AppRadioOption value={'Aspirant'} />
             <AppRadioOption value={'Admitted'} />
           </AppRadioField>
+
+          <Link
+            text={'social media handles'}
+            onPress={() => setShowSocialMedia(!showSocialMedia)}
+          />
+          {showSocialMedia && (
+            <View style={styles.socials}>
+              <SMHandle>
+                <Ig />
+                <AppInputField
+                  extraStyle={styles.extraPasteLinkInput}
+                  background={colors.info}
+                  control={control}
+                  name="instagram"
+                  label={'Instagram profile link...'}
+                />
+              </SMHandle>
+              <SMHandle>
+                <Fb />
+                <AppInputField
+                  extraStyle={styles.extraPasteLinkInput}
+                  background={colors.info}
+                  control={control}
+                  name="facebook"
+                  label={'facebook profile link...'}
+                />
+              </SMHandle>
+              <SMHandle>
+                <WhatsApp />
+                <AppInputField
+                  extraStyle={styles.extraPasteLinkInput}
+                  background={colors.info}
+                  control={control}
+                  name="whatsapp"
+                  label={'whatsapp number...'}
+                />
+              </SMHandle>
+              <SMHandle>
+                <Twitter />
+                <AppInputField
+                  extraStyle={styles.extraPasteLinkInput}
+                  background={colors.info}
+                  control={control}
+                  name="twitter"
+                  label={'twitter profile link...'}
+                />
+              </SMHandle>
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -210,7 +335,8 @@ export default EditProfile;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: undefined,
+    width: width,
     backgroundColor: colors.neonBg,
   },
   scrollView: {
@@ -228,10 +354,23 @@ const styles = StyleSheet.create({
   inputWrapper: {
     width: '100%',
     marginTop: universalPadding,
+    paddingBottom: postHeight,
   },
   update: {
     alignSelf: 'flex-end',
     color: colors.fadeWhite,
     fontWeight: 'bold',
+  },
+  extraPasteLinkInput: {
+    width: '80%',
+  },
+  activity: {
+    alignSelf: 'flex-end',
+    paddingHorizontal: universalPadding,
+    paddingVertical: universalPadding / 4,
+  },
+  socials: {
+    height: undefined,
+    width: '100%',
   },
 });

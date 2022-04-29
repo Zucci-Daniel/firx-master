@@ -6,6 +6,7 @@ import {
   colors,
   universalPadding,
   postSize,
+  postHeight,
 } from '../../../config/config';
 import ImagePicker from 'react-native-image-crop-picker';
 import Link from '../../../components/Link';
@@ -35,11 +36,8 @@ const Camera = () => {
   const {user} = useContext(SignUpInfoContext);
   const {posted, setPosted} = useContext(HomeContext);
   const navigation = useNavigation();
-  const route = useRoute();
 
   const flatListRef = React.useRef();
-
-  const [media, setMedia] = useState([]);
 
   const [finishedUploadingMedia, setFinishedUploadingMedia] = useState(null);
   //this post state should be global laters!
@@ -226,7 +224,7 @@ const Camera = () => {
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <FlatList
-          style={styles.FlatList}
+          style={post.postMedias.length ? styles.FlatList : null}
           ref={flatListRef}
           onContentSizeChange={() =>
             flatListRef.current.scrollToEnd({animated: true})
@@ -247,10 +245,18 @@ const Camera = () => {
                 onCancel={() => removeMedia(item.id)}
               />
               {item.mime == 'picture' && (
-                <AppPostImage key={item} imageUri={item.path} />
+                <AppPostImage
+                  key={item}
+                  imageUri={item.path}
+                  useHeight={'100%'}
+                />
               )}
               {item.mime == 'video' && (
-                <AppPostVideo key={item} videoUri={item.path} />
+                <AppPostVideo
+                  key={item}
+                  videoUri={item.path}
+                  useHeight={'100%'}
+                />
               )}
             </>
           )}
@@ -296,6 +302,7 @@ const styles = StyleSheet.create({
   },
   FlatList: {
     marginTop: universalPadding / 2,
+    height: postHeight,
   },
   imagesContainer: {
     width: width / 3,

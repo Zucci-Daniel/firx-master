@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,5 +51,60 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Catamaran-Black.ttf</string>
+		<string>Catamaran-Bold.ttf</string>
+		<string>Catamaran-ExtraBold.ttf</string>
+		<string>Catamaran-ExtraLight.ttf</string>
+		<string>Catamaran-Light.ttf</string>
+		<string>Catamaran-Medium.ttf</string>
+		<string>Catamaran-Regular.ttf</string>
+		<string>Catamaran-SemiBold.ttf</string>
+		<string>Catamaran-Thin.ttf</string>
+		<string>CCDutchCourageLite.ttf</string>
+		<string>KeepCalm-Medium.ttf</string>
+		<string>NotoSans-Bold.ttf</string>
+		<string>NotoSans-BoldItalic.ttf</string>
+		<string>NotoSans-Italic.ttf</string>
+		<string>NotoSans-Regular.ttf</string>
+		<string>SourceCodePro-Black.ttf</string>
+		<string>SourceCodePro-BlackItalic.ttf</string>
+		<string>SourceCodePro-Bold.ttf</string>
+		<string>SourceCodePro-BoldItalic.ttf</string>
+		<string>SourceCodePro-ExtraLight.ttf</string>
+		<string>SourceCodePro-ExtraLightItalic.ttf</string>
+		<string>SourceCodePro-Italic.ttf</string>
+		<string>SourceCodePro-Light.ttf</string>
+		<string>SourceCodePro-LightItalic.ttf</string>
+		<string>SourceCodePro-Medium.ttf</string>
+		<string>SourceCodePro-MediumItalic.ttf</string>
+		<string>SourceCodePro-Regular.ttf</string>
+		<string>SourceCodePro-SemiBold.ttf</string>
+		<string>SourceCodePro-SemiBoldItalic.ttf</string>
+		<string>spacefri.ttf</string>
+		<string>UbuntuMono-B.ttf</string>
+		<string>UbuntuMono-BI.ttf</string>
+		<string>UbuntuMono-R.ttf</string>
+		<string>UbuntuMono-RI.ttf</string>
+		<string>vantage.ttf</string>
+		<string>YARDSALE.TTF</string>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+	</array>
 </dict>
 </plist>

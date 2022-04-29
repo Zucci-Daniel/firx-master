@@ -24,22 +24,44 @@ const FrontPage = ({
   status = 'never have i lost any game, defeated 22games',
 }) => {
   const {user} = useContext(SignUpInfoContext);
-  console.log(user);
-  const openPhone = url => {
-    Linking.openURL('tel:' + user.phoneNumber);
+
+  const openPhone = async () => {
+    try {
+      await Linking.openURL('tel:' + user.phoneNumber);
+    } catch (error) {
+      console.log('not a phone, ', error.message);
+    }
   };
-  const openWhatsApp = url => {
-    Linking.openURL(
-      `whatsapp://send?phone=${user.phoneNumber}=&text=${'my freiend'}`,
-    );
+
+  const openWhatsApp = async () => {
+    try {
+      await Linking.openURL(`whatsapp://send?phone=${user.phoneNumber}`);
+    } catch (error) {
+      console.log('not a valid whatsapp number, ', error.message);
+    }
   };
-  const openInstagram = url => {
-    Linking.openURL('https://instagram.com/zucciiiii?igshid=YmMyMTA2M2Y=');
+
+  const openInstagram = async () => {
+    try {
+      await Linking.openURL(user.instagram);
+    } catch (error) {
+      console.log('not a valid ig link, ', error.message);
+    }
   };
-  const openTwitter = url => {
-    Linking.openURL(
-      'https://twitter.com/wizkidayo?t=YtOC4JTZclNqvhHQ5kLMHg&s=09',
-    );
+
+  const openTwitter = async () => {
+    try {
+      await Linking.openURL(user.twitter);
+    } catch (error) {
+      console.log('not a valid twitter link, ', error.message);
+    }
+  };
+  const openFb = async () => {
+    try {
+      await Linking.openURL(user.facebook);
+    } catch (error) {
+      console.log('not a valid facebook link, ', error.message);
+    }
   };
 
   return (
@@ -49,6 +71,7 @@ const FrontPage = ({
         <Twitter onPress={openTwitter} />
         <WhatsApp onPress={openWhatsApp} />
         <Ig onPress={openInstagram} />
+        <Fb onPress={openFb} />
         <Phone onPress={openPhone} />
       </View>
     </View>
@@ -64,9 +87,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#010101',
   },
   socialHandlerWrapper: {
-    width: '50%',
+    width: undefined,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
 });

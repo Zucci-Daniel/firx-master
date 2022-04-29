@@ -3,7 +3,14 @@ import {View, Text} from 'react-native';
 import {Controller} from 'react-hook-form';
 import AppInput from '../AppInput';
 
-const AppInputField = ({control, name, label, required = {}, background}) => {
+const AppInputField = ({
+  control,
+  name,
+  label,
+  required = {},
+  background,
+  extraStyle,
+}) => {
   return (
     <Controller
       control={control}
@@ -12,6 +19,7 @@ const AppInputField = ({control, name, label, required = {}, background}) => {
       render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
         <>
           <AppInput
+            extraStyles={extraStyle}
             background={background}
             value={value}
             onChangeText={onChange}

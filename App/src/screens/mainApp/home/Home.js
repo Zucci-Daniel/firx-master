@@ -10,212 +10,117 @@ import {universalPadding, colors, width, height} from '../../../config/config';
 import {useEffect, useContext} from 'react';
 import {AppContext} from './../../../appContext';
 import {SignUpInfoContext} from './../../forms/signUpInfoContext';
-import firestore from '@react-native-firebase/firestore';
 
 import AppFloatMenu from '../../../components/AppFloatMenu';
 import Feed from './../../../components/Feed';
 import FeedLoadingSkeleton from './../../../components/FeedLoadingSkeleton';
 import {useCheckNetworkStatus} from './../../../hooks/justHooks';
 import {
-  useGetUserInformationFromFirestore,
-  useGetUserBasicInformationFromLocalStorage,
+  useGetUserInformation,
+  useGetBlackLists,
+  useFetchPosts,
 } from './../../../hooks/useOperation';
 import Finished from '../../../components/Finished';
 import MiniLoading from '../../../components/MiniLoading';
 import {HomeContext} from './homeContext';
 
-///////
 const Home = ({navigation}) => {
   const {subscribeToNetworkStatus} = useCheckNetworkStatus();
   const online = subscribeToNetworkStatus();
   const [allPosts, setAllPost] = useState([]);
-  const [blackLists, setBlackLists] = useState({
-    myPostsBlackList: [],
-    myProfilesBlackList: [],
-  });
-  const [postIsFinished, setPostIsFinished] = useState(false);
-  const [shouldGetInformation, setShouldGetInformation] = useState(true);
-  const [shouldGetPosts, setShouldGetPosts] = useState(true);
-  const [doneFetchingBlackList, setDoneFetchingBlackList] = useState(false);
+
+  const [dontRunFromEffectAgain, setDontRunFromEffectAgain] = useState(false);
+
   const [isFetchingData, setIsFetchingData] = useState(true);
+  const [postsBlackListed, setPostsBlackListed] = useState(null);
+  const [profilesBlackListed, setProfilesBlackListed] = useState(null);
+  const [fetchedBlacklists, setFetchedBlacklists] = useState(null);
+  const [fetchedBasicInfo, setFetchedBasicInfo] = useState(null);
+  const [postIsFinished, setPostIsFinished] = useState(false);
   const [itemsPerPage] = useState(10);
   const [lastPost, setLastPost] = useState(null);
   const {userUID} = useContext(AppContext);
   const {user, setUser} = useContext(SignUpInfoContext);
   const {posted} = useContext(HomeContext);
 
-  // const baseUrl = firestore().collection('AllPosts');
-  const baseUrl = firestore()
-    .collectionGroup('AllPosts')
-    .orderBy('postID', 'desc');
-  // const postCondition = true
-  //   ? baseUrl.where('postID', 'not-in', [
-  //       'f92caa16-d975-4552-ac9c-0cd87cde0222',
-  //       'ff5c1c0d-a0a2-497e-9252-673cc83784d7',
-  //       'd4e6cff9-0ab5-41b0-8b2f-b95c3754ad06',
-  //       'ba3f0376-e149-4b9b-90e6-7003949ad8fc',
-  //     ])
-  //   : baseUrl;
-  const postCondition =
-    blackLists.myPostsBlackList.length > 0
-      ? baseUrl.where('postID', 'not-in', [
-          'f92caa16-d975-4552-ac9c-0cd87cde0222',
-          '88ae8ee6-4738-4da0-a0dc-e35933e6ac48',
-        ])
-      : baseUrl;
+  const getInformation = async (userUID, online) => {
+    //check this place out.
+    setFetchedBasicInfo(false);
+    const response = await useGetUserInformation(userUID, online);
+    setUser(response);
+    setFetchedBasicInfo(true);
+  };
 
-  const getBlackLists = () => {
-    try {
-      const subscriber = firestore()
-        .collection('STUDENTS')
-        .doc(userUID)
-        .onSnapshot(documentSnapshot => {
-          try {
-            setBlackLists({
-              ...blackLists,
-              myPostsBlackList: documentSnapshot.data().postsBlackListed,
-              myProfilesBlackList: documentSnapshot.data().profilesBlackListed,
-            });
-            console.log(
-              documentSnapshot.data().profilesBlackListed,
-              ' blacklisted profiles',
-            );
-            console.log(
-              documentSnapshot.data().postsBlackListed,
-              ' blacklisted posts',
-            );
-          } catch (error) {
-            console.log(error.message);
-          }
-        });
-      setDoneFetchingBlackList(true);
-      return () => subscriber();
-    } catch (error) {
-      console.log(error.message);
+  const getBlackLists = async userUID => {
+    setFetchedBlacklists(false);
+    const response = await useGetBlackLists(userUID);
+    if (response) {
+      const {postsBlacklisted, profilesBlackListed} = response;
+      setPostsBlackListed(postsBlacklisted);
+      setProfilesBlackListed(profilesBlackListed);
+
+      setFetchedBlacklists(true);
     }
   };
 
-  const getUserInformation = async (id = userUID) => {
-    if (online) {
-      try {
-        const response = await useGetUserInformationFromFirestore(id);
-        if (response) return setUser(response);
-      } catch (error) {
-        console.log(
-          "you're online but we failed to get your info from firstore, we're fetching your details locally",
-          error.message,
-        );
-        const response = await useGetUserBasicInformationFromLocalStorage(id);
-        if (response) return setUser(response);
+  const fetchPosts = async (
+    blacklistPost,
+    blackListProfiles,
+    startAfterDoc,
+    limit,
+  ) => {
+    const response = await useFetchPosts(
+      blacklistPost,
+      blackListProfiles,
+      startAfterDoc,
+      limit,
+    );
+    if (response) {
+      const {lastPost, posts} = response;
+      if (posts.length == 0 || posts.length < itemsPerPage) {
+        setLastPost(lastPost);
+        setAllPost(posts);
+        setIsFetchingData(false);
+        setPostIsFinished(true);
+      } else {
+        setLastPost(lastPost);
+        setAllPost(posts);
+        setIsFetchingData(false);
       }
-    } else {
-      console.log('getting your basic info locally');
-      const response = await useGetUserBasicInformationFromLocalStorage();
-      if (response) return setUser(response);
     }
   };
 
-  const pushPosts = (queryDocuments, querySnapshot) => {
-    const posts = [];
-    if (queryDocuments.length !== 0 || queryDocuments.length >= itemsPerPage) {
-      querySnapshot.forEach(documentSnapshot => {
-        if (
-          blackLists.myProfilesBlackList
-            ? blackLists.myProfilesBlackList.includes(
-                documentSnapshot.data().posterUserUID,
-              ) == false
-            : true
-        ) {
-          posts.push({
-            item: {
-              ...documentSnapshot.data(),
-            },
-            type: 'normal',
-          });
-        }
-      });
-      setAllPost(posts);
-      // setAllPost([...allPosts, ...posts]);
-      setIsFetchingData(false);
-    }
-  };
+  useEffect(() => {
+    //get the latest basic information
+    getInformation(userUID, online);
+  }, []);
 
-  const storePosts = querySnapshot => {
-    var queryDocuments = querySnapshot.docs;
-    setLastPost(queryDocuments[queryDocuments.length - 1]);
-
-    if (queryDocuments.length == 0) {
-      setPostIsFinished(true);
-      setIsFetchingData(false);
-      console.log('POST DON FINISH!!');
-    }
-    if (queryDocuments.length < itemsPerPage) {
-      setPostIsFinished(true);
-      setIsFetchingData(false);
-      console.log(' no more posts');
-      //push items
-      pushPosts(queryDocuments, querySnapshot);
-    } else {
-      pushPosts(queryDocuments, querySnapshot);
-      setIsFetchingData(false);
-      //push items
-    }
-  };
-
-  const fetchPosts = async afterDoc => {
-    let query = postCondition;
-    let query2 = afterDoc ? query.startAfter(afterDoc) : query;
-
-    const querySnapshot = await query2.limit(itemsPerPage).get();
-
-    if (querySnapshot) {
-      return storePosts(querySnapshot);
-    } else console.log('not ready to set state');
-  };
+  //get the blacklisted post
+  useEffect(() => {
+    getBlackLists(userUID);
+  }, []);
 
   useEffect(() => {
-    getUserInformation();
-  }, [online]);
-
-  useEffect(() => {
-    if (online && shouldGetInformation) {
-      setShouldGetInformation(false); //i don't want it to run again afterwards
+    if (fetchedBlacklists && dontRunFromEffectAgain == false) {
+      fetchPosts(postsBlackListed, profilesBlackListed, lastPost, itemsPerPage);
+      setDontRunFromEffectAgain(true);
     }
-  }, [online, user]);
-
-  useEffect(() => {
-    if (online) getBlackLists(); //store this too in local storage.
-  }, [online]);
-
-  useEffect(() => {
-    if (online && shouldGetPosts && doneFetchingBlackList) {
-      console.log('post blacklist now ', blackLists.myPostsBlackList);
-      fetchPosts();
-      setShouldGetPosts(false);
-      console.log('fetching post.....');
-    }
-  }, [
-    online,
-    blackLists.myPostsBlackList,
-    blackLists.myProfilesBlackList,
-    user,
-    posted,
-  ]);
-
-  useEffect(() => {
-    if (posted !== 0) fetchPosts();
-  }, [posted]);
+  }, [fetchedBlacklists, dontRunFromEffectAgain]);
 
   const handleLoadMoreData = async () => {
-    if (postIsFinished === false) {
-      await fetchPosts(lastPost);
-      console.log('loading more from home');
-    } else {
-      console.log("cant fetch any more post, its's finished");
+    if (postIsFinished == false) {
+      return await fetchPosts(
+        postsBlackListed,
+        profilesBlackListed,
+        lastPost,
+        itemsPerPage,
+      );
     }
   };
 
   if (isFetchingData) return <FeedLoadingSkeleton />;
+
+  console.log(allPosts, ' ALLLLLLLL PPPPPOOOOOOST!', allPosts.length);
 
   return (
     <>

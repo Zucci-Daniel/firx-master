@@ -23,23 +23,17 @@ import {
 import PostHeader from './Post/PostHeader';
 import PosterInitials from './Post/utils/PosterInitials';
 
-const Feed = ({
-  useData = [],
-  userUID,
-  loading,
-  loadMoreData = () => {
-    console.log('nothing is lodeing');
-  },
-}) => {
+const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
   const navigation = useNavigation();
   const sheetRef = useRef(null);
 
   const [data, setData] = useState({
     dataProvider: new DataProvider((r1, r2) => {
-      r1.item.postID !== r2.item.postID;
+      return r1 !== r2 && r1.item.postID !== r2.item.postID;
     }),
     mainData: [],
   });
+
   const [selectedMyPost, setSelectedMyPost] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
@@ -80,28 +74,19 @@ const Feed = ({
     handleLayoutProvider.shouldRefreshWithAnchoring = false;
     setData({
       ...data,
-      dataProvider: data.dataProvider.cloneWithRows([...useData]),
-      mainData: [...useData],
+      dataProvider: data.dataProvider.cloneWithRows([
+        ...data.mainData,
+        ...useData,
+      ]),
+      mainData: [...data.mainData, ...useData],
     });
   }, [useData]);
-
-  // useEffect(() => {
-  //   handleLayoutProvider.shouldRefreshWithAnchoring = false;
-  //   setData({
-  //     ...data,
-  //     dataProvider: data.dataProvider.cloneWithRows([
-  //       ...data.mainData,
-  //       ...useData,
-  //     ]),
-  //     mainData: [...data.mainData, ...useData],
-  //   });
-  // }, [useData]);
 
   const closeSheet = () => sheetRef.current.close();
 
   const toggleSheet = (posterID, userUID, item) => {
     sheetRef.current.open();
-    console.log(posterID, item);
+    // console.log(posterID, item);
     setSelectedPost({...item});
     setSelectedMyPost(posterID == userUID ? true : false);
   };
@@ -134,6 +119,7 @@ const Feed = ({
       <>
         <Post
           onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID, item)}
+          // onTapPost={() => toggleSheet(item.posterUserUID, userUID, item)}
           onTapPost={() =>
             navigation.navigate('viewPost', {
               postId: item.postID,
@@ -176,12 +162,17 @@ const Feed = ({
     );
   };
 
+  console.log(
+    data.mainData.length,
+    ' from feed == use data is ',
+    useData.length,
+  );
+
   return (
     <>
       <View style={styles.container}>
         {data.dataProvider._data.length !== 0 ? (
           <RecyclerListView
-            style={{flex: 1}}
             forceNonDeterministicRendering={true} //to make sure it fits the height of it's content
             dataProvider={data.dataProvider}
             layoutProvider={handleLayoutProvider}
@@ -225,7 +216,6 @@ const styles = StyleSheet.create({
   container: {
     width: width,
     height: height,
-    paddingBottom: universalPadding,
     backgroundColor: colors.neonBg,
   },
   extraInitialsStyles: {

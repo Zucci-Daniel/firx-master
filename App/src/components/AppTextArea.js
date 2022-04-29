@@ -1,6 +1,7 @@
 import {React, StyleSheet, View, Text} from '../imports/all_RnComponents';
 import {Textarea} from '../imports/all_packages';
 import {universalPadding, width, sMargin, colors} from '../config/config';
+import {useRef} from 'react';
 
 export default AppTextArea = ({
   onChange,
@@ -11,6 +12,7 @@ export default AppTextArea = ({
   // value,
   value,
   useBigFont = false,
+  focus = true,
 }) => {
   const shadow = {
     shadowColor: '#000',
@@ -24,8 +26,11 @@ export default AppTextArea = ({
     elevation: 4,
   };
 
+  const textAreaRef = useRef(null);
+
   return (
     <Textarea
+      ref={textAreaRef}
       containerStyle={[
         styles.textareaContainer,
         extraContainerStyles,
