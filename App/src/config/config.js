@@ -6,6 +6,8 @@ const brandFont = {
   mediumBold: 'Catamaran-Bold',
   semiBold: 'Catamaran-SemiBold',
   cashFont: 'spacefri',
+  beauty:'vantage',
+  water:'KeepCalm-Medium'
 };
 
 const colors = {

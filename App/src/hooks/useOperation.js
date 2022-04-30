@@ -162,7 +162,7 @@ export const addToArray = (
         [fieldName]: firestore.FieldValue.arrayUnion(value),
       });
 
-    commonFunctions.showToast('', successMessage, 'SUCCESS');
+    commonFunctions.showToast('', successMessage, 'alert');
   } catch (error) {
     commonFunctions.showToast('', errorMessage, 'ERROR');
   }
@@ -358,40 +358,45 @@ export const useFetchPosts = async (
   afterDoc,
   limit,
 ) => {
-  const querySnapshot = await useFilteredPosts(
-    blackListedPosts,
-    afterDoc,
-    limit,
-  );
-  if (querySnapshot) {
-    //get last post
-    var lastPost = querySnapshot[querySnapshot.length - 1];
+  try {
+    const querySnapshot = await useFilteredPosts(
+      blackListedPosts,
+      afterDoc,
+      limit,
+    );
+    if (querySnapshot) {
+      //get last post
+      var lastPost = querySnapshot[querySnapshot.length - 1];
 
-    //push the post to an array ,
-    const posts = [];
-    if (querySnapshot.length !== 0 || querySnapshot.length <= limit) {
-      querySnapshot.forEach(documentSnapshot => {
-        if (
-          blackListedProfiles
-            ? blackListedProfiles.includes(documentSnapshot.posterUserUID) ==
-              false
-            : true
-        ) {
-          posts.push({
-            item: {
-              ...documentSnapshot,
-            },
-            type: 'normal',
-          });
-        }
-      });
+      //push the post to an array ,
+      const posts = [];
+      if (querySnapshot.length !== 0 || querySnapshot.length <= limit) {
+        querySnapshot.forEach(documentSnapshot => {
+          if (
+            blackListedProfiles
+              ? blackListedProfiles.includes(documentSnapshot.posterUserUID) ==
+                false
+              : true
+          ) {
+            posts.push({
+              item: {
+                ...documentSnapshot,
+              },
+              type: 'normal',
+            });
+          }
+        });
+      }
+
+      return {
+        lastPost,
+        posts,
+      };
+    } else {
+      console.log('theres is no snapshot');
     }
-
-    return {
-      lastPost,
-      posts,
-    };
-  } else {
-    console.log('theres is no snapshot');
+  } catch (error) {
+    console.log(error.message, ' failed to get whateverr');
+    return false;
   }
 };

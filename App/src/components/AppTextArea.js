@@ -1,6 +1,6 @@
 import {React, StyleSheet, View, Text} from '../imports/all_RnComponents';
 import {Textarea} from '../imports/all_packages';
-import {universalPadding, width, sMargin, colors} from '../config/config';
+import {universalPadding, width, sMargin, colors, brandFont} from '../config/config';
 import {useRef} from 'react';
 
 export default AppTextArea = ({
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   },
   textarea: {
     color: colors.fadeWhite,
-    fontWeight: '400',
+    // fontWeight: '400',
+    fontFamily:brandFont.beauty
   },
 });

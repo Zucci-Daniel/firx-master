@@ -28,8 +28,9 @@ const Home = ({navigation}) => {
   const {subscribeToNetworkStatus} = useCheckNetworkStatus();
   const online = subscribeToNetworkStatus();
   const [allPosts, setAllPost] = useState([]);
-
+  const [shouldGetUserInfo, setShouldGetUserInfo] = useState(true);
   const [dontRunFromEffectAgain, setDontRunFromEffectAgain] = useState(false);
+  const [showRetry, setShowRetry] = useState(false);
 
   const [isFetchingData, setIsFetchingData] = useState(true);
   const [postsBlackListed, setPostsBlackListed] = useState(null);
@@ -44,11 +45,15 @@ const Home = ({navigation}) => {
   const {posted} = useContext(HomeContext);
 
   const getInformation = async (userUID, online) => {
-    //check this place out.
     setFetchedBasicInfo(false);
     const response = await useGetUserInformation(userUID, online);
-    setUser(response);
-    setFetchedBasicInfo(true);
+
+    if (response) {
+      console.log(response, ' info');
+
+      setUser(response);
+      setFetchedBasicInfo(true);
+    }
   };
 
   const getBlackLists = async userUID => {
@@ -91,9 +96,13 @@ const Home = ({navigation}) => {
   };
 
   useEffect(() => {
-    //get the latest basic information
-    getInformation(userUID, online);
-  }, []);
+    if (shouldGetUserInfo) {
+      console.log(' gonan get use info');
+      //get the latest basic information
+      getInformation(userUID, online);
+      // setShouldGetUserInfo(false);
+    }
+  }, [online]);
 
   //get the blacklisted post
   useEffect(() => {
@@ -118,9 +127,17 @@ const Home = ({navigation}) => {
     }
   };
 
-  if (isFetchingData) return <FeedLoadingSkeleton />;
+  // setTimeout(() => {
+  //   if (isFetchingData && allPosts.length == 0) {
+  //     setShowRetry(true);
+  //     // setIsFetchingData(false);
+  //   }
+  // }, 10000);
 
-  console.log(allPosts, ' ALLLLLLLL PPPPPOOOOOOST!', allPosts.length);
+  if (isFetchingData && !showRetry) return <FeedLoadingSkeleton />;
+  if (showRetry) return <View style={{backgroundColor: 'black', flex: 1}} />;
+
+  // console.log(allPosts, ' ALLLLLLLL PPPPPOOOOOOST!', allPosts.length);
 
   return (
     <>

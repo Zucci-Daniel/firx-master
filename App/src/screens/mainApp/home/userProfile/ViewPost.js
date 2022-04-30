@@ -10,9 +10,9 @@ import {
   ActivityIndicator,
   Pressable,
 } from 'react-native';
-import AppCarousel from '../../../components/AppCarousel';
-import AppLoading from '../../../components/AppLoading';
-import Post from '../../../components/Post/Post';
+import AppCarousel from '../../../../components/AppCarousel';
+import AppLoading from '../../../../components/AppLoading';
+import Post from '../../../../components/Post/Post';
 
 import {
   height,
@@ -21,12 +21,12 @@ import {
   width,
   postSize,
   postHeight,
-} from '../../../config/config';
-import {getPost} from './../../../hooks/useOperation';
-import AppPostImage from './../../../components/AppPostImage';
-import AppPostVideo from './../../../components/AppPostVideo';
-import AppScrollView from '../../../components/AppScrollView';
-import MediaSkeleton from '../../../components/MediaSkeleton';
+} from '../../../../config/config';
+import {getPost} from '../../../../hooks/useOperation';
+import AppPostImage from '../../../../components/AppPostImage';
+import AppPostVideo from '../../../../components/AppPostVideo';
+import AppScrollView from '../../../../components/AppScrollView';
+import MediaSkeleton from '../../../../components/MediaSkeleton';
 
 //Might have to be a stack later on
 const ViewPost = ({navigation, route}) => {

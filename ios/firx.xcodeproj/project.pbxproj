@@ -64,6 +64,8 @@
 		31638DD06A4141CFA643625C /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E3CA798AC9A4E909DBAE8F0 /* Octicons.ttf */; };
 		F647F1E60CB64E7D9D339420 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F76C319EBAEC4E4189288200 /* SimpleLineIcons.ttf */; };
 		E65F7F7BFF744D3E9D8A95D9 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5768CE1FEF4F46BAA86938C2 /* Zocial.ttf */; };
+		7A57CBE1C77E4623B1966EE9 /* Billabong 400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10D750E1EC014BC9A2F1DC00 /* Billabong 400.ttf */; };
+		1BB8811EDCEA4BEDA448F596 /* WaterBrush-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E8FC4BC98184E2AA8487353 /* WaterBrush-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +142,8 @@
 		6E3CA798AC9A4E909DBAE8F0 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F76C319EBAEC4E4189288200 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		5768CE1FEF4F46BAA86938C2 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		10D750E1EC014BC9A2F1DC00 /* Billabong 400.ttf */ = {isa = PBXFileReference; name = "Billabong 400.ttf"; path = "../App/src/assets/fonts/Billabong 400.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4E8FC4BC98184E2AA8487353 /* WaterBrush-Regular.ttf */ = {isa = PBXFileReference; name = "WaterBrush-Regular.ttf"; path = "../App/src/assets/fonts/WaterBrush-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +288,8 @@
 				6E3CA798AC9A4E909DBAE8F0 /* Octicons.ttf */,
 				F76C319EBAEC4E4189288200 /* SimpleLineIcons.ttf */,
 				5768CE1FEF4F46BAA86938C2 /* Zocial.ttf */,
+				10D750E1EC014BC9A2F1DC00 /* Billabong 400.ttf */,
+				4E8FC4BC98184E2AA8487353 /* WaterBrush-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -431,6 +437,8 @@
 				31638DD06A4141CFA643625C /* Octicons.ttf in Resources */,
 				F647F1E60CB64E7D9D339420 /* SimpleLineIcons.ttf in Resources */,
 				E65F7F7BFF744D3E9D8A95D9 /* Zocial.ttf in Resources */,
+				7A57CBE1C77E4623B1966EE9 /* Billabong 400.ttf in Resources */,
+				1BB8811EDCEA4BEDA448F596 /* WaterBrush-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

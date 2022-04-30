@@ -76,6 +76,13 @@ const MenuList = ({navigation}) => {
     {
       id: 10,
       optionColor: colors.calmRed,
+      onPress: () => null,
+      title: `unfollowed`,
+      iconName: 'block-flipped',
+    },
+    {
+      id: 11,
+      optionColor: colors.calmRed,
       onPress: () =>
         confirmAction(
           null,

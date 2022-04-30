@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
   },
   desc: {
     color: colors.pureWhite,
-    fontWeight: '300',
-    fontFamily: brandFont.mediumBold,
-    fontSize: 16,
+    // fontWeight: '300',
+    fontFamily: brandFont.beauty,
+    fontSize: 26,
   },
   postMediaWrapper: {
     width: '90%',

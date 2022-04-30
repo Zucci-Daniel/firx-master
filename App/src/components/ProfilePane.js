@@ -26,9 +26,10 @@ export default function ProfilePane({
   readOnly = false,
   dark = false,
   bg,
+  externalProfileImage,
 }) {
   const {
-    user: {firstName, lastName, department, level},
+    user: {firstName, lastName, department, level, profileImage},
   } = useContext(SignUpInfoContext);
 
   return (
@@ -45,7 +46,10 @@ export default function ProfilePane({
           },
           extraStyle,
         ]}>
-        <AppImage readOnly />
+        <AppImage
+          source={externalProfileImage ? externalProfileImage : profileImage}
+          readOnly
+        />
 
         <View style={[styles.wrapper, extraNamesWrapperStyle]}>
           <Subheading style={[styles.Subheading, extraUserNameStyle]}>

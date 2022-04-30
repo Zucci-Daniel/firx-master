@@ -7,6 +7,7 @@ import PostHeader from './PostHeader';
 
 const Post = ({
   onTapProfileImage,
+  onTapInitials,
   profileImage,
   name,
   date,
@@ -28,8 +29,9 @@ const Post = ({
       onPress={onTapPost}>
       <View style={[styles.postContainer, {height: undefined}]}>
         <PostHeader
-          onTapImage={onTapProfileImage}
           profileImage={profileImage}
+          onTapProfileImage={onTapProfileImage}
+          onTapInitials={onTapInitials}
           name={name}
           date={date}
           location={location}

@@ -3,6 +3,7 @@ import {commonFunctions} from '../imports/all_files';
 import firestore from '@react-native-firebase/firestore';
 import {addToArray} from './useOperation';
 
+///CONFIRM ACTION ISN'T IN USE.
 export const confirmAction = (
   id,
   yes,
@@ -18,27 +19,24 @@ export const confirmAction = (
       onPress: null,
       style: 'cancel',
     },
-    // {text: positive, onPress: yes},
-    {text: positive, onPress: () => yes(id)},
+    {
+      text: positive,
+      onPress: () => {
+        yes(id);
+        return true;
+      },
+    },
   ]);
 };
 
-export const handleDeletePost = id => {
-  firestore()
-    .collection('AllPosts')
-    .doc(id)
-    .delete()
-    .then(() => {
-      //remove it from ur array of posted items
-      commonFunctions.showToast(null, 'Post deleted', 'alert');
-    })
-    .catch(error =>
-      commonFunctions.showToast(
-        '',
-        "can't delete post, try again later",
-        'error',
-      ),
-    );
+export const handleDeletePost = async id => {
+  try {
+    await firestore().collection('AllPosts').doc(id).delete();
+    return true;
+  } catch (error) {
+    console.log(error.message, ' error deleting');
+    return false;
+  }
 };
 
 export const handleSavePost = (id, to) => {
@@ -64,7 +62,7 @@ export const handleUnfollowAuthor = (id, to, unfollowedAuthor) => {
 export const handleStopSeeingPost = (id, to) => {
   try {
     addToArray('STUDENTS', to, id, 'postsBlackListed');
-    commonFunctions.showToast('', `done`, 'alert');
+    console.log('', `done`, 'alert');
   } catch (error) {
     commonFunctions.showToast('', `failed`, 'error');
   }

@@ -10,6 +10,7 @@ let defaultHieght = undefined;
 const PostHeader = ({
   onTapImage,
   profileImage,
+  onTapInitials,
   name,
   date,
   location,
@@ -24,9 +25,9 @@ const PostHeader = ({
     <View style={[styles.postHeader]}>
       <View style={[styles.container]}>
         <View style={[styles.wrapper]}>
-          <PosterImg profileImage={profileImage} />
-
+          <PosterImg profileImage={profileImage} onTapImage={onTapImage} />
           <PosterInitials
+            onTapInitials={onTapInitials}
             showSeperator={showSeperator}
             name={name}
             date={date}

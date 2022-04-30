@@ -18,7 +18,7 @@ import {theme} from 'react-native-paper';
 export default AppImage = ({
   clustered,
   onPress,
-  source = require('../assets/1.jpg'),
+  source,
   size = width / 5,
   theImage,
   readOnly = false,
@@ -44,7 +44,7 @@ export default AppImage = ({
         {user.profileImage !== null && (
           <Avatar.Image
             size={size}
-            source={{uri: user.profileImage}}
+            source={{uri: source ? source : user.profileImage}}
             theme={{...theme, backgroundColor: 'white'}}
           />
         )}

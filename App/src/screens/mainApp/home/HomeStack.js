@@ -7,6 +7,9 @@ import Video from './Video';
 import Write from './Write';
 import Camera from './Camera';
 import AppCancel from './../../../components/AppCancel';
+import ViewPost from './userProfile/ViewPost';
+import UserProfileStack from './userProfile/UserProfileStack';
+
 
 const HomeStack = ({navigation}) => {
   return (
@@ -24,6 +27,22 @@ const HomeStack = ({navigation}) => {
         component={Home}
         options={{
           title: `Vion`,
+          animation: 'slide_from_right',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="viewPost"
+        component={ViewPost}
+        options={{
+          animation: 'slide_from_right',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="userProfileStack"
+        component={UserProfileStack}
+        options={{
           animation: 'slide_from_right',
           headerShown: false,
         }}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
-import {avatarWidth, colors, universalPadding} from '../../../config/config';
+import {avatarWidth, brandFont, colors, universalPadding} from '../../../config/config';
 
 const PosterInitials = ({
   onTapInitials,
@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
 
   name: {
     color: colors.initials,
-    fontWeight: '600',
-    fontSize: 10,
+    fontSize: 12,
+    fontFamily:brandFont.beauty,
     textTransform: 'capitalize',
   },
   date: {

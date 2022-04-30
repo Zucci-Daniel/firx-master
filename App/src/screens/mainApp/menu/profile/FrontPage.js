@@ -18,62 +18,15 @@ import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import ProfilePane from './../../../../components/ProfilePane';
 import Phone from './../../../../components/icons/Phone';
 import WhatsApp from './../../../../components/icons/WhatsApp';
+import SocialHandles from '../../../../components/SocialHandles';
 
-const FrontPage = ({
-  navigation,
-  status = 'never have i lost any game, defeated 22games',
-}) => {
+const FrontPage = () => {
   const {user} = useContext(SignUpInfoContext);
-
-  const openPhone = async () => {
-    try {
-      await Linking.openURL('tel:' + user.phoneNumber);
-    } catch (error) {
-      console.log('not a phone, ', error.message);
-    }
-  };
-
-  const openWhatsApp = async () => {
-    try {
-      await Linking.openURL(`whatsapp://send?phone=${user.phoneNumber}`);
-    } catch (error) {
-      console.log('not a valid whatsapp number, ', error.message);
-    }
-  };
-
-  const openInstagram = async () => {
-    try {
-      await Linking.openURL(user.instagram);
-    } catch (error) {
-      console.log('not a valid ig link, ', error.message);
-    }
-  };
-
-  const openTwitter = async () => {
-    try {
-      await Linking.openURL(user.twitter);
-    } catch (error) {
-      console.log('not a valid twitter link, ', error.message);
-    }
-  };
-  const openFb = async () => {
-    try {
-      await Linking.openURL(user.facebook);
-    } catch (error) {
-      console.log('not a valid facebook link, ', error.message);
-    }
-  };
 
   return (
     <View style={styles.container}>
       <ProfilePane dark={true} readOnly />
-      <View style={styles.socialHandlerWrapper}>
-        <Twitter onPress={openTwitter} />
-        <WhatsApp onPress={openWhatsApp} />
-        <Ig onPress={openInstagram} />
-        <Fb onPress={openFb} />
-        <Phone onPress={openPhone} />
-      </View>
+      <SocialHandles />
     </View>
   );
 };
@@ -85,11 +38,5 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: universalPadding / 2,
     backgroundColor: '#010101',
-  },
-  socialHandlerWrapper: {
-    width: undefined,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-around',
   },
 });
