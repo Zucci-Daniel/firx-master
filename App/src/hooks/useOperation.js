@@ -146,7 +146,7 @@ export const updateAllPostsFields = async (
   }
 };
 
-export const addToArray = (
+export const addToArray = async (
   colRef = 'STUDENTS',
   id,
   value,
@@ -155,16 +155,23 @@ export const addToArray = (
   errorMessage = 'Failed to save post',
 ) => {
   try {
-    firestore()
+    await firestore()
       .collection(colRef)
       .doc(id)
-      .update({
-        [fieldName]: firestore.FieldValue.arrayUnion(value),
-      });
-
-    commonFunctions.showToast('', successMessage, 'alert');
+      .update(
+        Array.isArray(value)
+          ? {
+              [fieldName]: firestore.FieldValue.arrayUnion(...value),
+            }
+          : {
+              [fieldName]: firestore.FieldValue.arrayUnion(value),
+            },
+      );
+    console.log(fieldName, ' updated');
+    return true;
   } catch (error) {
     commonFunctions.showToast('', errorMessage, 'ERROR');
+    return false;
   }
 };
 
@@ -202,6 +209,7 @@ export const useGetUserInformationFromFirestore = async id => {
         facebook: responseObj.facebook,
         whatsapp: responseObj.whatsapp,
         twitter: responseObj.twitter,
+        personalities:responseObj.personalities
       };
       try {
         console.log(

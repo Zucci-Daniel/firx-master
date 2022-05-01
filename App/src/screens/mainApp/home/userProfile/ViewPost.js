@@ -94,7 +94,7 @@ export default ViewPost;
 
 const styles = StyleSheet.create({
   container: {
-    height: height,
+    height: '100%',
     width: width,
     backgroundColor: colors.neonBg,
   },

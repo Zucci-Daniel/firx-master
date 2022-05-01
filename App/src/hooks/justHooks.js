@@ -6,15 +6,17 @@ export const useCheckNetworkStatus = () => {
 
   let subscribeToNetworkStats = netInfo.isInternetReachable;
 
-  const subscribeToNetworkStatus = ()=>netInfo.isInternetReachable?true:false;
+  const subscribeToNetworkStatus = () =>
+    netInfo.isInternetReachable ? true : false;
 
   console.log(subscribeToNetworkStats, ' network directly from the hook');
   const networkStatus = () => {
-    return commonFunctions.showToast(
-      '',
-      `you are ${netInfo.isInternetReachable ? `online` : `offline`}`,
-      `${netInfo.isInternetReachable ? `success` : `alert`}`,
-    );
+    // return commonFunctions.showToast(
+    //   '',
+    //   `you are ${netInfo.isInternetReachable ? `online` : `offline`}`,
+    //   `${netInfo.isInternetReachable ? `success` : `alert`}`,
+    // );
+    null;
   };
-  return {networkStatus, subscribeToNetworkStats,subscribeToNetworkStatus};
+  return {networkStatus, subscribeToNetworkStats, subscribeToNetworkStatus};
 };

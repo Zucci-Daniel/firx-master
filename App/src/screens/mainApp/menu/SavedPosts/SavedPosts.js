@@ -26,6 +26,7 @@ import PostActions from '../../../../components/PostActions';
 import {getDocSnapshot} from './../../../../hooks/useOperation';
 import Feed from './../../../../components/Feed';
 import FeedLoadingSkeleton from './../../../../components/FeedLoadingSkeleton';
+import AppIndicator from '../../../../components/AppIndicator';
 ///use a flast list
 
 const SavedPosts = () => {
@@ -81,7 +82,7 @@ const SavedPosts = () => {
     confirmAction(postID, deleteAction);
   };
 
-  if (isFetchingData) return <FeedLoadingSkeleton />;
+  if (isFetchingData) return <AppIndicator />;
 
   return (
     <View style={styles.container}>
@@ -101,7 +102,7 @@ export default SavedPosts;
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: height,
+    height: undefined,
     backgroundColor: colors.neonBg,
     width: width,
   },

@@ -10,8 +10,8 @@ export default AppInput = ({
   keyboardType,
   mode,
   prefixIcon = false,
-  outlineColor = colors.hairLineGray,
-  activeOutlineColor = colors.brandBg,
+  outlineColor = colors.calmBlue,
+  activeOutlineColor =colors.calmBlue,
   background,
   iconName = 'camera',
   ...props

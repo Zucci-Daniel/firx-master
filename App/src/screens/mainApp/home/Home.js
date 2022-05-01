@@ -151,7 +151,6 @@ const Home = ({navigation}) => {
           }
         />
       </View>
-      <AppFloatMenu handlePost={() => navigation.navigate('camera')} />
     </>
   );
 };
@@ -163,7 +162,6 @@ const styles = StyleSheet.create({
     height: undefined,
     width: width,
     backgroundColor: colors.neonBg,
-    paddingBottom: universalPadding,
   },
   heading: {
     padding: universalPadding / 6,

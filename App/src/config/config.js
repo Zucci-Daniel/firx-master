@@ -6,8 +6,8 @@ const brandFont = {
   mediumBold: 'Catamaran-Bold',
   semiBold: 'Catamaran-SemiBold',
   cashFont: 'spacefri',
-  beauty:'vantage',
-  water:'KeepCalm-Medium'
+  beauty: 'vantage',
+  water: 'KeepCalm-Medium',
 };
 
 const colors = {
@@ -45,7 +45,7 @@ const sMargin = 10;
 const inputBorder = 5;
 const menuIconSize = 30;
 const postHeight = height / 1.7;
-
+const socialMediaSize = width / 15;
 const postSize = height / 1.5;
 const avatarWidth = width / 13;
 const avatarEditWidth = width / 3;
@@ -60,6 +60,29 @@ const tabBarBottomConfig = {
   justifyContent: 'center',
 };
 
+const tabBarConfig = {
+  backgroundColor: 'transparent',
+  elevation: 0,
+  shadowColor: '#000000',
+  shadowOffset: {width: 0, height: 10}, // change this for more shadow
+  shadowOpacity: 0.4,
+  shadowRadius: 6,
+};
+
+const tabBarLabelConfig = {
+  color: colors.calmBlue,
+  textTransform: 'capitalize',
+};
+
+const tabBarIndicatorConfig = {
+  backgroundColor: colors.calmBlue,
+  // backgroundColor:'transparent'
+};
+
+const inactiveTabBarConfig = {
+  backgroundColor: 'red',
+};
+
 export {
   colors,
   width,
@@ -72,6 +95,11 @@ export {
   brandFont,
   postSize,
   avatarWidth,
+  socialMediaSize,
   postHeight,
   avatarEditWidth,
+  tabBarConfig,
+  tabBarLabelConfig,
+  tabBarIndicatorConfig,
+  inactiveTabBarConfig,
 };

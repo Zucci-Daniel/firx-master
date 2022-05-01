@@ -1,10 +1,11 @@
 import {React, TouchableOpacity} from '../../imports/all_RnComponents';
 import Tweet from '../../assets/svg-raw/twitter.svg';
+import { socialMediaSize } from '../../config/config';
 
 const Twitter = ({onPress}) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Tweet width={40} height={40} />
+      <Tweet width={socialMediaSize} height={socialMediaSize} />
     </TouchableOpacity>
   );
 };

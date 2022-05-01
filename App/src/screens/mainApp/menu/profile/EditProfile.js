@@ -23,6 +23,7 @@ import WhatsApp from '../../../../components/icons/WhatsApp';
 import Fb from './../../../../components/icons/Fb';
 import Twitter from './../../../../components/icons/Twitter';
 import {postHeight} from '../../../../config/config';
+import AppIndicator from './../../../../components/AppIndicator';
 
 const {universalPadding, colors, avatarEditWidth, width, height} = config;
 
@@ -207,7 +208,7 @@ const EditProfile = ({navigation}) => {
           onPress={handleSubmit(handleUpdateProfile)}
         />
       ) : isUpdating ? (
-        <ActivityIndicator color={'blue'} size={50} style={styles.activity} />
+        <AppIndicator forSubmiting extraIndicatorStyle={styles.extraIndicatorStyle} />
       ) : null}
 
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -219,7 +220,7 @@ const EditProfile = ({navigation}) => {
         </View>
         <View style={styles.inputWrapper}>
           <AppInputField
-            background={colors.info}
+            background={colors.skeletonAnimationBg}
             control={control}
             name="firstName"
             label={'first name'}
@@ -229,7 +230,7 @@ const EditProfile = ({navigation}) => {
             }}
           />
           <AppInputField
-            background={colors.info}
+            background={colors.skeletonAnimationBg}
             control={control}
             name="lastName"
             label={'last name'}
@@ -239,7 +240,7 @@ const EditProfile = ({navigation}) => {
             }}
           />
           <AppInputField
-            background={colors.info}
+            background={colors.skeletonAnimationBg}
             control={control}
             name="bio"
             label={'About yourself...'}
@@ -268,6 +269,7 @@ const EditProfile = ({navigation}) => {
             control={control}
             required={{required: 'your levels'}}
             data={levels}
+            
           />
           <AppRadioField
             name={'typeOfStudent'}
@@ -281,13 +283,14 @@ const EditProfile = ({navigation}) => {
             text={'social media handles'}
             onPress={() => setShowSocialMedia(!showSocialMedia)}
           />
+
           {showSocialMedia && (
             <View style={styles.socials}>
               <SMHandle>
                 <Ig />
                 <AppInputField
                   extraStyle={styles.extraPasteLinkInput}
-                  background={colors.info}
+                  background={colors.skeletonAnimationBg}
                   control={control}
                   name="instagram"
                   label={'Instagram profile link...'}
@@ -297,7 +300,7 @@ const EditProfile = ({navigation}) => {
                 <Fb />
                 <AppInputField
                   extraStyle={styles.extraPasteLinkInput}
-                  background={colors.info}
+                  background={colors.skeletonAnimationBg}
                   control={control}
                   name="facebook"
                   label={'facebook profile link...'}
@@ -307,7 +310,7 @@ const EditProfile = ({navigation}) => {
                 <WhatsApp />
                 <AppInputField
                   extraStyle={styles.extraPasteLinkInput}
-                  background={colors.info}
+                  background={colors.skeletonAnimationBg}
                   control={control}
                   name="whatsapp"
                   label={'whatsapp number...'}
@@ -317,7 +320,7 @@ const EditProfile = ({navigation}) => {
                 <Twitter />
                 <AppInputField
                   extraStyle={styles.extraPasteLinkInput}
-                  background={colors.info}
+                  background={colors.skeletonAnimationBg}
                   control={control}
                   name="twitter"
                   label={'twitter profile link...'}
@@ -325,6 +328,10 @@ const EditProfile = ({navigation}) => {
               </SMHandle>
             </View>
           )}
+          <Link
+            text={'edit personalities'}
+            onPress={() => navigation.navigate('editPersonalities')}
+          />
         </View>
       </ScrollView>
     </View>
@@ -364,11 +371,7 @@ const styles = StyleSheet.create({
   extraPasteLinkInput: {
     width: '80%',
   },
-  activity: {
-    alignSelf: 'flex-end',
-    paddingHorizontal: universalPadding,
-    paddingVertical: universalPadding / 4,
-  },
+
   socials: {
     height: undefined,
     width: '100%',

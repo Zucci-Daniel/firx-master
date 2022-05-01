@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {Controller} from 'react-hook-form';
 import AppInput from '../AppInput';
+import { colors } from '../../config/config';
 
 const AppInputField = ({
   control,
@@ -27,7 +28,7 @@ const AppInputField = ({
             label={label}
           />
           {error && (
-            <Text style={{color: error ? 'red' : 'green'}}>
+            <Text style={{color: error ? colors.calmRed : colors.calmGreen}}>
               {error.message}
             </Text>
           )}

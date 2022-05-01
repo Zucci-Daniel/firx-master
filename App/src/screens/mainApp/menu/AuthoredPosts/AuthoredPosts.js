@@ -20,6 +20,7 @@ import {
 import PostActions from '../../../../components/PostActions';
 import Feed from './../../../../components/Feed';
 import FeedLoadingSkeleton from './../../../../components/FeedLoadingSkeleton';
+import AppIndicator from '../../../../components/AppIndicator';
 ///use a flast list
 
 const AuthoredPosts = () => {
@@ -58,7 +59,8 @@ const AuthoredPosts = () => {
     return () => {};
   }, []);
 
-  if (isFetchingData) return <FeedLoadingSkeleton />;
+  if (isFetchingData) return <AppIndicator />;
+  
 
   return (
     <View style={styles.container}>

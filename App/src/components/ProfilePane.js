@@ -27,6 +27,7 @@ export default function ProfilePane({
   dark = false,
   bg,
   externalProfileImage,
+  profileImageSize,
 }) {
   const {
     user: {firstName, lastName, department, level, profileImage},
@@ -47,6 +48,7 @@ export default function ProfilePane({
           extraStyle,
         ]}>
         <AppImage
+          size={profileImageSize}
           source={externalProfileImage ? externalProfileImage : profileImage}
           readOnly
         />

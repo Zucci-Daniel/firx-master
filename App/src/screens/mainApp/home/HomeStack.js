@@ -9,7 +9,8 @@ import Camera from './Camera';
 import AppCancel from './../../../components/AppCancel';
 import ViewPost from './userProfile/ViewPost';
 import UserProfileStack from './userProfile/UserProfileStack';
-
+import Link from '../../../components/Link';
+import {colors} from '../../../config/config';
 
 const HomeStack = ({navigation}) => {
   return (
@@ -17,10 +18,6 @@ const HomeStack = ({navigation}) => {
       screenOptions={{
         animation: 'slide_from_left',
         headerShadowVisible: false,
-
-        headerLeft: () => (
-          <AppCancel useStyles={false} onCancel={() => navigation.goBack(1)} />
-        ),
       }}>
       <Stack.Screen
         name="home"
@@ -28,7 +25,12 @@ const HomeStack = ({navigation}) => {
         options={{
           title: `Vion`,
           animation: 'slide_from_right',
-          headerShown: false,
+          headerShown: true,
+          headerTintColor: colors.calmBlue,
+          headerStyle: {backgroundColor: colors.neonBg},
+          headerRight: () => (
+            <Link text="post" onPress={() => navigation.navigate('camera')} />
+          ),
         }}
       />
       <Stack.Screen
@@ -49,13 +51,6 @@ const HomeStack = ({navigation}) => {
       />
 
       <Stack.Screen
-        name="createPost"
-        component={CreatePost}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
         name="camera"
         component={Camera}
         options={{
@@ -66,20 +61,6 @@ const HomeStack = ({navigation}) => {
       <Stack.Screen
         name="write"
         component={Write}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="video"
-        component={Video}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="photo"
-        component={Photo}
         options={{
           headerShown: false,
         }}

@@ -1,11 +1,12 @@
 import {React, TouchableOpacity} from '../../imports/all_RnComponents';
 
 import Ph from '../../assets/svg-raw/phone.svg';
+import { socialMediaSize } from '../../config/config';
 
 const Phone = ({onPress}) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Ph width={40} height={40} />
+      <Ph width={socialMediaSize} height={socialMediaSize} />
     </TouchableOpacity>
   );
 };

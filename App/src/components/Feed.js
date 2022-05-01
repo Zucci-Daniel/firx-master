@@ -283,7 +283,7 @@ export default Feed;
 const styles = StyleSheet.create({
   container: {
     width: width,
-    height: height,
+    height: '100%',
     backgroundColor: colors.neonBg,
   },
   extraInitialsStyles: {

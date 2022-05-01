@@ -17,7 +17,7 @@ const SocialHandles = ({instagram, whatsapp, facebook, phone, twitter}) => {
       const instagram = link.includes('instagram') == true;
       const twitter = link.includes('twitter') == true;
       const facebook = link.includes('facebook') == true;
-      
+
       if ((twitter || facebook || instagram) && !tel) {
         return await Linking.openURL(link);
       }
@@ -57,10 +57,10 @@ export default SocialHandles;
 
 const styles = StyleSheet.create({
   socialHandlerWrapper: {
-    width: undefined,
+    width: '70%',
     height: undefined,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
 });

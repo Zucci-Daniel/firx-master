@@ -61,14 +61,13 @@ export default AppMultiSelect;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.dropDownBg,
+    backgroundColor: colors.skeletonAnimationBg,
   },
   dropdown: {
-    borderColor: colors.info,
     borderWidth: 0.5,
     borderRadius: 3,
     paddingHorizontal: 8,
-    backgroundColor: colors.info,
+    backgroundColor: colors.skeletonAnimationBg,
     padding: 10,
     textTransform: 'capitalize',
     marginBottom: 30,
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     fontSize: 16,
-    color: 'black',
+    color: colors.pureWhite,
     textTransform: 'capitalize',
   },
 
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     margin: 30,
-    backgroundColor: 'white',
+    backgroundColor: colors.calmBlue,
     color: colors.info,
     borderRadius: 4,
   },
