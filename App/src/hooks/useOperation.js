@@ -337,14 +337,8 @@ export const getFilteredPosts = async (
             batchChunks[index],
           );
           const results = await postCondition
-            // .startAfter(lastQueryResult)
-            .where('postID', 'not-in', [
-              '23a23808-f596-499c-8a55-04e2a17ff2e9',
-              '22a9dccb-de74-40cc-a9cf-cdc9b4275dd7',
-              '0fb7c019-7da2-44b3-9e50-35db8ce3549c',
-              '056e6787-06e5-4229-b453-7898b2dd94cd',
-              '0458e6fe-1caa-48a7-baed-31bcc02e7b5c',
-            ])
+            .startAfter(lastQueryResult)
+            .where('postID', 'not-in', batchChunks[index])
             .limit(limit)
             .get();
 
@@ -369,18 +363,7 @@ export const getFilteredPosts = async (
           );
 
           const results = await postCondition
-            .where('postID', 'not-in', [
-              'e416889d-d26d-4d19-b865-8d3a6275e156',
-              '99ea132a-72c2-4d18-929a-bfb2dc487540',
-              '8de69220-b63f-4736-93b9-c0db0ed7d0d1',
-              '686314d4-b6f4-489a-9f8d-8fd30a5c696c',
-              '65ceab7e-7703-4008-b206-81c7ac8519fd',
-              '4df4fccf-1969-480f-971a-d0d14a416bf8',
-              '4bc065cc-d7e2-4625-a307-8014695037b2',
-              '4b1f374f-3a93-40cf-99a3-0bf48462e726',
-              '376d7f10-c79b-4bdd-9a1c-737237d689cf',
-              '33cc06cd-bffe-47f1-8478-59152b2e223c',
-            ])
+            .where('postID', 'not-in', batchChunks[index])
             .limit(limit)
             .get();
           if (results) {
@@ -470,7 +453,7 @@ export const fetchPostsFromServer = async (
       limit,
     );
     if (querySnapshot) {
-      console.log(querySnapshot, ' snappy');
+      // console.log(querySnapshot, ' snappy');
       const {lastVisibleItem, postsArray} = querySnapshot;
 
       //get last post
