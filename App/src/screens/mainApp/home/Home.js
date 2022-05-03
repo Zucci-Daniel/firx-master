@@ -18,7 +18,7 @@ import {useCheckNetworkStatus} from './../../../hooks/justHooks';
 import {
   useGetUserInformation,
   useGetBlackLists,
-  useFetchPosts,
+  fetchPostsFromServer,
 } from './../../../hooks/useOperation';
 import Finished from '../../../components/Finished';
 import MiniLoading from '../../../components/MiniLoading';
@@ -74,21 +74,21 @@ const Home = ({navigation}) => {
     startAfterDoc,
     limit,
   ) => {
-    const response = await useFetchPosts(
+    const response = await fetchPostsFromServer(
       blacklistPost,
       blackListProfiles,
       startAfterDoc,
       limit,
     );
     if (response) {
-      const {lastPost, posts} = response;
+      const {lastVisibleItem, posts} = response;
       if (posts.length == 0 || posts.length < itemsPerPage) {
-        setLastPost(lastPost);
+        setLastPost(lastVisibleItem);
         setAllPost(posts);
         setIsFetchingData(false);
         setPostIsFinished(true);
       } else {
-        setLastPost(lastPost);
+        setLastPost(lastVisibleItem);
         setAllPost(posts);
         setIsFetchingData(false);
       }
@@ -118,26 +118,16 @@ const Home = ({navigation}) => {
 
   const handleLoadMoreData = async () => {
     if (postIsFinished == false) {
-      return await fetchPosts(
-        postsBlackListed,
-        profilesBlackListed,
-        lastPost,
-        itemsPerPage,
-      );
+      // return await fetchPosts(
+      //   postsBlackListed,
+      //   profilesBlackListed,
+      //   lastPost,
+      //   itemsPerPage,
+      // );
     }
   };
 
-  // setTimeout(() => {
-  //   if (isFetchingData && allPosts.length == 0) {
-  //     setShowRetry(true);
-  //     // setIsFetchingData(false);
-  //   }
-  // }, 10000);
-
   if (isFetchingData && !showRetry) return <FeedLoadingSkeleton />;
-  if (showRetry) return <View style={{backgroundColor: 'black', flex: 1}} />;
-
-  // console.log(allPosts, ' ALLLLLLLL PPPPPOOOOOOST!', allPosts.length);
 
   return (
     <>

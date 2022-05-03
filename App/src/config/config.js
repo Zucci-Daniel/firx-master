@@ -50,6 +50,17 @@ const postSize = height / 1.5;
 const avatarWidth = width / 13;
 const avatarEditWidth = width / 3;
 
+const tabBarConfigObject = {
+  tabBarLabelStyle: {...tabBarLabelConfig},
+  tabBarStyle: {...tabBarConfig},
+  tabBarIndicatorStyle: {...tabBarIndicatorConfig},
+  tabBarShowLabel: true,
+  tabBarShowIcon: true,
+  swipeEnabled: false,
+  lazy: true,
+  lazyPlaceholder: () => <AppIndicator />,
+};
+
 //for the bottom navigation
 const tabBarBottomConfig = {
   backgroundColor: colors.neonBg,
@@ -102,4 +113,5 @@ export {
   tabBarLabelConfig,
   tabBarIndicatorConfig,
   inactiveTabBarConfig,
+  
 };

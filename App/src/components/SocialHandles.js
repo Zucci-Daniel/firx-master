@@ -7,6 +7,7 @@ import Fb from './icons/Fb';
 import Phone from './icons/Phone';
 import {SignUpInfoContext} from './../screens/forms/signUpInfoContext';
 import {universalPadding} from '../config/config';
+import AppLink from 'react-native-app-link';
 
 const SocialHandles = ({instagram, whatsapp, facebook, phone, twitter}) => {
   const {user} = useContext(SignUpInfoContext);
@@ -19,10 +20,16 @@ const SocialHandles = ({instagram, whatsapp, facebook, phone, twitter}) => {
       const facebook = link.includes('facebook') == true;
 
       if ((twitter || facebook || instagram) && !tel) {
-        return await Linking.openURL(link);
+        return await AppLink.maybeOpenURL(link, {
+          appName: 'Facebook',
+          playStoreId: 'com.facebook.katana',
+        });
       }
       if (convertToNumber == 'number' && !tel) {
-        return await Linking.openURL(`whatsapp://send?phone=${link}`);
+        return await AppLink.maybeOpenURL(`whatsapp://send?phone=${link}`, {
+          appName: 'whatsapp',
+          playStoreId: 'com.whatsapp',
+        });
       }
       if (convertToNumber == 'number' && tel) {
         return await Linking.openURL('tel:' + link);
@@ -57,10 +64,11 @@ export default SocialHandles;
 
 const styles = StyleSheet.create({
   socialHandlerWrapper: {
-    width: '70%',
+    width: '50%',
     height: undefined,
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
+    marginVertical: universalPadding / 6,
   },
 });

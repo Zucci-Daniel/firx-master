@@ -1,17 +1,6 @@
 import React from 'react';
-import {StyleSheet, View, Text, Button, Linking} from 'react-native';
-import {
-  LeaderBoardPane,
-  AppButton,
-  WinsAndGames,
-  Title,
-  SMHandle,
-  Ig,
-  Twitter,
-  Fb,
-  ProfileDetails,
-} from '../../../../imports/all_files';
-import {Stack} from '../../../../navigation/create/CreateNavigation';
+import {StyleSheet, View} from 'react-native';
+
 import {
   universalPadding,
   colors,
@@ -23,21 +12,16 @@ import {
 import {useContext} from 'react';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import ProfilePane from './../../../../components/ProfilePane';
-import Phone from './../../../../components/icons/Phone';
-import WhatsApp from './../../../../components/icons/WhatsApp';
 import SocialHandles from '../../../../components/SocialHandles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Personalities from './Personalities';
-import Hobbies from './Hobbies';
-import EditPersonality from './EditPersonality';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Link from './../../../../components/Link';
 import {useNavigation} from '@react-navigation/native';
 import AuthoredPosts from './../AuthoredPosts/AuthoredPosts';
 import SavedPosts from './../SavedPosts/SavedPosts';
-import MediaSkeleton from '../../../../components/MediaSkeleton';
 import AppIndicator from '../../../../components/AppIndicator';
-import AppFloatMenu from '../../../../components/AppFloatMenu';
+import InfoText from './../../../../components/InfoText';
+
 const Tab = createMaterialTopTabNavigator();
 
 const FrontPage = () => {
@@ -54,6 +38,7 @@ const FrontPage = () => {
             extraNameStyles={styles.school}
             readOnly
           />
+          <InfoText info={user?.bio} />
           <SocialHandles />
           <Link
             extraStyle={styles.edit}

@@ -11,9 +11,20 @@ import {useNavigation} from '@react-navigation/native';
 
 import Feed from './../../../../components/Feed';
 import AppIndicator from '../../../../components/AppIndicator';
+import { SelectedUserContext } from './selectedUserContext';
 ///use a flast list
 
-const AuthoredPosts = () => {
+const SelectedUserAuthoredPosts = () => {
+
+    const {
+        selectedUserDoc,
+        setSelectedUserDoc,
+        isFetching,
+        setIsFetching,
+        id,
+        setId,
+      } = useContext(SelectedUserContext);
+
   const navigation = useNavigation();
   const [authoredPosts, setAuthoredPosts] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(true); //use this state to show a loading animation.
@@ -24,7 +35,7 @@ const AuthoredPosts = () => {
     try {
       firestore()
         .collection('AllPosts')
-        .where('posterUserUID', '==', userUID)
+        .where('posterUserUID', '==', id)
         .onSnapshot(querySnapshot => {
           let posts = [];
           querySnapshot.forEach(postSnapShot => {
@@ -74,7 +85,7 @@ const AuthoredPosts = () => {
   );
 };
 
-export default AuthoredPosts;
+export default SelectedUserAuthoredPosts;
 
 const styles = StyleSheet.create({
   container: {

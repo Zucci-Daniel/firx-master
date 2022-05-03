@@ -18,48 +18,40 @@ import {AppContext} from './../../../../appContext';
 import firestore from '@react-native-firebase/firestore';
 import {useSubscribeToDocument} from '../../../../hooks/useSubscribeToDocument';
 import AppIndicator from './../../../../components/AppIndicator';
+import {SelectedUserContext} from './selectedUserContext';
+import AppAnimatedImageView from '../../../../components/AppAnimatedImageView';
 
-const Personalities = () => {
-  const {user} = useContext(SignUpInfoContext);
-  const {userUID} = useContext(AppContext);
+const SelectedUserPersonalities = () => {
+  const {
+    selectedUserDoc,
+    setSelectedUserDoc,
+    isFetching,
+    setIsFetching,
+    id,
+    setId,
+  } = useContext(SelectedUserContext);
 
-  const navigation = useNavigation();
-  const [personalities, setPersonalities] = useState(user?.personalities);
-  const [isLoading, setIsLoading] = useState(true);
+  //   const navigation = useNavigation();
+  const [personalities] = useState(selectedUserDoc?.personalities);
 
-  useEffect(() => {
-    const subscribe = firestore()
-      .collection('STUDENTS')
-      .doc(userUID)
-      .onSnapshot(documentSnapShot => {
-        setPersonalities(documentSnapShot.data().personalities);
-        setIsLoading(false);
-      });
-
-    return () => subscribe();
-  }, []);
+  console.log(personalities, ' ===');
 
   return (
     <View style={styles.container}>
       <View style={styles.section1}>
-        {!isLoading && personalities?.length == 0 && (
+        {!isFetching && personalities?.length == 0 && (
           <>
             <Link
               readOnly
               extraStyle={styles.empty}
-              text={"you haven't added any personality yet!"}
-            />
-            <AppButton
-              buttonColor={colors.skeletonAnimationBg}
-              title="add personalities"
-              onPress={() => navigation.navigate('editPersonalities')}
+              text={`${selectedUserDoc.firstName} hasn't updated his personality yet`}
             />
           </>
         )}
         <AppScrollView>
           <View style={styles.mainContainer}>
             <View style={styles.scrollContainer}>
-              {!isLoading && personalities?.length > 0
+              {!isFetching && personalities?.length > 0
                 ? personalities.map((item, index) => (
                     <AppChip
                       readOnly
@@ -72,17 +64,19 @@ const Personalities = () => {
                 : null}
             </View>
           </View>
+          <AppAnimatedImageView />
         </AppScrollView>
       </View>
     </View>
   );
 };
 
-export default Personalities;
+export default SelectedUserPersonalities;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: universalPadding / 4,
+    backgroundColor: 'transparent',
   },
   mainContainer: {
     height: undefined,

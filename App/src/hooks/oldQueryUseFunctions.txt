@@ -176,7 +176,6 @@ export const addToArray = async (
 };
 
 export const getPost = async (colRef = 'AllPosts', postId) => {
-  //this isn't the right name for this function.
   try {
     const response = await firestore().collection(colRef).doc(postId).get();
     log(response.exists, ' it exists, useGetNewUse()', postId);
@@ -280,152 +279,69 @@ export const getFilteredPosts = async (
   lastItem,
   limit = 10,
 ) => {
-  try {
-    const baseUrl = firestore()
-      .collectionGroup('AllPosts')
-      .orderBy('postID', 'desc');
-    const postCondition = lastItem ? baseUrl.startAfter(lastItem) : baseUrl;
+  const baseUrl = firestore()
+    .collectionGroup('AllPosts')
+    .orderBy('postID', 'desc');
+  const postCondition = lastItem ? baseUrl.startAfter(lastItem) : baseUrl;
 
-    console.log('==============================================');
+  if (!postsBlacklisted.length > 0) {
+    console.log('FETCHING WITHOUT FILTER, NO BLACKLISTS ', postsBlacklisted);
+    //just get all random post.
+    let response = await postCondition.limit(limit).get();
 
-    console.table(postCondition);
-    console.log('==============================================');
+    if (response) {
+      //bring the store post func here from home
+      const lastVisibleItem = results.docs[results.docs.length - 1];
 
-    if (!postsBlacklisted.length > 0) {
-      console.log('FETCHING WITHOUT FILTER, NO BLACKLISTS ', postsBlacklisted);
-      //just get all random post.
-      let response = await postCondition.limit(limit).get();
-
-      if (response) {
-        console.log(response, ' postsss');
-        //bring the store post func here from home
-        const lastVisibleItem = response.docs[response.docs.length - 1];
-
-        let results = response.docs.map(result => ({
-          id: result.id,
-          ...result.data(),
-        }));
-        console.log(response, 'response');
-        return {postsArray: results, lastVisibleItem: lastVisibleItem};
-      } else {
-        console.log('check ur filterOutBlackList method');
-      }
-    } else {
-      console.log(' posts black list passed!!!', postsBlacklisted);
-    }
-
-    if (postsBlacklisted || postsBlacklisted.length > 0) {
-      console.log('FETCHING with FILTER, see BLACKLISTS ', postsBlacklisted);
-
-      //do not change the postsBlacklisted array
-      var copiedPostsBlacklisted = [...postsBlacklisted];
-      //remove the black listed post
-      var batches = [];
-      var index = 0;
-      var batchChunks = [...splitArrayInChunks(copiedPostsBlacklisted, 10)];
-
-      var lastQueryResult;
-
-      console.log(batchChunks, ' BATCH CHUNKS');
-
-      while (index < batchChunks.length) {
-        if (lastQueryResult) {
-          console.log(
-            '  AM RUNNING CUZ I GET A LAST QUERY',
-            lastQueryResult,
-            '  <><<><><<><><<> ',
-            batchChunks[index],
-          );
-          const results = await postCondition
-            // .startAfter(lastQueryResult)
-            .where('postID', 'not-in', [
-              '23a23808-f596-499c-8a55-04e2a17ff2e9',
-              '22a9dccb-de74-40cc-a9cf-cdc9b4275dd7',
-              '0fb7c019-7da2-44b3-9e50-35db8ce3549c',
-              '056e6787-06e5-4229-b453-7898b2dd94cd',
-              '0458e6fe-1caa-48a7-baed-31bcc02e7b5c',
-            ])
-            .limit(limit)
-            .get();
-
-          if (results) {
-            console.log(
-              'RESULT LOG FROM THE FOUND LAST QUERY =====> ',
-              results.docs,
-            );
-
-            batches.push(results.docs);
-          } else {
-            console.log('there is no result from the RUNNING WITH LAST QUERY!');
-          }
-        }
-        //////
-        else {
-          console.log(
-            '  AM RUNNING CUZ I DIDNT GOT A LAST QUERY',
-            lastQueryResult,
-            '  <><<><><<><><<> ',
-            batchChunks[index],
-          );
-
-          const results = await postCondition
-            .where('postID', 'not-in', [
-              'e416889d-d26d-4d19-b865-8d3a6275e156',
-              '99ea132a-72c2-4d18-929a-bfb2dc487540',
-              '8de69220-b63f-4736-93b9-c0db0ed7d0d1',
-              '686314d4-b6f4-489a-9f8d-8fd30a5c696c',
-              '65ceab7e-7703-4008-b206-81c7ac8519fd',
-              '4df4fccf-1969-480f-971a-d0d14a416bf8',
-              '4bc065cc-d7e2-4625-a307-8014695037b2',
-              '4b1f374f-3a93-40cf-99a3-0bf48462e726',
-              '376d7f10-c79b-4bdd-9a1c-737237d689cf',
-              '33cc06cd-bffe-47f1-8478-59152b2e223c',
-            ])
-            .limit(limit)
-            .get();
-          if (results) {
-            console.log(
-              'RESULT LOG FROM THE NOT FOUND LAST QUERY =====> ',
-              results.docs,
-            );
-            console.log(results.size, ' the result size  ============');
-            lastQueryResult = results.docs[results.docs.length - 1];
-            batches.push(results.docs);
-          } else {
-            console.log(
-              'there is no result from the RUNNING WITH NO LAST QUERY!',
-            );
-          }
-        }
-
-        index++;
-      }
-
-      var allPosts = batches.flat().map(result => ({
+      let results = response.docs.map(result => ({
         id: result.id,
         ...result.data(),
       }));
-
-      return {
-        lastVisibleItem: lastQueryResult,
-        postsArray: allPosts,
-      };
-
-      // console.log(
-      //   batches,
-      //   batches.length,
-      //   ' FINALYY OOOO',
-      //   batches.flat()[0].data(),
-      //   batches.flat().length,
-      //   '======',
-      // );
-      // return Promise.all(batches).then(response => {
-      //   console.log('POST LENGTH IS ', response.flat().length);
-      //   return {postsArray: response.flat(), lastVisibleItem: lastVisibleItem};
-      // });
+      console.log(response, 'response');
+      return {postArray: results, lastVisibleItem: lastVisibleItem};
+    } else {
+      console.log('check ur filterOutBlackList method');
     }
-  } catch (error) {
-    console.log('FATAL ERROR ', error.message);
+  } else {
+    console.log(' posts black list passed!!!', postsBlacklisted);
+  }
+
+  if (postsBlacklisted || postsBlacklisted.length > 0) {
+    console.log('FETCHING with FILTER, see BLACKLISTS ', postsBlacklisted);
+
+    //do not change the postsBlacklisted array
+    var copiedPostsBlacklisted = [...postsBlacklisted];
+    //remove the black listed post
+    var batches = [];
+    var index = 0;
+    var batchChunks = [...splitArrayInChunks(copiedPostsBlacklisted, 10)];
+    var lastVisibleItem;
+    while (index < batchChunks.length) {
+      batches.push(
+        postCondition
+          .where('postID', 'not-in', batchChunks[index])
+          .limit(limit)
+          .get()
+          .then(results => {
+            //get the last item first and store it.
+            lastVisibleItem = results.docs[results.docs.length - 1];
+            var output = results.docs.map(result => ({
+              id: result.id,
+              ...result.data(),
+            }));
+            console.log(
+              postsBlacklisted,
+              ' ====================chunks===================',
+              batchChunks,
+            );
+            return output;
+          }),
+      );
+      index++;
+    }
+    return Promise.all(batches).then(response => {
+      return {postsArray: response.flat(), lastVisibleItem: lastVisibleItem};
+    });
   }
 };
 
@@ -470,7 +386,6 @@ export const fetchPostsFromServer = async (
       limit,
     );
     if (querySnapshot) {
-      console.log(querySnapshot, ' snappy');
       const {lastVisibleItem, postsArray} = querySnapshot;
 
       //get last post
