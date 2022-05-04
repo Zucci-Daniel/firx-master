@@ -281,15 +281,12 @@ export const getFilteredPosts = async (
   limit = 10,
 ) => {
   try {
-    const baseUrl = firestore()
-      .collectionGroup('AllPosts')
-      .orderBy('postID', 'desc');
+    console.log('FOR ELLIS ', lastItem, ' FOR ELLIS');
+
+    // const baseUrl = firestore().collectionGroup('AllPosts').orderBy('postedOn');
+    // const baseUrl = firestore().collectionGroup('AllPosts').orderBy('postID');
+    const baseUrl = firestore().collection('AllPosts').orderBy('postID');
     const postCondition = lastItem ? baseUrl.startAfter(lastItem) : baseUrl;
-
-    console.log('==============================================');
-
-    console.table(postCondition);
-    console.log('==============================================');
 
     if (!postsBlacklisted.length > 0) {
       console.log('FETCHING WITHOUT FILTER, NO BLACKLISTS ', postsBlacklisted);
@@ -317,16 +314,14 @@ export const getFilteredPosts = async (
     if (postsBlacklisted || postsBlacklisted.length > 0) {
       console.log('FETCHING with FILTER, see BLACKLISTS ', postsBlacklisted);
 
-      //do not change the postsBlacklisted array
       var copiedPostsBlacklisted = [...postsBlacklisted];
-      //remove the black listed post
       var batches = [];
       var index = 0;
-      var batchChunks = [...splitArrayInChunks(copiedPostsBlacklisted, 10)];
+      var batchChunks = [...splitArrayInChunks(copiedPostsBlacklisted, limit)];
 
       var lastQueryResult;
 
-      console.log(batchChunks, ' BATCH CHUNKS');
+      // console.log(batchChunks, ' BATCH CHUNKS');
 
       while (index < batchChunks.length) {
         if (lastQueryResult) {
@@ -336,10 +331,17 @@ export const getFilteredPosts = async (
             '  <><<><><<><><<> ',
             batchChunks[index],
           );
+          // console.log(
+          //   'FIRST QUERY = ',
+          //   firstQueryResult,
+          //   ' LAST QUERY ==> ',
+          //   lastQueryResult,
+          // );
           const results = await postCondition
-            .startAfter(lastQueryResult)
             .where('postID', 'not-in', batchChunks[index])
-            .limit(limit)
+            // .orderBy('postedOn', 'desc')
+            .startAfter(lastQueryResult)
+            // .limit(20)
             .get();
 
           if (results) {
@@ -356,15 +358,16 @@ export const getFilteredPosts = async (
         //////
         else {
           console.log(
-            '  AM RUNNING CUZ I DIDNT GOT A LAST QUERY',
-            lastQueryResult,
+            '364  AM RUNNING CUZ I DIDNT GET A LAST QUERY',
+
             '  <><<><><<><><<> ',
             batchChunks[index],
           );
 
           const results = await postCondition
             .where('postID', 'not-in', batchChunks[index])
-            .limit(limit)
+            // .orderBy('postedOn', 'desc')
+            // .limit(limit)
             .get();
           if (results) {
             console.log(
@@ -372,6 +375,9 @@ export const getFilteredPosts = async (
               results.docs,
             );
             console.log(results.size, ' the result size  ============');
+            // lastQueryResult = results.docs;
+
+            console.log(lastQueryResult, ' FOR ELLIS');
             lastQueryResult = results.docs[results.docs.length - 1];
             batches.push(results.docs);
           } else {

@@ -15,14 +15,14 @@ const AppCancel = ({
   extraStyle,
   color = colors.calmRed,
   size = 50,
-  useStyles=true,
-  custom
+  useStyles = true,
+  custom,
 }) => {
   return (
     <TouchableOpacity
       onPress={onCancel}
       style={[useStyles && styles.cancel, extraStyle]}>
-      {custom?custom:<Ionicons name={iconName} size={size} color={color} />}
+      {custom ? custom : <Ionicons name={iconName} size={size} color={color} />}
     </TouchableOpacity>
   );
 };

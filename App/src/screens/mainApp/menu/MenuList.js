@@ -63,6 +63,13 @@ const MenuList = ({navigation}) => {
       title: `more about me`,
       iconName: 'sports-kabaddi',
     },
+    {
+      id: 52,
+      optionColor: colors.info,
+      onPress: () => navigation.navigate('AccommodationTab'),
+      title: `accommodation`,
+      iconName: 'sports-kabaddi',
+    },
   ];
 
   const {setSeenUserUID} = useContext(AppContext);

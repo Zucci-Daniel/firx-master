@@ -332,6 +332,10 @@ const EditProfile = ({navigation}) => {
             text={'edit personalities'}
             onPress={() => navigation.navigate('editPersonalities')}
           />
+          <Link
+            text={'edit accomdation details'}
+            onPress={() => navigation.navigate('accomodation')}
+          />
         </View>
       </ScrollView>
     </View>

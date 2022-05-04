@@ -27,9 +27,14 @@ import AppPostImage from '../../../../components/AppPostImage';
 import AppPostVideo from '../../../../components/AppPostVideo';
 import AppScrollView from '../../../../components/AppScrollView';
 import MediaSkeleton from '../../../../components/MediaSkeleton';
+import {useNavigation} from '@react-navigation/native';
+import {AppContext} from './../../../../appContext';
 
 //Might have to be a stack later on
 const ViewPost = ({navigation, route}) => {
+  const {userUID} = useContext(AppContext);
+
+  const globalNavigation = useNavigation();
   const {postId} = route.params;
 
   const [selectedPost, setSelectedPost] = useState({});
@@ -46,6 +51,17 @@ const ViewPost = ({navigation, route}) => {
       console.log(error.message);
     }
   };
+
+  const handleProfileSelection = (posterUID, userUID) => {
+    if (posterUID == userUID)
+      return globalNavigation.navigate('menu', {screen: 'profile'});
+    else
+      globalNavigation.navigate('userProfileStack', {
+        screen: 'userProfile',
+        params: {posterUserUID: posterUID},
+      });
+  };
+
   useEffect(() => {
     handleGetSelectedPost();
   }, []);
@@ -57,14 +73,15 @@ const ViewPost = ({navigation, route}) => {
       {isLoading && <ActivityIndicator />}
 
       <Post
+        onTapInitials={() =>
+          handleProfileSelection(selectedPost.posterUserUID, userUID)
+        }
         onPressPostMenu={null}
         profileImage={selectedPost.posterAvatar}
         name={selectedPost.posterName}
         caption={selectedPost.postCaption}
         date={'today :23:00pm wat'}>
-        <AppScrollView
-        
-         >
+        <AppScrollView>
           <View style={styles.scrollContainer}>
             {selectedPost.postMedias.map(media => {
               return media.type == 'picture' ? (

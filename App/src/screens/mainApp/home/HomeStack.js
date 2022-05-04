@@ -51,14 +51,6 @@ const HomeStack = ({navigation}) => {
       />
 
       <Stack.Screen
-        name="camera"
-        component={Camera}
-        options={{
-          headerShown: false,
-          title: '',
-        }}
-      />
-      <Stack.Screen
         name="write"
         component={Write}
         options={{

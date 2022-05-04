@@ -22,16 +22,10 @@ import {
   tabBarConfig,
   tabBarIndicatorConfig,
 } from '../../../../config/config';
-import {getPost} from '../../../../hooks/useOperation';
 
 import MediaSkeleton from '../../../../components/MediaSkeleton';
 import ProfilePane from './../../../../components/ProfilePane';
-import Twitter from './../../../../components/icons/Twitter';
-import WhatsApp from './../../../../components/icons/WhatsApp';
-import Ig from './../../../../components/icons/Ig';
-import Fb from './../../../../components/icons/Fb';
-import Phone from './../../../../components/icons/Phone';
-import {useGetNewUser} from './../../../../hooks/useOperation';
+
 import SocialHandles from '../../../../components/SocialHandles';
 import InfoText from './../../../../components/InfoText';
 import SelectedUserPersonalities from './SelectedUserPersonalities';
@@ -39,37 +33,18 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import AppIndicator from './../../../../components/AppIndicator';
 import {SelectedUserContext} from './selectedUserContext';
 import SelectedUserAuthoredPosts from './SelectedUserAuthoredPosts';
+import AnimatedImage from './../../../../components/AnimatedImage';
 
 const Tab = createMaterialTopTabNavigator();
 
 //Might have to be a stack later on
 const UserProfile = ({navigation, route}) => {
-  const {
-    selectedUserDoc,
-
-    isFetching,
-
-    setId,
-  } = useContext(SelectedUserContext);
+  const {selectedUserDoc, isFetching, setId} = useContext(SelectedUserContext);
 
   const {posterUserUID} = route.params;
 
   const [selectedUser, setSelectedUser] = useState({});
-
-  // const getSelectedUser = async posterUserUID => {
-  //   //set the global state.
-  //   console.log(posterUserUID, ' from the user Profile');
-  //   setId(posterUserUID);
-
-  //   const response = await useGetNewUser('STUDENTS', posterUserUID);
-
-  //   if (response) {
-  //     setSelectedUser({...response.data(), id: response.data().id});
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  console.log(selectedUserDoc, ' ejeands', selectedUser);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setId(posterUserUID);
@@ -79,12 +54,24 @@ const UserProfile = ({navigation, route}) => {
     setSelectedUser({...selectedUserDoc});
   }, [selectedUserDoc]);
 
+  const showImage = () => setShowModal(true);
+
+  const hideModal = () => setShowModal(false);
+
   if (isFetching) return <MediaSkeleton />;
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
+        <AnimatedImage
+          image={selectedUser.profileImage}
+          isVisible={showModal}
+          onBackButtonPress={hideModal}
+          onBackPress={hideModal}
+        />
         <ProfilePane
+          onPressOutImage={hideModal}
+          onLongPressImage={showImage}
           username={`${selectedUser.firstName} ${selectedUser.lastName}`}
           schoolInfo={`${selectedUser.department} ${selectedUser.level}`}
           externalProfileImage={selectedUser.profileImage}
@@ -139,7 +126,7 @@ const styles = StyleSheet.create({
   container: {
     height: undefined,
     width: width,
-    paddingHorizontal: universalPadding / 2,
+    paddingHorizontal: universalPadding / 6,
     paddingBottom: universalPadding / 5,
     backgroundColor: colors.neonBg,
   },

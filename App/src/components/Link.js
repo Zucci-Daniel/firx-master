@@ -4,12 +4,20 @@ import {
   Text,
   TouchableOpacity,
 } from '../imports/all_RnComponents';
-import {universalPadding} from '../config/config';
+import {colors, universalPadding} from '../config/config';
 
-export default function Link({text, onPress,extraStyle,readOnly=false}) {
+export default function Link({
+  text,
+  onPress,
+  extraStyle,
+  readOnly = false,
+  color,
+}) {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={readOnly?1:0.7}>
-      <Text style={[styles.Link,extraStyle]}>{text}</Text>
+    <TouchableOpacity onPress={onPress} activeOpacity={readOnly ? 1 : 0.7}>
+      <Text style={[styles.Link, extraStyle, {color: color ? color : 'blue'}]}>
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 }
