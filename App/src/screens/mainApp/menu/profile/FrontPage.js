@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import {
@@ -9,7 +9,6 @@ import {
   tabBarConfig,
   tabBarIndicatorConfig,
 } from '../../../../config/config';
-import {useContext} from 'react';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import ProfilePane from './../../../../components/ProfilePane';
 import SocialHandles from '../../../../components/SocialHandles';
@@ -21,6 +20,7 @@ import AuthoredPosts from './../AuthoredPosts/AuthoredPosts';
 import SavedPosts from './../SavedPosts/SavedPosts';
 import AppIndicator from '../../../../components/AppIndicator';
 import InfoText from './../../../../components/InfoText';
+import AnimatedImage from '../../../../components/AnimatedImage';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,11 +28,25 @@ const FrontPage = () => {
   const navigation = useNavigation();
   const {user} = useContext(SignUpInfoContext);
 
+  const [showModal, setShowModal] = useState(false);
+
+  const showImage = () => setShowModal(true);
+
+  const hideModal = () => setShowModal(false);
+
   return (
     <>
       <View style={styles.mainContainer}>
         <View style={styles.container}>
+          <AnimatedImage
+            image={user?.profileImage}
+            isVisible={showModal}
+            onBackButtonPress={hideModal}
+            onBackPress={hideModal}
+          />
           <ProfilePane
+            onPressOutImage={hideModal}
+            onLongPressImage={showImage}
             profileImageSize={100}
             extraUserNameStyle={styles.names}
             extraNameStyles={styles.school}
@@ -49,7 +63,7 @@ const FrontPage = () => {
         <Tab.Navigator
           sceneContainerStyle={styles.sceneContainerStyle}
           screenOptions={{
-            tabBarLabelStyle: {...tabBarLabelConfig},
+            tabBarLabelStyle: {...tabBarLabelConfig,color: colors.calmBlue},
             tabBarStyle: {...tabBarConfig},
             tabBarIndicatorStyle: {...tabBarIndicatorConfig},
             tabBarShowLabel: true,
@@ -86,7 +100,7 @@ const styles = StyleSheet.create({
   container: {
     height: undefined,
     width: width,
-    paddingHorizontal: universalPadding / 2,
+    paddingHorizontal: universalPadding / 6,
     paddingBottom: universalPadding / 5,
     backgroundColor: colors.neonBg,
   },

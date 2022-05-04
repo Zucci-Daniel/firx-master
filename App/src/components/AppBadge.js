@@ -1,10 +1,21 @@
-import { React } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import {Headline, Subheading, Badge} from '../imports/all_packages';
-import {universalPadding, width, sMargin, colors} from '../config/config';
+import React from 'react';
+import {Badge} from 'react-native-paper';
 
-export default AppBadge = ({}) => {
-  return <Badge>5</Badge>;
+export default AppBadge = ({value}) => {
+  return (
+    <Badge
+      theme={{colors: 'red', mode: 'adaptive'}}
+      style={{
+        backgroundColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 13,
+        padding: 0,
+        fontWeight:'bold'
+      }}>
+      {value}
+    </Badge>
+  );
 };
 
 // const styles = StyleSheet.create({

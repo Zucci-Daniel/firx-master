@@ -8,6 +8,7 @@ import SavedPosts from './SavedPosts/SavedPosts';
 import Link from './../../../components/Link';
 import {height, width} from '../../../config/config';
 
+
 const {colors, brandFont} = config;
 
 const Menu = () => {

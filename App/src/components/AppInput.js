@@ -11,9 +11,11 @@ export default AppInput = ({
   mode,
   prefixIcon = false,
   outlineColor = colors.calmBlue,
-  activeOutlineColor =colors.calmBlue,
+  activeOutlineColor = colors.calmBlue,
   background,
   iconName = 'camera',
+  placeHolderColor,
+  textColor,
   ...props
 }) => {
   return (
@@ -27,8 +29,19 @@ export default AppInput = ({
         extraStyles,
         {backgroundColor: background ? background : colors.pureWhite},
       ]}
-      theme={{colors: {text: colors.brandBg}}}
+      theme={{
+        colors: {
+          text: textColor ? textColor : colors.brandBg,
+          placeholder: placeHolderColor ? placeHolderColor : colors.calmBlue,
+          backdrop:'red',
+          accent:'green',
+          surface:'red',
+          onSurface:'blue',
+          primary:colors.chip
+        },
+      }}
       keyboardType={keyboardType}
+      
       mode={mode}
       dense={false}
       outlineColor={outlineColor}
@@ -41,6 +54,7 @@ export default AppInput = ({
 
 const styles = StyleSheet.create({
   TextInput: {
+    width: '100%',
     marginVertical: sMargin,
     borderRadius: inputBorder,
     fontFamily: brandFont.medium,

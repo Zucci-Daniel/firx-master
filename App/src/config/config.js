@@ -81,7 +81,7 @@ const tabBarConfig = {
 };
 
 const tabBarLabelConfig = {
-  color: colors.calmBlue,
+  // color: colors.calmBlue,
   textTransform: 'capitalize',
 };
 

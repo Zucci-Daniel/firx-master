@@ -22,6 +22,8 @@ export default AppImage = ({
   size = width / 5,
   theImage,
   readOnly = false,
+  onLongPressImage,
+  onPressOutImage,
 }) => {
   const {user, setUser} = useContext(SignUpInfoContext);
   // const [imageUri, setimageUri] = useState();
@@ -40,7 +42,12 @@ export default AppImage = ({
 
   return (
     <>
-      <TouchableOpacity onPress={readOnly ? null : handleSelectImage}>
+      <TouchableOpacity
+        onPress={readOnly ? null : handleSelectImage}
+        delayLongPress={200}
+        delayPressOut={10}
+        onLongPress={onLongPressImage}
+        onPressOut={onPressOutImage}>
         {user.profileImage !== null && (
           <Avatar.Image
             size={size}

@@ -28,6 +28,11 @@ import {useUploadFile} from './../../../hooks/useUploadFile';
 import {addNewPost} from '../../../hooks/useOperation';
 import {createThumbnail} from 'react-native-create-thumbnail';
 import {HomeContext} from './homeContext';
+import {handleOpenCamera, handleOpenGallery} from '../../../hooks/justHooks';
+import {handleOpenVideo, handlePrepareMedias} from './../../../hooks/justHooks';
+import AppMediaDisplay from './../../../components/AppMediaDisplay';
+import MediaDisplayActions from '../../../components/MediaDisplayActions';
+import AppScrollView from './../../../components/AppScrollView';
 
 const Camera = () => {
   const uploadFile = useUploadFile();
@@ -58,73 +63,44 @@ const Camera = () => {
     postDislikes: [],
   });
 
-  const camera = () => {
-    ImagePicker.openCamera({
-      width: width,
-      height: postSize,
-      cropping: true,
-    })
-      .then(dataArray => selectedMedia([dataArray]))
-      .catch(error => console.log(error.message, ' fail'));
+  const camera = async () => {
+    const dataArray = await handleOpenCamera();
+    if (dataArray) {
+      selectedMedia([dataArray]);
+    }
   };
-
-  const video = () => {
-    ImagePicker.openCamera({
-      mediaType: 'video',
-    })
-      .then(dataArray => selectedMedia([dataArray]))
-      .catch(error => console.log(error.message, ' fail'));
+  const video = async () => {
+    const dataArray = await handleOpenVideo();
+    if (dataArray) {
+      selectedMedia([dataArray]);
+    }
   };
-  const gallery = () => {
-    ImagePicker.openPicker({
-      multiple: true,
-      mediaType: 'any',
-      includeBase64: true,
-      compressVideoPreset: 'HighestQuality',
-    })
-      .then(dataArray => selectedMedia(dataArray))
-      .catch(error => console.log(error.message, ' fail'));
+  const gallery = async () => {
+    const dataArray = await handleOpenGallery();
+    if (dataArray) {
+      selectedMedia(dataArray);
+    }
   };
-
   const selectedMedia = data => {
     const stateMedia = post.postMedias;
 
-    let awaitingMedias = [];
-
-    data.map((item, index) => {
-      const newItem = {
-        id: uuid.v4(),
-        height: item.height,
-        mime:
-          item.mime == 'image/jpeg' || item.mime == 'image/png'
-            ? 'picture'
-            : item.mime == 'video/mp4'
-            ? 'video'
-            : alert('zucci check the type of file you got'),
-        modificationDate: item.modificationDate,
-        path: item.path,
-        size: item.size,
-        width: item.width,
-      };
-      //check if this item is already in the state.
+    let newMedias = [];
+    const awaitingMedias = handlePrepareMedias(data);
+    //filter from the awaiting medias and chekc if any file exist already instate.
+    awaitingMedias.forEach(newItem => {
       const exist = stateMedia.find(media => media.path == newItem.path)
         ? true
         : false;
-      exist == false ? awaitingMedias.push(newItem) : null;
+      exist == false ? newMedias.push(newItem) : null;
     });
 
-    setPost({...post, postMedias: [...post.postMedias, ...awaitingMedias]});
+    setPost({...post, postMedias: [...post.postMedias, ...newMedias]});
   };
-
-  // console.log(post.postMedias, ' the post medias');
-
   const removeMedia = id => {
     let stateMedia = post.postMedias;
     stateMedia = stateMedia.filter(media => media.id !== id);
     setPost({...post, postMedias: stateMedia});
   };
-  // console.log(post.postMedias, ' media outside');
-
   const handleBack = () => {
     const handleGoBack = navigation.goBack;
 
@@ -140,7 +116,6 @@ const Camera = () => {
     }
     return handleGoBack();
   };
-
   const handleSubmitPost = async () => {
     setFinishedUploadingMedia(false);
     //take them home.
@@ -222,45 +197,12 @@ const Camera = () => {
           />
         )}
       </View>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <FlatList
-          style={post.postMedias.length ? styles.FlatList : null}
-          ref={flatListRef}
-          onContentSizeChange={() =>
-            flatListRef.current.scrollToEnd({animated: true})
-          }
+      <AppScrollView extraStyle={styles.scrollView}>
+        <AppMediaDisplay
           data={post.postMedias}
-          horizontal={true}
-          keyExtractor={item => item.id}
-          snapToAlignment="start"
-          decelerationRate={0.8}
-          snapToInterval={width}
-          pagingEnabled={true}
-          renderItem={({item}) => (
-            <>
-              <AppCancel
-                size={30}
-                iconName="ios-remove-circle-sharp"
-                extraStyle={styles.trash}
-                onCancel={() => removeMedia(item.id)}
-              />
-              {item.mime == 'picture' && (
-                <AppPostImage
-                  key={item}
-                  imageUri={item.path}
-                  useHeight={'100%'}
-                />
-              )}
-              {item.mime == 'video' && (
-                <AppPostVideo
-                  key={item}
-                  videoUri={item.path}
-                  useHeight={'100%'}
-                />
-              )}
-            </>
-          )}
+          onRemoveItem={id => removeMedia(id)}
         />
+
         <AppTextArea
           useBigFont={post.postMedias.length == 0 ? true : false}
           value={post.postCaption}
@@ -272,13 +214,12 @@ const Camera = () => {
               : `Hi ${user.firstName}! What's on your mind?`
           }
         />
-      </ScrollView>
-
-      <View style={styles.actions}>
-        <AppIconButton onPress={gallery} iconName="images" />
-        <AppIconButton onPress={camera} iconName="camera-outline" />
-        <AppIconButton onPress={video} iconName="videocam-outline" />
-      </View>
+      </AppScrollView>
+      <MediaDisplayActions
+        openCamera={camera}
+        openGallery={gallery}
+        openVideo={video}
+      />
     </View>
   );
 };
@@ -286,6 +227,10 @@ const Camera = () => {
 export default Camera;
 
 const styles = StyleSheet.create({
+  scrollView: {
+    height: '80%',
+    width: '100%',
+  },
   container: {
     flex: 1,
     backgroundColor: colors.neonBg,
@@ -299,10 +244,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  FlatList: {
-    marginTop: universalPadding / 2,
-    height: postHeight,
   },
   imagesContainer: {
     width: width / 3,
@@ -326,12 +267,5 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'transparent',
     height: height / 3,
-  },
-  actions: {
-    width: width,
-    height: undefined,
-    padding: 4,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
   },
 });

@@ -28,6 +28,8 @@ export default function ProfilePane({
   bg,
   externalProfileImage,
   profileImageSize,
+  onLongPressImage,
+  onPressOutImage,
 }) {
   const {
     user: {firstName, lastName, department, level, profileImage},
@@ -48,6 +50,8 @@ export default function ProfilePane({
           extraStyle,
         ]}>
         <AppImage
+          onPressOutImage={onPressOutImage}
+          onLongPressImage={onLongPressImage}
           size={profileImageSize}
           source={externalProfileImage ? externalProfileImage : profileImage}
           readOnly
