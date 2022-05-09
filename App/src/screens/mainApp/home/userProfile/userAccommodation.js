@@ -12,7 +12,7 @@ import {
 } from '../../../../config/config';
 import Link from './../../../../components/Link';
 import AppIndicator from './../../../../components/AppIndicator';
-import {convertToCurrency} from '../../../../functions/commonFunctions';
+import {convertToCurrency, naira} from '../../../../functions/commonFunctions';
 import SweetButton from './../../../../components/SweetButton';
 
 const UserAccommodation = ({navigation, route}) => {
@@ -72,7 +72,7 @@ const UserAccommodation = ({navigation, route}) => {
             <Link
               centered={false}
               extraStyle={{fontSize: 20}}
-              text={`$${convertToCurrency(accommodation?.price)}.00`}
+              text={`${naira()}${convertToCurrency(accommodation?.price)}.00`}
               color={colors.info}
               readOnly
             />

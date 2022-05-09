@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   name: {
     color: colors.initials,
     fontSize: 12,
-    fontFamily:brandFont.beauty,
+    fontFamily:brandFont.mediumBold,
     textTransform: 'capitalize',
   },
   date: {

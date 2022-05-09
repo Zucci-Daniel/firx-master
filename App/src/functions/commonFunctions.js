@@ -20,5 +20,7 @@ export const convertToCurrency = cash => {
   return Number(cash).toLocaleString();
 };
 
+export const convertToReadableDate = date =>
+  dayjs(date.toDate()).format('DD MMM YY, h:mm a');
 
-export const convertToReadableDate=(date)=>dayjs(date.toDate()).format('DD MMM YY, h:mm a')
+export const naira = () => '\u20A6';//naira symbol
