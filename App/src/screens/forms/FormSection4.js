@@ -4,7 +4,7 @@ import AppButton from './../../components/AppButton';
 import {useFormContext} from 'react-hook-form';
 import AppSelectField from './../../components/form-components/AppSelectField';
 import {SignUpInfoContext} from './signUpInfoContext';
-import {useUploadFile} from './../../hooks/useUploadFile';
+import {uploadAfile} from './../../hooks/uploadAfile';
 import {AppContext} from './../../appContext';
 import {storeLocally} from './../../hooks/useLocalStorageFunctions';
 import {addNewUserToDb, toggleNetwork} from './../../hooks/useOperation';
@@ -29,8 +29,6 @@ const FormSection4 = ({navigation}) => {
   const [progress, setProgress] = useState(null);
   const [creatingStudent, setIsCreatingStudent] = useState(false);
 
-  const uploadFile = useUploadFile();
-
   let currentNetworkStat = netInfo.isInternetReachable;
 
   const submitTheForm = async data => {
@@ -41,7 +39,7 @@ const FormSection4 = ({navigation}) => {
         log(data, page, ' final data');
 
         const theUrl = data.profileImage
-          ? await uploadFile(data.profileImage)
+          ? await uploadAfile(data.profileImage)
           : 'NO PROFILE IMAGE';
 
         setProgress(setProgress);

@@ -14,6 +14,7 @@ import AppCancel from './../../../../components/AppCancel';
 import PlaceHolderParagraph from './../../../../components/PlaceHolderParagraph';
 import AppList from '../../../../components/AppList';
 import SeparatedButtons from '../../../../components/SeparatedButtons';
+import SweetButton from './../../../../components/SweetButton';
 
 const Descriptions = ({navigation}) => {
   const {accommodation, setAccommodation} = useContext(AccommodationContext);
@@ -149,8 +150,8 @@ const Descriptions = ({navigation}) => {
         />
 
         {validate && (
-          <Link
-            color={colors.calmGreen}
+          <SweetButton
+            bg={colors.calmGreen}
             text={'add prefrences'}
             onPress={handleSubmit(handleNext)}
           />

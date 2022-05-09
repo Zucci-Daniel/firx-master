@@ -2,11 +2,15 @@ import React from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {universalPadding} from '../config/config';
 
-const AppIndicator = ({extraIndicatorStyle, forSubmiting = false}) => {
+const AppIndicator = ({
+  extraIndicatorStyle,
+  forSubmiting = false,
+  size = 50,
+}) => {
   return (
     <ActivityIndicator
       color={'blue'}
-      size={50}
+      size={size}
       style={[
         forSubmiting ? styles.forSubmiting : styles.activity,
         extraIndicatorStyle,

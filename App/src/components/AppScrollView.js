@@ -13,10 +13,19 @@ export default AppScrollView = ({
   children,
   extraStyle,
   extraScrollStyle,
+  customHieght,
+  paddingBottom,
   ...props
 }) => {
   return (
-    <View style={[styles.container, extraStyle]}>
+    <View
+      style={[
+        styles.container,
+        {
+          height: customHieght ? customHieght : '100%',
+        },
+        extraStyle,
+      ]}>
       <ScrollView
         contentContainerStyle={[styles.view, extraScrollStyle]}
         alwaysBounceVertical
@@ -30,10 +39,6 @@ export default AppScrollView = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
     width: '100%',
   },
-  // view: {
-  //   padding: universalPadding / 7,
-  // },
 });

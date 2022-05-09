@@ -8,7 +8,7 @@ import {
   updateAllPostsFields,
   updateDocument,
 } from '../../../../hooks/useOperation';
-import {useUploadFile} from './../../../../hooks/useUploadFile';
+import {uploadAfile} from './../../../../hooks/uploadAfile';
 import {AppContext} from './../../../../appContext';
 import AppInputField from '../../../../components/form-components/AppInputField';
 import {useForm} from 'react-hook-form';
@@ -29,8 +29,6 @@ const {universalPadding, colors, avatarEditWidth, width, height} = config;
 
 const EditProfile = ({navigation}) => {
   const {posted, setPosted} = useContext(HomeContext);
-
-  const uploadFile = useUploadFile();
 
   const {userUID} = useContext(AppContext);
 
@@ -70,7 +68,7 @@ const EditProfile = ({navigation}) => {
       school,
       department,
       level,
-      bio: bio ? bio : 'enter bio...',
+      bio: bio ? bio : '',
       instagram: instagram ? instagram : 'instagram',
       facebook: facebook ? facebook : 'facebook',
       whatsapp: whatsapp ? whatsapp : 'whatsapp',
@@ -141,7 +139,7 @@ const EditProfile = ({navigation}) => {
     //check if he changed the image state
     try {
       if (imageChanged) {
-        let imageUri = await uploadFile(currentProfileImage);
+        let imageUri = await uploadAfile(currentProfileImage);
         if (imageUri) {
           console.log(imageUri, ' image rui');
           updateMe(true, data, imageUri);
@@ -208,7 +206,10 @@ const EditProfile = ({navigation}) => {
           onPress={handleSubmit(handleUpdateProfile)}
         />
       ) : isUpdating ? (
-        <AppIndicator forSubmiting extraIndicatorStyle={styles.extraIndicatorStyle} />
+        <AppIndicator
+          forSubmiting
+          extraIndicatorStyle={styles.extraIndicatorStyle}
+        />
       ) : null}
 
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -220,7 +221,8 @@ const EditProfile = ({navigation}) => {
         </View>
         <View style={styles.inputWrapper}>
           <AppInputField
-            background={colors.skeletonAnimationBg}
+            background={'transparent'}
+            textColor={colors.pureWhite}
             control={control}
             name="firstName"
             label={'first name'}
@@ -230,7 +232,8 @@ const EditProfile = ({navigation}) => {
             }}
           />
           <AppInputField
-            background={colors.skeletonAnimationBg}
+            background={'transparent'}
+            textColor={colors.pureWhite}
             control={control}
             name="lastName"
             label={'last name'}
@@ -240,7 +243,8 @@ const EditProfile = ({navigation}) => {
             }}
           />
           <AppInputField
-            background={colors.skeletonAnimationBg}
+            background={'transparent'}
+            textColor={colors.pureWhite}
             control={control}
             name="bio"
             label={'About yourself...'}
@@ -269,7 +273,6 @@ const EditProfile = ({navigation}) => {
             control={control}
             required={{required: 'your levels'}}
             data={levels}
-            
           />
           <AppRadioField
             name={'typeOfStudent'}
@@ -290,7 +293,8 @@ const EditProfile = ({navigation}) => {
                 <Ig />
                 <AppInputField
                   extraStyle={styles.extraPasteLinkInput}
-                  background={colors.skeletonAnimationBg}
+                  background={'transparent'}
+                  textColor={colors.pureWhite}
                   control={control}
                   name="instagram"
                   label={'Instagram profile link...'}
@@ -300,7 +304,8 @@ const EditProfile = ({navigation}) => {
                 <Fb />
                 <AppInputField
                   extraStyle={styles.extraPasteLinkInput}
-                  background={colors.skeletonAnimationBg}
+                  background={'transparent'}
+                  textColor={colors.pureWhite}
                   control={control}
                   name="facebook"
                   label={'facebook profile link...'}
@@ -310,7 +315,8 @@ const EditProfile = ({navigation}) => {
                 <WhatsApp />
                 <AppInputField
                   extraStyle={styles.extraPasteLinkInput}
-                  background={colors.skeletonAnimationBg}
+                  background={'transparent'}
+                  textColor={colors.pureWhite}
                   control={control}
                   name="whatsapp"
                   label={'whatsapp number...'}
@@ -320,7 +326,8 @@ const EditProfile = ({navigation}) => {
                 <Twitter />
                 <AppInputField
                   extraStyle={styles.extraPasteLinkInput}
-                  background={colors.skeletonAnimationBg}
+                  background={'transparent'}
+                  textColor={colors.pureWhite}
                   control={control}
                   name="twitter"
                   label={'twitter profile link...'}
@@ -334,7 +341,7 @@ const EditProfile = ({navigation}) => {
           />
           <Link
             text={'edit accomdation details'}
-            onPress={() => navigation.navigate('accomodation')}
+            onPress={() => navigation.navigate('AccommodationTab')}
           />
         </View>
       </ScrollView>

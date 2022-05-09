@@ -4,7 +4,7 @@ import {colors, universalPadding, width} from '../../../../config/config';
 import AppMediaDisplay from './../../../../components/AppMediaDisplay';
 import MediaDisplayActions from './../../../../components/MediaDisplayActions';
 import {useNavigation} from '@react-navigation/native';
-import {useUploadFile} from './../../../../hooks/useUploadFile';
+import {uploadAfile} from './../../../../hooks/uploadAfile';
 import {AppContext} from './../../../../appContext';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import {HomeContext} from './../../home/homeContext';
@@ -16,9 +16,9 @@ import {
 } from './../../../../hooks/justHooks';
 import Link from '../../../../components/Link';
 import PlaceHolderParagraph from '../../../../components/PlaceHolderParagraph';
+import SweetButton from './../../../../components/SweetButton';
 
 const Accommodation = ({accommodationMedias, navigation}) => {
-  const uploadFile = useUploadFile();
   const {userUID} = useContext(AppContext);
   const {user} = useContext(SignUpInfoContext);
 
@@ -71,7 +71,7 @@ const Accommodation = ({accommodationMedias, navigation}) => {
 
   return (
     <>
-      {!accommodation.medias.length > 0 && (
+      {!accommodation.medias?.length > 0 && (
         <View style={styles.container}>
           <PlaceHolderParagraph
             text={
@@ -81,7 +81,7 @@ const Accommodation = ({accommodationMedias, navigation}) => {
         </View>
       )}
       <AppMediaDisplay
-        data={accommodation.medias}
+        data={accommodation?.medias}
         onRemoveItem={id => removeMedia(id)}
       />
 
@@ -92,10 +92,10 @@ const Accommodation = ({accommodationMedias, navigation}) => {
           openGallery={gallery}
           openVideo={video}
         />
-        {accommodation.medias.length > 0 && (
-          <Link
-            color={colors.calmGreen}
-            text={'add descriptions'}
+        {accommodation.medias?.length > 0 && (
+          <SweetButton
+            bg={colors.calmGreen}
+            text={'descriptions'}
             onPress={() => navigation.navigate('descriptions')}
           />
         )}
@@ -123,5 +123,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingRight: 10,
   },
 });

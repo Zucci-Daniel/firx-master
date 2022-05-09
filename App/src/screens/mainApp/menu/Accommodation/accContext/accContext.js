@@ -10,9 +10,9 @@ export const AccommodationContextProvider = ({children}) => {
     medias: [],
     extraInfo: [],
     preferences: [],
-    available: null,
-    startDate: null,
-    endDate: null,
+    available: false,
+    startDate: '',
+    endDate: '',
   });
   const [isLoading, setIsLoading] = useState(null);
   console.log('context is runnin');

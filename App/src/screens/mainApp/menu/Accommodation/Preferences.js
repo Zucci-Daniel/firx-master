@@ -2,25 +2,40 @@ import React, {useContext, useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {AccommodationContext} from './accContext/accContext';
 import AppList from './../../../../components/AppList';
-import {colors, universalPadding, height} from '../../../../config/config';
+import {
+  colors,
+  universalPadding,
+  height,
+  postHeight,
+} from '../../../../config/config';
 import {defaultPreferences} from '../../../../hooks/helperArrays';
 import AppScrollView from './../../../../components/AppScrollView';
 import Link from './../../../../components/Link';
 import SeparatedButtons from './../../../../components/SeparatedButtons';
 import SweetButton from './../../../../components/SweetButton';
+import AppAnimatedImageView from './../../../../components/AppAnimatedImageView';
+import AppSwitch from './../../../../components/AppSwitch';
+import AppDatePicker from './../../../../components/AppDatePicker';
+import {multiPost} from './../../../../hooks/multiPosts';
+import {updateDocument} from '../../../../hooks/useOperation';
+import {AppContext} from './../../../../appContext';
 
 const Preferences = ({navigation}) => {
+  const {userUID} = useContext(AppContext);
+
   const {accommodation, setAccommodation} = useContext(AccommodationContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [defaultPref, setDefaultPref] = useState([]);
+  const [miniLoading, setMiniLoading] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    setDefaultPref([...defaultPreferences]);
+    setDefaultPref(defaultPreferences);
     setIsLoading(false);
   }, []);
 
   const handleSelection = pref => {
+    setMiniLoading(true);
     let copiedPref = [...accommodation.preferences];
 
     //remove it if it is there
@@ -37,35 +52,97 @@ const Preferences = ({navigation}) => {
         preferences: [...copiedPref, pref],
       });
     }
+    setMiniLoading(false);
   };
 
-  console.log(accommodation.preferences, ' acc');
+  const handlePost = async () => {
+    try {
+      setShowModal(false);
+
+      console.log(accommodation, ' YOUR TOTAL FILES NOW');
+      const mediaLinks = await multiPost(accommodation.medias);
+      if (mediaLinks) {
+        //post to firebase
+        updateDocument(userUID, 'STUDENTS', {
+          accommodationDetails: {...accommodation},
+        });
+      } else {
+        console.log('failed to post accomodation');
+      }
+    } catch (error) {}
+  };
+
+  const handleIsAvialable = value =>
+    setAccommodation({...accommodation, available: value});
+
+  const handleHideModal = () => setShowModal(false);
+
+  const handleDate = (date, type) => {
+    type == 'startDate'
+      ? setAccommodation({...accommodation, startDate: date})
+      : setAccommodation({...accommodation, endDate: date});
+  };
 
   return (
     <View style={styles.container}>
+      <AppAnimatedImageView
+        isVisible={showModal}
+        onBackdropPress={handleHideModal}
+        onBackButtonPress={handleHideModal}>
+        <View style={styles.modalContent}>
+          <View styles={styles.modalChild}>
+            <AppDatePicker
+              label={
+                accommodation.startDate == ''
+                  ? 'when will you like to end search?'
+                  : accommodation.startDate
+              }
+              getDate={date => handleDate(date, 'startDate')}
+            />
+            <AppDatePicker
+              label={
+                accommodation.endDate == ''
+                  ? 'when will you like to end search?'
+                  : accommodation.endDate
+              }
+              getDate={date => handleDate(date, 'endDate')}
+            />
+            <AppList text={"i'm avaiable now"} useDefault={false}>
+              <AppSwitch
+                useValue={accommodation.available}
+                onChange={value => handleIsAvialable(value)}
+              />
+            </AppList>
+          </View>
+
+          <SweetButton text={'post this'} onPress={handlePost} />
+        </View>
+      </AppAnimatedImageView>
       {!isLoading && (
         <AppScrollView extraStyle={styles.scroll}>
-          {defaultPref.map((information, index) => (
-            <AppList
-              extraInfoStyles={styles.extraInfoStyles}
-              key={index}
-              text={`${index + 1}) ${information}`}
-              onCancel={() => handleSelection(information)}
-              iconName={
-                accommodation.preferences.includes(information) == true
-                  ? 'remove-circle-sharp'
-                  : 'add'
-              }
-              color={
-                accommodation.preferences.includes(information) == true
-                  ? colors.calmRed
-                  : colors.calmBlue
-              }
-              size={40}
-              extraTextStyles={styles.extraTextStyles}
-              extraCancelStyles={styles.extraCancelStyles}
-            />
-          ))}
+          {defaultPref.length > 0 &&
+            defaultPref.map((information, index) => (
+              <AppList
+                extraInfoStyles={styles.extraInfoStyles}
+                key={index}
+                text={`${index + 1}) ${information}`}
+                onCancel={() => handleSelection(information)}
+                loading={miniLoading}
+                iconName={
+                  accommodation.preferences.includes(information) == true
+                    ? 'remove-circle-sharp'
+                    : 'add'
+                }
+                color={
+                  accommodation.preferences.includes(information) == true
+                    ? colors.calmRed
+                    : colors.calmBlue
+                }
+                size={40}
+                extraTextStyles={styles.extraTextStyles}
+                extraCancelStyles={styles.extraCancelStyles}
+              />
+            ))}
         </AppScrollView>
       )}
 
@@ -75,7 +152,7 @@ const Preferences = ({navigation}) => {
           color={colors.info}
           onPress={() => navigation.goBack()}
         />
-        <SweetButton text={'post this'} onPress={null} />
+        <SweetButton text={'post this'} onPress={() => setShowModal(true)} />
       </SeparatedButtons>
     </View>
   );
@@ -113,5 +190,17 @@ const styles = StyleSheet.create({
   },
   extraCancelStyles: {
     bottom: -0,
+  },
+  modalContent: {
+    height: height / 3,
+    width: '100%',
+    backgroundColor: colors.pureWhite,
+    alignContent: 'center',
+    justifyContent: 'space-between',
+    padding: universalPadding / 3,
+  },
+  modalChild: {
+    height: undefined,
+    width: undefined,
   },
 });

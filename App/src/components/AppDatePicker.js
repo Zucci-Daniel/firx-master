@@ -2,8 +2,14 @@ import React, {useState} from 'react';
 import {Button, View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import Icons from 'react-native-vector-icons/FontAwesome';
+import {colors} from '../config/config';
 
-const AppDatePicker = ({getDate}) => {
+const AppDatePicker = ({
+  getDate,
+  label = 'Add your birth date',
+  extraDateStyles,
+  iconColor = colors.calmGreen,
+}) => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [dateColor, setDateColor] = useState('gray');
@@ -28,33 +34,34 @@ const AppDatePicker = ({getDate}) => {
       theYear,
     });
 
-    return `${theMonth}/${theDay}/${theYear}`
+    return `${theMonth}/${theDay}/${theYear}`;
   };
 
   return (
     <>
       <View style={styles.dateSelector}>
         <TouchableOpacity onPress={() => setOpen(true)}>
-          <Text style={[styles.dateColor, {color: dateColor}]}>
+          <Text style={[styles.dateColor, {color: dateColor}, extraDateStyles]}>
             {useThisDate.theMonth == ''
-              ? `Add your birth date`
+              ? label
               : `${useThisDate.theMonth}/${useThisDate.theDay}/${useThisDate.theYear}`}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setOpen(true)}>
-          <Icons name="calendar" size={30} color={'green'} />
+          <Icons name="calendar" size={30} color={iconColor} />
         </TouchableOpacity>
       </View>
 
       <DatePicker
-        textColor={'black'}
+        textColor={colors.pureWhite}
         modal
         mode="date"
         open={open}
         date={date}
         onConfirm={date => {
-       const formatDate = getTheDate(date);
-          setDateColor('white');
+          const formatDate = getTheDate(date);
+          setDateColor(colors.neon);
+          
           getDate(formatDate);
         }}
         onCancel={() => {

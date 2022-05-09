@@ -11,6 +11,7 @@ import ViewPost from './userProfile/ViewPost';
 import UserProfileStack from './userProfile/UserProfileStack';
 import Link from '../../../components/Link';
 import {colors} from '../../../config/config';
+import SweetButton from './../../../components/SweetButton';
 
 const HomeStack = ({navigation}) => {
   return (
@@ -29,7 +30,7 @@ const HomeStack = ({navigation}) => {
           headerTintColor: colors.calmBlue,
           headerStyle: {backgroundColor: colors.neonBg},
           headerRight: () => (
-            <Link text="post" onPress={() => navigation.navigate('camera')} />
+            <SweetButton text="post" onPress={() => navigation.navigate('camera')} />
           ),
         }}
       />

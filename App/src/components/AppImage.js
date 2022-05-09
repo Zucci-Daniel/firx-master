@@ -43,6 +43,7 @@ export default AppImage = ({
   return (
     <>
       <TouchableOpacity
+        activeOpacity={readOnly ? 1 : 0.2}
         onPress={readOnly ? null : handleSelectImage}
         delayLongPress={200}
         delayPressOut={10}

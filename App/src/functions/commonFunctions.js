@@ -13,3 +13,8 @@ export const showToast = (
     props: {toastType: toastType},
   });
 };
+
+export const convertToCurrency = cash => {
+  console.log(' to be converted ', cash);
+  return Number(cash).toLocaleString();
+};

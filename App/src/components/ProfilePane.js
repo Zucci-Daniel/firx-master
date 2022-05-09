@@ -7,7 +7,13 @@ import {
 } from '../imports/all_RnComponents';
 import {Avatar, Subheading} from '../imports/all_packages';
 import {WinsAndGames, AppImage} from '../imports/all_files';
-import {colors, universalPadding, brandFont, width} from '../config/config';
+import {
+  colors,
+  universalPadding,
+  brandFont,
+  width,
+  avatarEditWidth,
+} from '../config/config';
 import {SignUpInfoContext} from '../screens/forms/signUpInfoContext';
 import {useContext} from 'react';
 
@@ -52,7 +58,7 @@ export default function ProfilePane({
         <AppImage
           onPressOutImage={onPressOutImage}
           onLongPressImage={onLongPressImage}
-          size={profileImageSize}
+          size={avatarEditWidth / 1.3}
           source={externalProfileImage ? externalProfileImage : profileImage}
           readOnly
         />

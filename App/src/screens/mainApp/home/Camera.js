@@ -1,48 +1,31 @@
-import React, {useEffect, useState, useContext} from 'react';
-import {View, ScrollView, StyleSheet, Image, FlatList} from 'react-native';
-import {
-  height,
-  width,
-  colors,
-  universalPadding,
-  postSize,
-  postHeight,
-} from '../../../config/config';
-import ImagePicker from 'react-native-image-crop-picker';
-import Link from '../../../components/Link';
-import AppPostImage from '../../../components/AppPostImage';
+import React, {useState, useContext} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {height, width, colors} from '../../../config/config';
 import AppCancel from '../../../components/AppCancel';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {confirmAction} from '../../../hooks/postOperations';
 import uuid from 'react-native-uuid';
-import AppPostVideo from './../../../components/AppPostVideo';
-import AppIconButton from '../../../components/AppIconButton';
 import AppTextArea from './../../../components/AppTextArea';
-import SendPost from './../../../components/SendPost';
 import {AppContext} from './../../../appContext';
 import {SignUpInfoContext} from './../../forms/signUpInfoContext';
 import firestore from '@react-native-firebase/firestore';
-import ButtonText from './../../../components/ButtonText';
 import {commonFunctions} from '../../../imports/all_files';
-import {useUploadFile} from './../../../hooks/useUploadFile';
 import {addNewPost} from '../../../hooks/useOperation';
-import {createThumbnail} from 'react-native-create-thumbnail';
 import {HomeContext} from './homeContext';
 import {handleOpenCamera, handleOpenGallery} from '../../../hooks/justHooks';
 import {handleOpenVideo, handlePrepareMedias} from './../../../hooks/justHooks';
 import AppMediaDisplay from './../../../components/AppMediaDisplay';
 import MediaDisplayActions from '../../../components/MediaDisplayActions';
 import AppScrollView from './../../../components/AppScrollView';
+import SweetButton from './../../../components/SweetButton';
+import {multiPost} from './../../../hooks/multiPosts';
 
 const Camera = () => {
-  const uploadFile = useUploadFile();
-
   const {userUID} = useContext(AppContext);
   const {user} = useContext(SignUpInfoContext);
   const {posted, setPosted} = useContext(HomeContext);
   const navigation = useNavigation();
 
-  const flatListRef = React.useRef();
 
   const [finishedUploadingMedia, setFinishedUploadingMedia] = useState(null);
   //this post state should be global laters!
@@ -122,53 +105,23 @@ const Camera = () => {
     navigation.goBack();
 
     //map through the post Medias and send each of them to storage, and get thier link and create a new object.
-    let mediaFiles = [];
 
     try {
-      for (const media of post.postMedias) {
-        const uri = await uploadFile(media.path);
-        let thumbnail = null;
-        if (uri !== false && media.mime == 'video') {
-          console.log('theres media');
+      const response = await multiPost(post.postMedias);
 
-          let response = await createThumbnail({
-            url: uri,
-            timeStamp: 10000,
-          });
-
-          const thumbnailUri = await uploadFile(response.path);
-
-          if (thumbnailUri !== false) {
-            console.log('theres thumbnail');
-            thumbnail = thumbnailUri;
-          }
-          if (thumbnailUri == false) {
-            throw new Error('sorry create a thumbnail from our end');
-          }
-        }
-
-        if (uri == false) {
-          throw new Error("sorry can't upload your post from our end");
-        }
-        const newMedia = {
-          url: uri,
-          thumbnail: thumbnail,
-          type: media.mime,
-          id: media.id,
-          height: media.height,
-          width: media.width,
-          size: media.size,
-        };
-        console.log(newMedia, ' before firestore');
-        mediaFiles.push(newMedia);
+      if (response) {
+        console.log('about to post');
+        addNewPost('AllPosts', post.postID, {
+          ...post,
+          postMedias: response,
+        });
+        setFinishedUploadingMedia(true);
+        commonFunctions.showToast('SUCCESSFUL', 'post is live!', 'SUCCESS');
+      } else {
+        console.log(
+          ' ZUCCI CHECK THE CAMERA FUNCTION IN THE MULITPOST FUNCTION. RIGHT IN CAMERA SCREEN',
+        );
       }
-      console.log('about to post');
-      addNewPost('AllPosts', post.postID, {
-        ...post,
-        postMedias: mediaFiles,
-      });
-      setFinishedUploadingMedia(true);
-      commonFunctions.showToast('SUCCESSFUL', 'post is live!', 'SUCCESS');
     } catch (error) {
       console.log(error.message, 'failed to post files');
       commonFunctions.showToast(
@@ -188,13 +141,14 @@ const Camera = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <AppCancel useStyles={false} onCancel={handleBack} size={40} />
+        <AppCancel
+          useStyles={false}
+          color={colors.fadeWhite}
+          onCancel={handleBack}
+          size={40}
+        />
         {(post.postCaption !== '' || post.postMedias.length !== 0) && (
-          <ButtonText
-            bg={colors.neonBg}
-            title="post"
-            onPress={handleSubmitPost}
-          />
+          <SweetButton text="post" onPress={handleSubmitPost} />
         )}
       </View>
       <AppScrollView extraStyle={styles.scrollView}>
@@ -219,6 +173,7 @@ const Camera = () => {
         openCamera={camera}
         openGallery={gallery}
         openVideo={video}
+        extraStyles={{width: '60%'}}
       />
     </View>
   );
@@ -244,6 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: 5,
   },
   imagesContainer: {
     width: width / 3,

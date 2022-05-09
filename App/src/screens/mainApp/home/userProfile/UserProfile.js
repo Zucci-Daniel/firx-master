@@ -34,6 +34,8 @@ import AppIndicator from './../../../../components/AppIndicator';
 import {SelectedUserContext} from './selectedUserContext';
 import SelectedUserAuthoredPosts from './SelectedUserAuthoredPosts';
 import AnimatedImage from './../../../../components/AnimatedImage';
+import SweetButton from './../../../../components/SweetButton';
+import SeparatedButtons from '../../../../components/SeparatedButtons';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -47,6 +49,7 @@ const UserProfile = ({navigation, route}) => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    console.log(' zucci see ', posterUserUID);
     setId(posterUserUID);
   }, []);
 
@@ -57,6 +60,13 @@ const UserProfile = ({navigation, route}) => {
   const showImage = () => setShowModal(true);
 
   const hideModal = () => setShowModal(false);
+
+  const handleGotoAcc = id => {
+    console.log(id, ' got wthis');
+    navigation.navigate('userAccommodation', {
+      userID: id,
+    });
+  };
 
   if (isFetching) return <MediaSkeleton />;
 
@@ -79,7 +89,6 @@ const UserProfile = ({navigation, route}) => {
           readOnly
         />
         <InfoText info={selectedUser?.bio} />
-
         <SocialHandles
           instagram={selectedUser.instagram}
           twitter={selectedUser.twitter}
@@ -87,6 +96,19 @@ const UserProfile = ({navigation, route}) => {
           facebook={selectedUser.facebook}
           phone={selectedUser.phone}
         />
+        <SeparatedButtons>
+          <SweetButton
+            extraStyles={styles.accommodation}
+            text="accommodation"
+            onPress={() => handleGotoAcc(posterUserUID)}
+          />
+          <SweetButton
+            extraStyles={styles.accommodation}
+            text="send request"
+            bg={colors.info}
+            onPress={() => handleGotoAcc(posterUserUID)}
+          />
+        </SeparatedButtons>
       </View>
       <Tab.Navigator
         sceneContainerStyle={styles.sceneContainerStyle}
@@ -98,6 +120,8 @@ const UserProfile = ({navigation, route}) => {
           tabBarShowIcon: true,
           swipeEnabled: false,
           lazy: true,
+          tabBarInactiveTintColor: colors.fadeWhite,
+          tabBarActiveTintColor: 'white',
           lazyPlaceholder: () => <AppIndicator />,
         }}>
         <Tab.Screen
@@ -126,11 +150,14 @@ const styles = StyleSheet.create({
   container: {
     height: undefined,
     width: width,
-    paddingHorizontal: universalPadding / 6,
+    paddingHorizontal: universalPadding / 3,
     paddingBottom: universalPadding / 5,
     backgroundColor: colors.neonBg,
   },
   sceneContainerStyle: {
     backgroundColor: colors.neonBg,
+  },
+  accommodation: {
+    marginVertical: universalPadding / 4,
   },
 });

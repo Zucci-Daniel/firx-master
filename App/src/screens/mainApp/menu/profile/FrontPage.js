@@ -8,19 +8,21 @@ import {
   tabBarLabelConfig,
   tabBarConfig,
   tabBarIndicatorConfig,
+  avatarEditWidth,
 } from '../../../../config/config';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import ProfilePane from './../../../../components/ProfilePane';
 import SocialHandles from '../../../../components/SocialHandles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Personalities from './Personalities';
-import Link from './../../../../components/Link';
 import {useNavigation} from '@react-navigation/native';
 import AuthoredPosts from './../AuthoredPosts/AuthoredPosts';
 import SavedPosts from './../SavedPosts/SavedPosts';
 import AppIndicator from '../../../../components/AppIndicator';
 import InfoText from './../../../../components/InfoText';
 import AnimatedImage from '../../../../components/AnimatedImage';
+import SweetButton from './../../../../components/SweetButton';
+import SeparatedButtons from './../../../../components/SeparatedButtons';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -47,23 +49,24 @@ const FrontPage = () => {
           <ProfilePane
             onPressOutImage={hideModal}
             onLongPressImage={showImage}
-            profileImageSize={100}
             extraUserNameStyle={styles.names}
             extraNameStyles={styles.school}
             readOnly
           />
           <InfoText info={user?.bio} />
           <SocialHandles />
-          <Link
-            extraStyle={styles.edit}
-            text="edit profile"
-            onPress={() => navigation.navigate('editProfile')}
-          />
+          <SeparatedButtons>
+            <SweetButton
+              extraStyle={styles.edit}
+              text="edit profile"
+              onPress={() => navigation.navigate('editProfile')}
+            />
+          </SeparatedButtons>
         </View>
         <Tab.Navigator
           sceneContainerStyle={styles.sceneContainerStyle}
           screenOptions={{
-            tabBarLabelStyle: {...tabBarLabelConfig,color: colors.calmBlue},
+            tabBarLabelStyle: {...tabBarLabelConfig, color: colors.calmBlue},
             tabBarStyle: {...tabBarConfig},
             tabBarIndicatorStyle: {...tabBarIndicatorConfig},
             tabBarShowLabel: true,
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     height: undefined,
     width: width,
-    paddingHorizontal: universalPadding / 6,
+    paddingHorizontal: universalPadding / 3,
     paddingBottom: universalPadding / 5,
     backgroundColor: colors.neonBg,
   },

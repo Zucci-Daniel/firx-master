@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: '100%',
-    height: height / 1.5,
+    height: undefined,
     borderRadius: 15,
     overflow: 'hidden',
   },

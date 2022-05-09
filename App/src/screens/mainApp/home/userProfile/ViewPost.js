@@ -69,19 +69,19 @@ const ViewPost = ({navigation, route}) => {
   if (isLoading) return <MediaSkeleton />;
 
   return (
-    <View style={styles.container}>
-      {isLoading && <ActivityIndicator />}
+    <AppScrollView>
+      <View style={styles.container}>
+        {isLoading && <ActivityIndicator />}
 
-      <Post
-        onTapInitials={() =>
-          handleProfileSelection(selectedPost.posterUserUID, userUID)
-        }
-        onPressPostMenu={null}
-        profileImage={selectedPost.posterAvatar}
-        name={selectedPost.posterName}
-        caption={selectedPost.postCaption}
-        date={'today :23:00pm wat'}>
-        <AppScrollView>
+        <Post
+          onTapInitials={() =>
+            handleProfileSelection(selectedPost.posterUserUID, userUID)
+          }
+          onPressPostMenu={null}
+          profileImage={selectedPost.posterAvatar}
+          name={selectedPost.posterName}
+          caption={selectedPost.postCaption}
+          date={'today :23:00pm wat'}>
           <View style={styles.scrollContainer}>
             {selectedPost.postMedias.map(media => {
               return media.type == 'picture' ? (
@@ -101,9 +101,9 @@ const ViewPost = ({navigation, route}) => {
               );
             })}
           </View>
-        </AppScrollView>
-      </Post>
-    </View>
+        </Post>
+      </View>
+    </AppScrollView>
   );
 };
 

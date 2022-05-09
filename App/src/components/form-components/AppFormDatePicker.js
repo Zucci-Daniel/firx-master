@@ -11,7 +11,11 @@ const AppFormDatePicker = ({control, name, label, required = {}}) => {
       rules={required}
       render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
         <>
-          <AppDatePicker getDate={date => onChange(date)} />
+          <AppDatePicker
+            value={value}
+            label={label}
+            getDate={date => onChange(date)}
+          />
           {error && (
             <Text style={{color: error ? 'red' : 'green'}}>
               {error.message}

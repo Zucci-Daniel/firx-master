@@ -11,7 +11,7 @@ import {
 } from '../config/config';
 import AppCancel from './AppCancel';
 
-const AppMediaDisplay = ({data, onRemoveItem}) => {
+const AppMediaDisplay = ({data, onRemoveItem, showRemove = true}) => {
   const flatListRef = React.useRef();
 
   return (
@@ -30,12 +30,14 @@ const AppMediaDisplay = ({data, onRemoveItem}) => {
       pagingEnabled={true}
       renderItem={({item}) => (
         <>
-          <AppCancel
-            size={30}
-            iconName="ios-remove-circle-sharp"
-            extraStyle={styles.trash}
-            onCancel={() => onRemoveItem(item.id)}
-          />
+          {showRemove && (
+            <AppCancel
+              size={30}
+              iconName="ios-remove-circle-sharp"
+              extraStyle={styles.trash}
+              onCancel={() => onRemoveItem(item.id)}
+            />
+          )}
           {item.mime == 'picture' && (
             <AppPostImage key={item} imageUri={item.path} useHeight={'100%'} />
           )}

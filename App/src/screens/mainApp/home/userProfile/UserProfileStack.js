@@ -4,6 +4,7 @@ import {colors, height, width} from '../../../../config/config';
 import {Stack} from '../../../../navigation/create/CreateNavigation';
 import {SelectedUserContextProvider} from './selectedUserContext';
 import UserProfile from './UserProfile';
+import UserAccommodation from './userAccommodation';
 
 const UserProfileStack = ({navigation}) => {
   return (
@@ -17,6 +18,14 @@ const UserProfileStack = ({navigation}) => {
           <Stack.Screen
             name="userProfile"
             component={UserProfile}
+            options={{
+              animation: 'slide_from_right',
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="userAccommodation"
+            component={UserAccommodation}
             options={{
               animation: 'slide_from_right',
               headerShown: false,

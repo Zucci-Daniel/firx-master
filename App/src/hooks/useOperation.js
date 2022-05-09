@@ -285,7 +285,9 @@ export const getFilteredPosts = async (
 
     // const baseUrl = firestore().collectionGroup('AllPosts').orderBy('postedOn');
     // const baseUrl = firestore().collectionGroup('AllPosts').orderBy('postID');
-    const baseUrl = firestore().collection('AllPosts').orderBy('postID');
+    const baseUrl = firestore()
+      .collection('AllPosts')
+      .orderBy('postID', 'desc');
     const postCondition = lastItem ? baseUrl.startAfter(lastItem) : baseUrl;
 
     if (!postsBlacklisted.length > 0) {
@@ -317,11 +319,12 @@ export const getFilteredPosts = async (
       var copiedPostsBlacklisted = [...postsBlacklisted];
       var batches = [];
       var index = 0;
-      var batchChunks = [...splitArrayInChunks(copiedPostsBlacklisted, limit)];
+      var batchChunks = [...splitArrayInChunks(copiedPostsBlacklisted, 10)];
 
       var lastQueryResult;
 
       // console.log(batchChunks, ' BATCH CHUNKS');
+      console.log(' batchChunks size: ', '', batchChunks);
 
       while (index < batchChunks.length) {
         if (lastQueryResult) {
@@ -331,17 +334,12 @@ export const getFilteredPosts = async (
             '  <><<><><<><><<> ',
             batchChunks[index],
           );
-          // console.log(
-          //   'FIRST QUERY = ',
-          //   firstQueryResult,
-          //   ' LAST QUERY ==> ',
-          //   lastQueryResult,
-          // );
+    
           const results = await postCondition
             .where('postID', 'not-in', batchChunks[index])
-            // .orderBy('postedOn', 'desc')
+
             .startAfter(lastQueryResult)
-            // .limit(20)
+            .limit(10)
             .get();
 
           if (results) {
@@ -366,8 +364,8 @@ export const getFilteredPosts = async (
 
           const results = await postCondition
             .where('postID', 'not-in', batchChunks[index])
-            // .orderBy('postedOn', 'desc')
-            // .limit(limit)
+            .orderBy('postedOn', 'desc')
+            .limit(10)
             .get();
           if (results) {
             console.log(

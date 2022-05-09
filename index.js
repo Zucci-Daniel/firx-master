@@ -12,7 +12,7 @@ import {
 } from 'react-native-paper';
 
 import color from 'color';
-import {brandFont} from './App/src/config/config';
+import {brandFont, colors} from './App/src/config/config';
 import {turnOfLocalPersistence} from './App/src/hooks/useOperation';
 
 turnOfLocalPersistence();
@@ -24,7 +24,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#010101',
-    accent: 'orange',
+    accent: colors.calmBlue,
     background: '#010101',
     surface: '#010101',
     error: '#B00020',

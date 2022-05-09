@@ -12,10 +12,23 @@ export default function Link({
   extraStyle,
   readOnly = false,
   color,
+  touchStyles,
+  centered = true,
 }) {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={readOnly ? 1 : 0.7}>
-      <Text style={[styles.Link, extraStyle, {color: color ? color : 'blue'}]}>
+    <TouchableOpacity
+      style={touchStyles}
+      onPress={onPress}
+      activeOpacity={readOnly ? 1 : 0.7}>
+      <Text
+        style={[
+          styles.Link,
+          extraStyle,
+          {
+            color: color ? color : '#0096FF',
+            alignSelf: centered ? 'center' : 'flex-start',
+          },
+        ]}>
         {text}
       </Text>
     </TouchableOpacity>
@@ -25,7 +38,6 @@ export default function Link({
 const styles = StyleSheet.create({
   Link: {
     color: '#435CAC',
-    alignSelf: 'center',
     margin: universalPadding / 3,
     fontWeight: '600',
     textTransform: 'capitalize',

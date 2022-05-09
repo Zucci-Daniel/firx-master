@@ -19,7 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 
 import uuid from 'react-native-uuid';
 import SendPost from './../../../components/SendPost';
-import {useUploadFile} from './../../../hooks/useUploadFile';
+import {uploadAfile} from './../../../hooks/uploadAfile';
 import {commonFunctions} from '../../../imports/all_files';
 import {log} from './../../../hooks/testLog';
 import AppLoading from '../../../components/AppLoading';
@@ -34,7 +34,7 @@ const CreatePost = ({navigation, route}) => {
   //for locating logs
   const thisPage = 'createPostPage';
 
-  const uploadFile = useUploadFile();
+  const uploadFile = uploadAfile();
   const [selectedPost, setSelectedPost] = useState({
     id: '',
     postImage: null,

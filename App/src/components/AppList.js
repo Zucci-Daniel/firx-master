@@ -3,6 +3,8 @@ import {View, StyleSheet} from 'react-native';
 import {colors} from '../config/config';
 import AppCancel from './AppCancel';
 import PlaceHolderParagraph from './PlaceHolderParagraph';
+import MiniLoading from './MiniLoading';
+import AppIndicator from './AppIndicator';
 
 const AppList = ({
   text,
@@ -13,6 +15,9 @@ const AppList = ({
   color,
   extraTextStyles,
   extraCancelStyles,
+  loading = false,
+  useDefault = true,
+  children,
 }) => {
   return (
     <View style={[styles.infoWrapper, extraInfoStyles]}>
@@ -21,13 +26,17 @@ const AppList = ({
         text={text}
       />
 
-      <AppCancel
-        iconName={iconName}
-        size={size}
-        color={color}
-        extraStyle={[styles.cancel, extraCancelStyles]}
-        onCancel={onCancel}
-      />
+      {useDefault ? (
+        <AppCancel
+          iconName={iconName}
+          size={size}
+          color={color}
+          extraStyle={[styles.cancel, extraCancelStyles]}
+          onCancel={onCancel}
+        />
+      ) : (
+        children
+      )}
     </View>
   );
 };
