@@ -1,11 +1,16 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
-import {avatarWidth, brandFont, colors, universalPadding} from '../../../config/config';
+import {
+  avatarWidth,
+  brandFont,
+  colors,
+  universalPadding,
+} from '../../../config/config';
 
 const PosterInitials = ({
   onTapInitials,
   name = 'Zucci Daniel',
-  location = 'london africa',
+  location = '',
   date = '22/3/100',
   showName = true,
   showDateAndLocation = true,
@@ -18,7 +23,8 @@ const PosterInitials = ({
 
         {showDateAndLocation && (
           <Text style={styles.date}>
-            {date} |<Text style={styles.location}> {location}</Text>
+            {date} {date && location && <Text>|</Text>}
+            <Text style={styles.location}> {location}</Text>
           </Text>
         )}
       </View>
@@ -40,7 +46,7 @@ const styles = StyleSheet.create({
   name: {
     color: colors.initials,
     fontSize: 12,
-    fontFamily:brandFont.mediumBold,
+    fontFamily: brandFont.mediumBold,
     textTransform: 'capitalize',
   },
   date: {

@@ -1,3 +1,4 @@
+import Link from '../../../components/Link';
 import { colors } from '../../../config/config';
 import {
   React,
@@ -10,7 +11,9 @@ import {
 const Notification = () => {
   
 
-  return <View style={styles.container}></View>;
+  return <View style={styles.container}>
+    <Link readOnly text={'search feature coming soon'} />
+  </View>;
 };
 
 export default Notification;
@@ -18,6 +21,8 @@ export default Notification;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:colors.pureWhite
+    backgroundColor:colors.neonBg,
+    alignContent:'center',
+    justifyContent:'center'
   },
 });

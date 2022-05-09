@@ -20,6 +20,7 @@ const PostHeader = ({
   showSeperator = true,
   showAvatar = false,
   showLocation = false,
+  showDateAndLocation = true,
 }) => {
   return (
     <View style={[styles.postHeader]}>
@@ -32,6 +33,7 @@ const PostHeader = ({
             name={name}
             date={date}
             location={location}
+            showDateAndLocation={showDateAndLocation}
           />
         </View>
 

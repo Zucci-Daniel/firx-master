@@ -14,12 +14,14 @@ import Link from './../../../../components/Link';
 import AppIndicator from './../../../../components/AppIndicator';
 import {convertToCurrency, naira} from '../../../../functions/commonFunctions';
 import SweetButton from './../../../../components/SweetButton';
+import PostHeader from './../../../../components/Post/PostHeader';
 
 const UserAccommodation = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [accommodation, setAccommodation] = useState(null);
+  // const [user, setUser] = useState(null);
 
-  const {userID} = route.params;
+  const {userID, image, name} = route.params;
 
   const fetchAccommodationDetails = async id => {
     const response = await useGetNewUser('STUDENTS', id);
@@ -42,11 +44,7 @@ const UserAccommodation = ({navigation, route}) => {
   }, []);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.neonBg,
-      }}>
+    <View style={styles.container}>
       {isLoading && <AppIndicator />}
       {accommodation == false && !isLoading && (
         <Link
@@ -62,6 +60,12 @@ const UserAccommodation = ({navigation, route}) => {
       {accommodation !== false && !isLoading && (
         <>
           <AppScrollView>
+            <PostHeader
+              showDateAndLocation={false}
+              name={`${name}'s Accommodation`}
+              profileImage={image}
+              showMenu={false}
+            />
             <Link
               centered={false}
               extraStyle={{fontSize: 25}}
@@ -148,9 +152,9 @@ const UserAccommodation = ({navigation, route}) => {
               ))}
             </View>
             <SweetButton
-              text={'send request'}
+              text={'send roommate request'}
               extraStyles={{
-                margin: 200,
+                marginBottom: 200,
                 width: '70%',
                 alignSelf: 'center',
               }}
@@ -165,9 +169,15 @@ const UserAccommodation = ({navigation, route}) => {
 export default UserAccommodation;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.neonBg,
+    paddingVertical: universalPadding / 3,
+  },
   extraInfoWrapper: {
     height: undefined,
-    marginVertical: universalPadding / 2,
+    marginTop: universalPadding / 5,
+    marginBottom: universalPadding,
     width: '100%',
   },
 });

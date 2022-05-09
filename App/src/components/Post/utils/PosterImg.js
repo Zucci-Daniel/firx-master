@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: colors.fadeWhite,
+    borderColor: colors.calmBlue,
   },
   img: {
     height: '100%',

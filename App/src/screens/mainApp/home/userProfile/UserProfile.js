@@ -61,10 +61,12 @@ const UserProfile = ({navigation, route}) => {
 
   const hideModal = () => setShowModal(false);
 
-  const handleGotoAcc = id => {
+  const handleGotoAcc = (id, image, name) => {
     console.log(id, ' got wthis');
     navigation.navigate('userAccommodation', {
       userID: id,
+      image,
+      name,
     });
   };
 
@@ -100,13 +102,25 @@ const UserProfile = ({navigation, route}) => {
           <SweetButton
             extraStyles={styles.accommodation}
             text="accommodation"
-            onPress={() => handleGotoAcc(posterUserUID)}
+            onPress={() =>
+              handleGotoAcc(
+                posterUserUID,
+                selectedUser.profileImage,
+                selectedUser?.firstName,
+              )
+            }
           />
           <SweetButton
             extraStyles={styles.accommodation}
             text="send request"
             bg={colors.info}
-            onPress={() => handleGotoAcc(posterUserUID)}
+            onPress={() =>
+              handleGotoAcc(
+                posterUserUID,
+                selectedUser.profileImage,
+                selectedUser?.firstName,
+              )
+            }
           />
         </SeparatedButtons>
       </View>

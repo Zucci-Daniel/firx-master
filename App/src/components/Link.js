@@ -25,7 +25,7 @@ export default function Link({
           styles.Link,
           extraStyle,
           {
-            color: color ? color : '#0096FF',
+            color: color ? color : colors.dimBlue,
             alignSelf: centered ? 'center' : 'flex-start',
           },
         ]}>

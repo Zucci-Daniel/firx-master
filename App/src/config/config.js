@@ -11,6 +11,7 @@ const brandFont = {
 };
 
 const colors = {
+  dimBlue: '#0096FF',
   calmBlue: '#a3bae3',
   postActions: '#d2d4c3',
   initials: '#dee3de',
@@ -113,5 +114,4 @@ export {
   tabBarLabelConfig,
   tabBarIndicatorConfig,
   inactiveTabBarConfig,
-  
 };
