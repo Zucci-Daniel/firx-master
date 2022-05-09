@@ -26,7 +26,6 @@ const UserAccommodation = ({navigation, route}) => {
   const fetchAccommodationDetails = async id => {
     const response = await useGetNewUser('STUDENTS', id);
     if (response) {
-      console.log(response.data()?.accommodationDetails);
       setAccommodation(
         response.data()?.accommodationDetails
           ? {...response.data()?.accommodationDetails}
@@ -39,7 +38,6 @@ const UserAccommodation = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    console.log('fetch his details', userID);
     fetchAccommodationDetails(userID);
   }, []);
 

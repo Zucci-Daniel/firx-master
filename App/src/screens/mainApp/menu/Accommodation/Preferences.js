@@ -55,7 +55,6 @@ const Preferences = ({navigation}) => {
     try {
       setShowModal(false);
 
-      console.log(accommodation, ' YOUR TOTAL FILES NOW');
       const mediaLinks = await multiPost(accommodation.medias);
       if (mediaLinks) {
         //post to firebase
