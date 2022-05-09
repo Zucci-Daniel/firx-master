@@ -29,6 +29,7 @@ import {
 } from '../hooks/postOperations';
 import PostHeader from './Post/PostHeader';
 import PosterInitials from './Post/utils/PosterInitials';
+import {convertToReadableDate} from './../functions/commonFunctions';
 
 const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
   const globalNavigation = useNavigation();
@@ -99,7 +100,7 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
 
   const toggleSheet = (posterID, userUID, item) => {
     sheetRef.current.open();
-    // console.log(posterID, item);
+
     setSelectedPost({...item});
     setSelectedMyPost(posterID == userUID ? true : false);
   };
@@ -174,7 +175,7 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
           profileImage={item.posterAvatar}
           name={item.posterName}
           caption={item.postCaption}
-          date={'today :23:00pm wat'}>
+          date={convertToReadableDate(item.postedOn)}>
           <AppCarousel
             useData={item.postMedias}
             shouldPlaySecondCondition={null}

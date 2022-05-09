@@ -27,6 +27,7 @@
         "@react-navigation/native-stack": "^6.3.0",
         "@thang2162/react-native-text-area": "^0.0.16",
         "add": "^2.0.6",
+        "dayjs": "^1.11.2",
         "expo": ">=44.0.0-0 <45.0.0",
         "expo-av": "~10.2.0",
         "expo-constants": "~13.0.1",

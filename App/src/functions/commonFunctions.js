@@ -1,4 +1,5 @@
 import Toast from 'react-native-toast-message';
+import dayjs from 'dayjs';
 
 //this function basically calls a reuseable toast method.
 export const showToast = (
@@ -18,3 +19,6 @@ export const convertToCurrency = cash => {
   console.log(' to be converted ', cash);
   return Number(cash).toLocaleString();
 };
+
+
+export const convertToReadableDate=(date)=>dayjs(date.toDate()).format('DD MMM YY, h:mm a')
