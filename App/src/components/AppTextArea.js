@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
   },
   textarea: {
     color: colors.fadeWhite,
-    // fontWeight: '400',
-    fontFamily:brandFont.beauty
+    fontWeight: '400',
   },
 });

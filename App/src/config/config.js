@@ -12,6 +12,7 @@ const brandFont = {
 
 const colors = {
   dimBlue: '#0096FF',
+  sweetBlue: '#1F51FF',
   calmBlue: '#a3bae3',
   postActions: '#d2d4c3',
   initials: '#dee3de',

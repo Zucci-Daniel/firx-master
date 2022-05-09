@@ -4,11 +4,15 @@ import {colors, universalPadding} from '../config/config';
 import Link from './Link';
 import PlaceHolderParagraph from './PlaceHolderParagraph';
 
-const SweetButton = ({onPress, text, bg,extraStyles}) => {
+const SweetButton = ({onPress, text, bg, extraStyles}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.button, {backgroundColor: bg ? bg : 'blue'},extraStyles]}>
+      style={[
+        styles.button,
+        {backgroundColor: bg ? bg : colors.sweetBlue},
+        extraStyles,
+      ]}>
       <PlaceHolderParagraph
         text={text}
         color={colors.pureWhite}
@@ -22,7 +26,7 @@ export default SweetButton;
 const styles = StyleSheet.create({
   button: {
     paddingVertical: 0,
-    paddingHorizontal: universalPadding/2,
+    paddingHorizontal: universalPadding / 2,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
