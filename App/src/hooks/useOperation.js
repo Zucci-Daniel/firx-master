@@ -319,7 +319,7 @@ export const getFilteredPosts = async (
       var copiedPostsBlacklisted = [...postsBlacklisted];
       var batches = [];
       var index = 0;
-      var batchChunks = [...splitArrayInChunks(copiedPostsBlacklisted, 10)];
+      var batchChunks = [...splitArrayInChunks(copiedPostsBlacklisted, limit)];
 
       var lastQueryResult;
 
