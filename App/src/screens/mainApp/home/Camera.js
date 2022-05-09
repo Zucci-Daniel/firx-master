@@ -1,6 +1,12 @@
-import React, {useState, useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {height, width, colors} from '../../../config/config';
+import React, {useState, useContext, useEffect, useRef} from 'react';
+import {View, StyleSheet, Alert, BackHandler, Linking} from 'react-native';
+import {
+  height,
+  width,
+  colors,
+  postHeight,
+  universalPadding,
+} from '../../../config/config';
 import AppCancel from '../../../components/AppCancel';
 import {useNavigation} from '@react-navigation/native';
 import {confirmAction} from '../../../hooks/postOperations';
@@ -19,13 +25,19 @@ import MediaDisplayActions from '../../../components/MediaDisplayActions';
 import AppScrollView from './../../../components/AppScrollView';
 import SweetButton from './../../../components/SweetButton';
 import {multiPost} from './../../../hooks/multiPosts';
+import {getUserLocation} from './../../../functions/commonFunctions';
+import AppBottomSheet from './../../../components/AppBottomSheet';
+import Sheet from './../../../components/Sheet';
+import PlaceHolderParagraph from '../../../components/PlaceHolderParagraph';
+import AppList from '../../../components/AppList';
+import Link from './../../../components/Link';
 
 const Camera = () => {
+  const sheetRef = useRef(null);
   const {userUID} = useContext(AppContext);
   const {user} = useContext(SignUpInfoContext);
   const {posted, setPosted} = useContext(HomeContext);
   const navigation = useNavigation();
-
 
   const [finishedUploadingMedia, setFinishedUploadingMedia] = useState(null);
   //this post state should be global laters!
@@ -45,6 +57,40 @@ const Camera = () => {
     postTopFiguresLikes: [],
     postDislikes: [],
   });
+
+  const handleGetLocation = async () => {
+    const response = await getUserLocation();
+    console.log(response, ' user location reponse');
+    if (response) {
+      setPost({...post, postLocation: {...response}});
+    } else {
+      Alert.alert(
+        'sorry',
+        "you can't post without giving us access to your location.",
+        [
+          {
+            text: "i won't",
+            onPress: () => navigation.goBack(),
+            style: 'cancel',
+          },
+          {
+            text: 'okay i accept',
+            onPress: () => {
+              sheetRef.current.open();
+            },
+          },
+        ],
+      );
+    }
+  };
+
+  console.log(post);
+
+  // BackHandler.addEventListener('hardwareBackPress', () => navigation.goBack());
+
+  useEffect(() => {
+    handleGetLocation();
+  }, []);
 
   const camera = async () => {
     const dataArray = await handleOpenCamera();
@@ -148,7 +194,9 @@ const Camera = () => {
           size={40}
         />
         {(post.postCaption !== '' || post.postMedias.length !== 0) && (
-          <SweetButton text="post" onPress={handleSubmitPost} />
+          <>
+            <SweetButton text="post" onPress={handleSubmitPost} />
+          </>
         )}
       </View>
       <AppScrollView extraStyle={styles.scrollView}>
@@ -175,6 +223,56 @@ const Camera = () => {
         openVideo={video}
         extraStyles={{width: '60%'}}
       />
+      <Sheet
+        sheetRef={sheetRef}
+        disableBackDrop={false}
+        enableSlideToClose={false}>
+        <View
+          style={{
+            backgroundColor: colors.fadeWhite,
+            height: undefined,
+            width: '100%',
+            padding: universalPadding / 2,
+            paddingBottom: universalPadding,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Link
+            text={'INSTRUCTIONS!'}
+            extraStyle={{fontSize: 20}}
+            color={colors.info}
+          />
+          <AppList
+            text={
+              '1) Click on the button below, it takes you to your settings, then;'
+            }
+            useDefault={false}
+            textColor={colors.neonBg}
+          />
+          <AppList
+            text={'2) Click on "Permissions";'}
+            useDefault={false}
+            textColor={colors.neonBg}
+          />
+          <AppList
+            text={'3) Click on "Location" option;'}
+            useDefault={false}
+            textColor={colors.neonBg}
+          />
+          <AppList
+            text={'3) Click on "Allow only while using the app"'}
+            useDefault={false}
+            textColor={colors.neonBg}
+          />
+          <SweetButton
+            text={'ok no problem'}
+            onPress={async () => {
+              await Linking.openSettings();
+              navigation.goBack();
+            }}
+          />
+        </View>
+      </Sheet>
     </View>
   );
 };

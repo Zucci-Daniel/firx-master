@@ -244,7 +244,7 @@ export const useGetUserBasicInformationFromLocalStorage = async id => {
       console.log(responseFromStorage, ' the response from local storage');
       return responseFromStorage;
     } else {
-      commonFunctions.showToast(
+      console.log(
         'operation failed',
         `could'nt get basic info locally`,
         'ERROR',
@@ -334,7 +334,7 @@ export const getFilteredPosts = async (
             '  <><<><><<><><<> ',
             batchChunks[index],
           );
-    
+
           const results = await postCondition
             .where('postID', 'not-in', batchChunks[index])
 

@@ -100,7 +100,7 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
 
   const toggleSheet = (posterID, userUID, item) => {
     sheetRef.current.open();
-
+    console.log(item.postID);
     setSelectedPost({...item});
     setSelectedMyPost(posterID == userUID ? true : false);
   };
