@@ -8,7 +8,7 @@ const AppDatePicker = ({
   getDate,
   label = 'Add your birth date',
   extraDateStyles,
-  iconColor = colors.calmGreen,
+  iconColor = colors.chip,
 }) => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -60,8 +60,8 @@ const AppDatePicker = ({
         date={date}
         onConfirm={date => {
           const formatDate = getTheDate(date);
-          setDateColor(colors.neon);
-          
+          setDateColor(colors.neonBg);
+
           getDate(formatDate);
         }}
         onCancel={() => {

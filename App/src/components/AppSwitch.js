@@ -12,8 +12,8 @@ const AppSwitch = ({onChange = () => {}, useValue}) => {
 
   return (
     <Switch
+      color="#66ff00"
       value={isSwitchOn}
-      theme={{color: colors.calmGreen}}
       onValueChange={value => onToggleSwitch(value)}
     />
   );

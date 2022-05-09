@@ -19,6 +19,7 @@ import AppDatePicker from './../../../../components/AppDatePicker';
 import {multiPost} from './../../../../hooks/multiPosts';
 import {updateDocument} from '../../../../hooks/useOperation';
 import {AppContext} from './../../../../appContext';
+import AppIndicator from './../../../../components/AppIndicator';
 
 const Preferences = ({navigation}) => {
   const {userUID} = useContext(AppContext);
@@ -28,11 +29,6 @@ const Preferences = ({navigation}) => {
   const [defaultPref, setDefaultPref] = useState([]);
   const [miniLoading, setMiniLoading] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    setDefaultPref(defaultPreferences);
-    setIsLoading(false);
-  }, []);
 
   const handleSelection = pref => {
     setMiniLoading(true);
@@ -83,77 +79,101 @@ const Preferences = ({navigation}) => {
       : setAccommodation({...accommodation, endDate: date});
   };
 
+  useEffect(() => {
+    setDefaultPref(defaultPreferences);
+    setIsLoading(false);
+  }, []);
+
   return (
     <View style={styles.container}>
-      <AppAnimatedImageView
-        isVisible={showModal}
-        onBackdropPress={handleHideModal}
-        onBackButtonPress={handleHideModal}>
-        <View style={styles.modalContent}>
-          <View styles={styles.modalChild}>
-            <AppDatePicker
-              label={
-                accommodation.startDate == ''
-                  ? 'when will you like to end search?'
-                  : accommodation.startDate
-              }
-              getDate={date => handleDate(date, 'startDate')}
-            />
-            <AppDatePicker
-              label={
-                accommodation.endDate == ''
-                  ? 'when will you like to end search?'
-                  : accommodation.endDate
-              }
-              getDate={date => handleDate(date, 'endDate')}
-            />
-            <AppList text={"i'm avaiable now"} useDefault={false}>
-              <AppSwitch
-                useValue={accommodation.available}
-                onChange={value => handleIsAvialable(value)}
-              />
-            </AppList>
-          </View>
+      {defaultPref.length > 0 && !isLoading ? (
+        <>
+          <AppAnimatedImageView
+            isVisible={showModal}
+            onBackdropPress={handleHideModal}
+            onBackButtonPress={handleHideModal}>
+            <View style={styles.modalContent}>
+              <View styles={styles.modalChild}>
+                <Link text={'availiable from:'} readOnly centered={false} />
+                <AppDatePicker
+                  label={
+                    accommodation.startDate == ''
+                      ? 'when will you like to end search?'
+                      : accommodation.startDate
+                  }
+                  getDate={date => handleDate(date, 'startDate')}
+                />
+                <Link text={'till:'} readOnly centered={false} />
 
-          <SweetButton text={'post this'} onPress={handlePost} />
-        </View>
-      </AppAnimatedImageView>
-      {!isLoading && (
-        <AppScrollView extraStyle={styles.scroll}>
-          {defaultPref.length > 0 &&
-            defaultPref.map((information, index) => (
-              <AppList
-                extraInfoStyles={styles.extraInfoStyles}
-                key={index}
-                text={`${index + 1}) ${information}`}
-                onCancel={() => handleSelection(information)}
-                loading={miniLoading}
-                iconName={
-                  accommodation.preferences.includes(information) == true
-                    ? 'remove-circle-sharp'
-                    : 'add'
-                }
-                color={
-                  accommodation.preferences.includes(information) == true
-                    ? colors.calmRed
-                    : colors.calmBlue
-                }
-                size={40}
-                extraTextStyles={styles.extraTextStyles}
-                extraCancelStyles={styles.extraCancelStyles}
-              />
-            ))}
-        </AppScrollView>
+                <AppDatePicker
+                  label={
+                    accommodation.endDate == ''
+                      ? 'when will you like to end search?'
+                      : accommodation.endDate
+                  }
+                  getDate={date => handleDate(date, 'endDate')}
+                />
+                <AppList
+                  text={"i'm avaiable now"}
+                  textColor={colors.dimBlue}
+                  extraTextStyles={{
+                    fontSize: 16,
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
+                  }}
+                  useDefault={false}>
+                  <AppSwitch
+                    useValue={accommodation.available}
+                    onChange={value => handleIsAvialable(value)}
+                  />
+                </AppList>
+              </View>
+
+              <SweetButton text={'post this'} onPress={handlePost} />
+            </View>
+          </AppAnimatedImageView>
+
+          <AppScrollView extraStyle={styles.scroll}>
+            {defaultPref.length > 0 &&
+              defaultPref.map((information, index) => (
+                <AppList
+                  extraInfoStyles={styles.extraInfoStyles}
+                  key={index}
+                  text={`${index + 1}) ${information}`}
+                  onCancel={() => handleSelection(information)}
+                  loading={miniLoading}
+                  iconName={
+                    accommodation.preferences.includes(information) == true
+                      ? 'remove-circle-sharp'
+                      : 'add'
+                  }
+                  color={
+                    accommodation.preferences.includes(information) == true
+                      ? colors.calmRed
+                      : colors.calmBlue
+                  }
+                  size={40}
+                  extraTextStyles={styles.extraTextStyles}
+                  extraCancelStyles={styles.extraCancelStyles}
+                />
+              ))}
+          </AppScrollView>
+
+          <SeparatedButtons>
+            <Link
+              text={'previous'}
+              color={colors.info}
+              onPress={() => navigation.goBack()}
+            />
+            <SweetButton
+              text={'post this'}
+              onPress={() => setShowModal(true)}
+            />
+          </SeparatedButtons>
+        </>
+      ) : (
+        <AppIndicator />
       )}
-
-      <SeparatedButtons>
-        <Link
-          text={'previous'}
-          color={colors.info}
-          onPress={() => navigation.goBack()}
-        />
-        <SweetButton text={'post this'} onPress={() => setShowModal(true)} />
-      </SeparatedButtons>
     </View>
   );
 };
@@ -192,7 +212,7 @@ const styles = StyleSheet.create({
     bottom: -0,
   },
   modalContent: {
-    height: height / 3,
+    height: height / 2,
     width: '100%',
     backgroundColor: colors.pureWhite,
     alignContent: 'center',

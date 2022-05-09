@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import {config, Ig} from '../../../../imports/all_files';
 import {SignUpInfoContext} from '../../../forms/signUpInfoContext';
 import {useContext, useState, useEffect} from 'react';

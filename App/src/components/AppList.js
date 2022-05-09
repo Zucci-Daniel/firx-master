@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {colors} from '../config/config';
 import AppCancel from './AppCancel';
 import PlaceHolderParagraph from './PlaceHolderParagraph';
@@ -18,11 +18,16 @@ const AppList = ({
   loading = false,
   useDefault = true,
   children,
+  textColor,
+  onPress,
 }) => {
   return (
-    <View style={[styles.infoWrapper, extraInfoStyles]}>
+    <TouchableOpacity
+      activeOpacity={onPress ? 0.8 : 1}
+      style={[styles.infoWrapper, extraInfoStyles]}
+      onPress={onPress}>
       <PlaceHolderParagraph
-        extraStyles={[styles.info, extraTextStyles]}
+        extraStyles={[styles.info, {color: textColor}, extraTextStyles]}
         text={text}
       />
 
@@ -37,7 +42,7 @@ const AppList = ({
       ) : (
         children
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
