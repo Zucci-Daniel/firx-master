@@ -4,10 +4,9 @@ import AppButton from './../../components/AppButton';
 import {useFormContext} from 'react-hook-form';
 import AppSelectField from './../../components/form-components/AppSelectField';
 import {SignUpInfoContext} from './signUpInfoContext';
-import {uploadAfile} from './../../hooks/uploadAfile';
 import {AppContext} from './../../appContext';
 import {storeLocally} from './../../hooks/useLocalStorageFunctions';
-import {addNewUserToDb, toggleNetwork} from './../../hooks/useOperation';
+import {addNewUserToDb} from './../../hooks/useOperation';
 import {commonFunctions} from '../../imports/all_files';
 import {log} from './../../hooks/testLog';
 import AppLoading from './../../components/AppLoading';
@@ -15,6 +14,7 @@ import Link from './../../components/Link';
 import {subscribeToNetworkStats} from './../../hooks/justHooks';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {departments, levels} from '../../hooks/utils';
+import {uploadAFile} from '../../hooks/uploadAfile';
 
 //refactor later
 
@@ -34,12 +34,11 @@ const FormSection4 = ({navigation}) => {
   const submitTheForm = async data => {
     if (currentNetworkStat) {
       try {
-        await toggleNetwork();
         setIsCreatingStudent(true);
         log(data, page, ' final data');
 
         const theUrl = data.profileImage
-          ? await uploadAfile(data.profileImage)
+          ? await uploadAFile(data.profileImage)
           : 'NO PROFILE IMAGE';
 
         setProgress(setProgress);

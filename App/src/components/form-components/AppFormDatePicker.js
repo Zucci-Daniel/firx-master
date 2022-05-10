@@ -3,7 +3,13 @@ import {View, Text} from 'react-native';
 import {Controller} from 'react-hook-form';
 import AppDatePicker from './../AppDatePicker';
 
-const AppFormDatePicker = ({control, name, label, required = {}}) => {
+const AppFormDatePicker = ({
+  control,
+  name,
+  label,
+  required = {},
+  dateTextColor,
+}) => {
   return (
     <Controller
       control={control}
@@ -12,6 +18,7 @@ const AppFormDatePicker = ({control, name, label, required = {}}) => {
       render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
         <>
           <AppDatePicker
+            dateTextColor={dateTextColor}
             value={value}
             label={label}
             getDate={date => onChange(date)}

@@ -11,6 +11,7 @@ import AppDatePicker from './../../components/AppDatePicker';
 import AppFormDatePicker from './../../components/form-components/AppFormDatePicker';
 import AppImage from '../../components/AppImage';
 import AppImagePicker from './../../components/form-components/AppImagePicker';
+import {colors} from '../../config/config';
 
 const FormSection2 = ({navigation}) => {
   const {
@@ -41,7 +42,11 @@ const FormSection2 = ({navigation}) => {
         <AppRadioOption value={'Female'} />
       </AppRadioField>
 
-      <AppFormDatePicker name={'birthdate'} control={control} />
+      <AppFormDatePicker
+        dateTextColor={colors.fadeWhite}
+        name={'birthdate'}
+        control={control}
+      />
 
       <AppButton
         wideButton

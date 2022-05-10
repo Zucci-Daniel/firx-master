@@ -27,6 +27,7 @@ import {getDocSnapshot} from './../../../../hooks/useOperation';
 import Feed from './../../../../components/Feed';
 import FeedLoadingSkeleton from './../../../../components/FeedLoadingSkeleton';
 import AppIndicator from '../../../../components/AppIndicator';
+import Retry from './../../../../components/Retry';
 ///use a flast list
 
 const SavedPosts = () => {
@@ -44,7 +45,7 @@ const SavedPosts = () => {
       .collection('STUDENTS')
       .doc(userUID)
       .onSnapshot(documentSnapshot => {
-        setMySavedPostsIDs(documentSnapshot.data().postsSaved);
+        setMySavedPostsIDs(documentSnapshot.data()?.postsSaved);
       });
 
     return () => subscriber();
@@ -89,9 +90,9 @@ const SavedPosts = () => {
       {savedPosts.length > 0 ? (
         <Feed useData={savedPosts} userUID={userUID} />
       ) : (
-        <Link
-          text={'no saved post yet, go save a post?'}
-          onPress={() => navigation.navigate('home')}
+        <Retry
+          notice="no saved post yet, go save a post?"
+          handleRetry={() => navigation.navigate('home')}
         />
       )}
     </View>
@@ -102,8 +103,9 @@ export default SavedPosts;
 
 const styles = StyleSheet.create({
   container: {
-    height: undefined,
+    flex: 1,
     backgroundColor: colors.neonBg,
     width: width,
+    justifyContent: 'center',
   },
 });

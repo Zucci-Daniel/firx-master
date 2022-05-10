@@ -18,6 +18,7 @@ import {AppContext} from './../../../../appContext';
 import firestore from '@react-native-firebase/firestore';
 import {useSubscribeToDocument} from '../../../../hooks/useSubscribeToDocument';
 import AppIndicator from './../../../../components/AppIndicator';
+import Retry from '../../../../components/Retry';
 
 const Personalities = () => {
   const {user} = useContext(SignUpInfoContext);
@@ -41,21 +42,15 @@ const Personalities = () => {
 
   return (
     <View style={styles.container}>
+      {!isLoading && personalities?.length == 0 && (
+        <View style={{height: '100%', justifyContent: 'center'}}>
+          <Retry
+            notice="you haven't added any personality yet!"
+            handleRetry={() => navigation.navigate('editPersonalities')}
+          />
+        </View>
+      )}
       <View style={styles.section1}>
-        {!isLoading && personalities?.length == 0 && (
-          <>
-            <Link
-              readOnly
-              extraStyle={styles.empty}
-              text={"you haven't added any personality yet!"}
-            />
-            <AppButton
-              buttonColor={colors.skeletonAnimationBg}
-              title="add personalities"
-              onPress={() => navigation.navigate('editPersonalities')}
-            />
-          </>
-        )}
         <AppScrollView>
           <View style={styles.mainContainer}>
             <View style={styles.scrollContainer}>
@@ -82,8 +77,11 @@ export default Personalities;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: width,
     padding: universalPadding / 4,
+    backgroundColor: colors.neonBg,
   },
+
   mainContainer: {
     height: undefined,
     width: width,

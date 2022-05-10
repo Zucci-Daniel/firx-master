@@ -11,6 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import Feed from './../../../../components/Feed';
 import AppIndicator from '../../../../components/AppIndicator';
+import Retry from './../../../../components/Retry';
 ///use a flast list
 
 const AuthoredPosts = () => {
@@ -65,9 +66,9 @@ const AuthoredPosts = () => {
           />
         </>
       ) : (
-        <Link
-          text={'no recent post yet, create a post'}
-          onPress={() => navigation.navigate('createPost')}
+        <Retry
+          notice="no recent post yet, create a post"
+          handleRetry={() => navigation.navigate('createPost')}
         />
       )}
     </View>
@@ -78,8 +79,9 @@ export default AuthoredPosts;
 
 const styles = StyleSheet.create({
   container: {
-    height: undefined,
+    flex: 1,
     backgroundColor: colors.neonBg,
     width: width,
+    justifyContent: 'center',
   },
 });

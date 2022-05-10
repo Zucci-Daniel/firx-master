@@ -37,11 +37,9 @@ const FrontPage = () => {
 
   const hideModal = () => setShowModal(false);
 
-
   return (
     <>
       <View style={styles.mainContainer}>
-     
         <View style={styles.container}>
           <AnimatedImage
             image={user?.profileImage}
@@ -56,7 +54,7 @@ const FrontPage = () => {
             extraNameStyles={styles.school}
             readOnly
           />
-          <InfoText info={user?.bio} />
+          {user?.bio && <InfoText info={user?.bio} />}
           <SocialHandles />
           <SeparatedButtons>
             <SweetButton

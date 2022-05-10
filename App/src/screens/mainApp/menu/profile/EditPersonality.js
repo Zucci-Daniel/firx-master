@@ -15,6 +15,7 @@ import {AppContext} from './../../../../appContext';
 import AppIndicator from './../../../../components/AppIndicator';
 import {useNavigation} from '@react-navigation/native';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
+import SweetButton from './../../../../components/SweetButton';
 
 const EditPersonality = () => {
   const {userUID} = useContext(AppContext);
@@ -70,7 +71,11 @@ const EditPersonality = () => {
   return (
     <View style={styles.container}>
       {personalities.length > 0 && !isUpdating ? (
-        <Link extraStyle={styles.save} text={'save'} onPress={handleSubmit} />
+        <SweetButton
+          extraStyles={styles.save}
+          text={'save'}
+          onPress={handleSubmit}
+        />
       ) : personalities.length > 0 && isUpdating ? (
         <AppIndicator
           forSubmiting
@@ -161,7 +166,6 @@ const styles = StyleSheet.create({
     color: colors.info,
   },
   save: {
-    textAlign: 'center',
-    alignSelf: 'flex-end',
+    margin: universalPadding,
   },
 });
