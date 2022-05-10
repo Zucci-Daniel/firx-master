@@ -57,9 +57,10 @@ const Preferences = ({navigation}) => {
 
       const mediaLinks = await multiPost(accommodation.medias);
       if (mediaLinks) {
+        // console.log(mediaLinks)
         //post to firebase
         updateDocument(userUID, 'STUDENTS', {
-          accommodationDetails: {...accommodation},
+          accommodationDetails: {...accommodation, medias: mediaLinks},
         });
       } else {
         console.log('failed to post accomodation');

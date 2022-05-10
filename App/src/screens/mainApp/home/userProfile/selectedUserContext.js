@@ -11,7 +11,7 @@ export const SelectedUserContextProvider = ({children}) => {
   const [isFetching, setIsFetching] = useState(true);
   const [id, setId] = useState(null);
 
-  const [selectedUserDoc, setSelectedUserDoc] = useState({});
+  const [selectedUserDoc, setSelectedUserDoc] = useState(null);
 
   const stopFetching = () => {
     //the changes takes half seconds to update the components, so use timeout to avoid glitches
@@ -47,6 +47,7 @@ export const SelectedUserContextProvider = ({children}) => {
         setId,
         isFetching,
         setIsFetching,
+        getSelectedUser,
       }}>
       {children}
     </SelectedUserContext.Provider>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors } from '../../../../config/config';
 import {Stack} from '../../../../navigation/create/CreateNavigation';
 import ButtonText from './../../../../components/ButtonText';
 import FrontPage from './FrontPage';
@@ -18,7 +19,10 @@ const Profile = ({navigation}) => {
           component={FrontPage}
           options={{
             headerTitle: '',
-            headerStyle: {backgroundColor: '#010101'},
+            headerStyle: {backgroundColor: colors.neonBg},
+            headerShown: true,
+            headerTitle:'Your Profile',
+            headerTintColor:colors.calmBlue
             // headerRight: () => (
             //   <Link
             //     text="edit profile"

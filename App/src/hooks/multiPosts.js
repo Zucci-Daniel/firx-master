@@ -19,7 +19,7 @@ export const multiPost = async (data = []) => {
           timeStamp: 10000,
         });
 
-        const thumbnailUri = uploadAFile(response.path);
+        const thumbnailUri = await uploadAFile(response.path);
 
         if (thumbnailUri !== false) {
           console.log('theres thumbnail');

@@ -23,8 +23,12 @@ import {
 import Finished from '../../../components/Finished';
 import MiniLoading from '../../../components/MiniLoading';
 import {HomeContext} from './homeContext';
+import Link from './../../../components/Link';
+import Retry from './../../../components/Retry';
+import MediaSkeleton from './../../../components/MediaSkeleton';
 
 const Home = ({navigation}) => {
+  const [failed, setFailed] = useState(false);
   const {subscribeToNetworkStatus} = useCheckNetworkStatus();
   const online = subscribeToNetworkStatus();
   const [allPosts, setAllPost] = useState([]);
@@ -37,7 +41,7 @@ const Home = ({navigation}) => {
   const [profilesBlackListed, setProfilesBlackListed] = useState(null);
   const [fetchedBlacklists, setFetchedBlacklists] = useState(null);
   const [fetchedBasicInfo, setFetchedBasicInfo] = useState(null);
-  const [postIsFinished, setPostIsFinished] = useState(false);
+  const [postIsFinished, setPostIsFinished] = useState(null);
   const [itemsPerPage] = useState(10);
   const [lastPost, setLastPost] = useState(null);
   const {userUID} = useContext(AppContext);
@@ -65,7 +69,17 @@ const Home = ({navigation}) => {
       setProfilesBlackListed(profilesBlackListed);
 
       setFetchedBlacklists(true);
+      return true;
+    } else {
+      return false;
     }
+  };
+
+  const stopFetching = () => {
+    setTimeout(() => {
+      setIsFetchingData(false);
+      setFailed(false);
+    }, 0);
   };
 
   const fetchPosts = async (
@@ -85,12 +99,12 @@ const Home = ({navigation}) => {
       if (posts.length == 0 || posts.length < itemsPerPage) {
         setLastPost(lastVisibleItem);
         setAllPost(posts);
-        setIsFetchingData(false);
+        stopFetching();
         setPostIsFinished(true);
       } else {
         setLastPost(lastVisibleItem);
         setAllPost(posts);
-        setIsFetchingData(false);
+        stopFetching();
       }
     }
   };
@@ -100,46 +114,71 @@ const Home = ({navigation}) => {
       console.log(' gonan get use info');
       //get the latest basic information
       getInformation(userUID, online);
-      // setShouldGetUserInfo(false);
+      setShouldGetUserInfo(false);
     }
   }, [online]);
 
-  //get the blacklisted post
-  useEffect(() => {
-    getBlackLists(userUID);
-  }, []);
-
-  useEffect(() => {
-    if (fetchedBlacklists && dontRunFromEffectAgain == false) {
+  const confirmBeforeGettingPosts = async () => {
+    setIsFetchingData(true);
+    if (fetchedBlacklists) {
       fetchPosts(postsBlackListed, profilesBlackListed, lastPost, itemsPerPage);
-      setDontRunFromEffectAgain(true);
-    }
-  }, [fetchedBlacklists, dontRunFromEffectAgain]);
-
-  const handleLoadMoreData = async () => {
-    if (postIsFinished == false) {
-      // return await fetchPosts(
-      //   postsBlackListed,
-      //   profilesBlackListed,
-      //   lastPost,
-      //   itemsPerPage,
-      // );
+    } else {
+      const response = await getBlackLists(userUID);
+      if (response) {
+        await fetchPosts(
+          postsBlackListed,
+          profilesBlackListed,
+          lastPost,
+          itemsPerPage,
+        );
+      } else {
+        setFailed(true);
+        setIsFetchingData(false);
+        console.log(' failed to confirmBeforeGettingPosts');
+      }
     }
   };
 
-  if (isFetchingData && !showRetry) return <FeedLoadingSkeleton />;
+  useEffect(() => {
+    confirmBeforeGettingPosts();
+  }, [fetchedBlacklists]);
+
+  const handleLoadMoreData = async () => {
+    if (postIsFinished == false) {
+      return await fetchPosts(
+        postsBlackListed,
+        profilesBlackListed,
+        lastPost,
+        itemsPerPage,
+      );
+    }
+  };
+
+  if (isFetchingData) return <MediaSkeleton />;
 
   return (
     <>
       <View style={styles.container}>
-        <Feed
-          useData={allPosts}
-          userUID={userUID}
-          loadMoreData={handleLoadMoreData}
-          loading={() =>
-            postIsFinished == false ? <MiniLoading /> : <Finished />
-          }
-        />
+        {!isFetchingData && failed && (
+          <Retry
+            notice="failed to get posts due to network.."
+            handleRetry={confirmBeforeGettingPosts}
+          />
+        )}
+        {!isFetchingData && !failed && (
+          <Feed
+            useData={allPosts}
+            userUID={userUID}
+            loadMoreData={handleLoadMoreData}
+            loading={() =>
+              postIsFinished == false ? (
+                <MiniLoading />
+              ) : postIsFinished == true ? (
+                <Finished />
+              ) : null
+            }
+          />
+        )}
       </View>
     </>
   );
@@ -149,9 +188,10 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    height: undefined,
+    flex: 1,
     width: width,
     backgroundColor: colors.neonBg,
+    justifyContent: 'center',
   },
   heading: {
     padding: universalPadding / 6,

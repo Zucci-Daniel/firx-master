@@ -337,7 +337,7 @@ export const getFilteredPosts = async (
 
           const results = await postCondition
             .where('postID', 'not-in', batchChunks[index])
-
+            .orderBy('postedOn', 'desc')
             .startAfter(lastQueryResult)
             .limit(10)
             .get();

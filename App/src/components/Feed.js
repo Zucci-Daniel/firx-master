@@ -213,11 +213,7 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
     // setCurrentMedia(index + 1);
   };
 
-  console.log(
-    data.mainData.length,
-    ' from feed == use data is ',
-    useData.length,
-  );
+
 
   return (
     <>
@@ -252,7 +248,7 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
             }}
           />
         ) : null}
-        {isUpdating ? (
+        {/* {isUpdating ? (
           <View
             style={{
               backgroundColor: 'red',
@@ -261,7 +257,7 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
               zIndex: 300,
             }}
           />
-        ) : null}
+        ) : null} */}
       </View>
     </>
   );

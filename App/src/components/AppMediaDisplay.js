@@ -13,17 +13,16 @@ import AppCancel from './AppCancel';
 
 const AppMediaDisplay = ({data, onRemoveItem, showRemove = true}) => {
   const flatListRef = React.useRef();
-
   return (
     <FlatList
-      style={data?.length ? styles.FlatList : null}
+      style={data.length ? styles.FlatList : null}
       ref={flatListRef}
       onContentSizeChange={() =>
         flatListRef.current.scrollToEnd({animated: true})
       }
       data={data}
       horizontal={true}
-      keyExtractor={item => item.id}
+      keyExtractor={item => `${item.id} ${item} `}
       snapToAlignment="start"
       decelerationRate={0.8}
       snapToInterval={width}
@@ -38,11 +37,19 @@ const AppMediaDisplay = ({data, onRemoveItem, showRemove = true}) => {
               onCancel={() => onRemoveItem(item.id)}
             />
           )}
-          {item.mime == 'picture' && (
-            <AppPostImage key={item} imageUri={item.path} useHeight={'100%'} />
+          {(item.mime == 'picture' || item.type == 'picture') && (
+            <AppPostImage
+              key={item}
+              imageUri={item.url || item.path}
+              useHeight={'100%'}
+            />
           )}
-          {item.mime == 'video' && (
-            <AppPostVideo key={item} videoUri={item.path} useHeight={'100%'} />
+          {(item.mime == 'video' || item.type == 'video') && (
+            <AppPostVideo
+              key={item}
+              videoUri={item.url || item.path}
+              useHeight={'100%'}
+            />
           )}
         </>
       )}

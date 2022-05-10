@@ -30,7 +30,7 @@ const AccommodationTab = () => {
   const fetchAccommodationDetails = async id => {
     const response = await useGetNewUser('STUDENTS', id);
     if (response) {
-      console.log(response.data()?.accommodationDetails, ' davido');
+      console.log(response.data()?.accommodationDetails);
       setAccommodation(
         response.data()?.accommodationDetails
           ? {...response.data()?.accommodationDetails}

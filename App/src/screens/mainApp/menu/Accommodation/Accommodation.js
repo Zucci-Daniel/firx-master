@@ -69,6 +69,7 @@ const Accommodation = ({accommodationMedias, navigation}) => {
     setAccommodation({...accommodation, medias: stateMedia});
   };
 
+  // console.log(accommodation.medias,' acc media',accommodation.medias.length)
   return (
     <>
       {!accommodation.medias?.length > 0 && (
@@ -81,7 +82,7 @@ const Accommodation = ({accommodationMedias, navigation}) => {
         </View>
       )}
       <AppMediaDisplay
-        data={accommodation?.medias}
+        data={accommodation.medias}
         onRemoveItem={id => removeMedia(id)}
       />
 

@@ -54,7 +54,7 @@ export const getUserLocation = async () => {
       });
     };
 
-    getUserPermission();
+    // getUserPermission();
 
     if (!permission) {
       getUserPermission();

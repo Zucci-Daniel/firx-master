@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, BackHandler} from 'react-native';
 
 import {
   universalPadding,
@@ -23,6 +23,7 @@ import InfoText from './../../../../components/InfoText';
 import AnimatedImage from '../../../../components/AnimatedImage';
 import SweetButton from './../../../../components/SweetButton';
 import SeparatedButtons from './../../../../components/SeparatedButtons';
+import Link from './../../../../components/Link';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -36,9 +37,11 @@ const FrontPage = () => {
 
   const hideModal = () => setShowModal(false);
 
+
   return (
     <>
       <View style={styles.mainContainer}>
+     
         <View style={styles.container}>
           <AnimatedImage
             image={user?.profileImage}
