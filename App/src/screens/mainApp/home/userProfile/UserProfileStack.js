@@ -20,7 +20,10 @@ const UserProfileStack = ({navigation}) => {
             component={UserProfile}
             options={{
               animation: 'slide_from_right',
-              headerShown: false,
+              headerStyle: {backgroundColor: colors.neonBg},
+              headerShown: true,
+              headerTitle: 'Profile',
+              headerTintColor: colors.calmBlue,
             }}
           />
           <Stack.Screen
