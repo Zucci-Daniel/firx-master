@@ -76,10 +76,8 @@ const Home = ({navigation}) => {
   };
 
   const stopFetching = () => {
-    setTimeout(() => {
-      setIsFetchingData(false);
-      setFailed(false);
-    }, 0);
+    setIsFetchingData(false);
+    setFailed(false);
   };
 
   const fetchPosts = async (
@@ -110,7 +108,7 @@ const Home = ({navigation}) => {
   };
 
   useEffect(() => {
-    if (shouldGetUserInfo) {
+    if (online && shouldGetUserInfo) {
       console.log(' gonan get use info');
       //get the latest basic information
       getInformation(userUID, online);
