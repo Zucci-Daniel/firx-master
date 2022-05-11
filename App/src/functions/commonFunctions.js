@@ -38,6 +38,8 @@ export const getUserLocation = async () => {
       },
     });
 
+    if (permission) return true;
+
     const getUserPermission = async () => {
       permission = await RNLocation.requestPermission({
         ios: 'whenInUse',

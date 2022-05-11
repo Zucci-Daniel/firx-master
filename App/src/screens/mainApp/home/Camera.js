@@ -63,7 +63,8 @@ const Camera = () => {
     console.log(response, ' user location reponse');
     if (response) {
       return setPost({...post, postLocation: {...response}});
-    } else {
+    }
+    if (response == false) {
       Alert.alert(
         'sorry',
         "you can't post without giving us access to your location.",
