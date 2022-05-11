@@ -26,7 +26,6 @@ export const SelectedUserContextProvider = ({children}) => {
       const response = await useGetNewUser('STUDENTS', id);
       if (response) {
         setSelectedUserDoc({...response.data()});
-        console.log(response, ' ready to update whatever sate');
         stopFetching();
       } else stopFetching();
     } catch (error) {

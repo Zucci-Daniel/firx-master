@@ -79,7 +79,7 @@ export default AuthoredPosts;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
     backgroundColor: colors.neonBg,
     width: width,
     justifyContent: 'center',

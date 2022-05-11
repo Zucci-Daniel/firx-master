@@ -1,12 +1,11 @@
 import {
   React,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from '../imports/all_RnComponents';
-import {Avatar, Subheading} from '../imports/all_packages';
-import {WinsAndGames, AppImage} from '../imports/all_files';
+import { Subheading} from '../imports/all_packages';
+import { AppImage} from '../imports/all_files';
 import {
   colors,
   universalPadding,
@@ -91,7 +90,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.hairLineColor,
   },
-
   wrapper: {
     backgroundColor: 'transparent',
     height: undefined,

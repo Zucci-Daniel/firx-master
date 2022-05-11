@@ -213,8 +213,6 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
     // setCurrentMedia(index + 1);
   };
 
-
-
   return (
     <>
       <View style={styles.container}>

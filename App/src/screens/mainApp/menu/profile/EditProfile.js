@@ -387,4 +387,7 @@ const styles = StyleSheet.create({
     height: undefined,
     width: '100%',
   },
+  extraIndicatorStyle:{
+    
+  }
 });

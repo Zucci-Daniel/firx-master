@@ -82,28 +82,7 @@ const Camera = () => {
         ],
       );
     }
-    // else {
-    //   Alert.alert(
-    //     'sorry',
-    //     "you can't post without giving us access to your location.",
-    //     [
-    //       {
-    //         text: "i won't",
-    //         onPress: () => navigation.goBack(),
-    //         style: 'cancel',
-    //       },
-    //       {
-    //         text: 'okay i accept',
-    //         onPress: () => {
-    //           sheetRef.current.open();
-    //         },
-    //       },
-    //     ],
-    //   );
-    // }
   };
-
-  console.log(post);
 
   // BackHandler.addEventListener('hardwareBackPress', () => navigation.goBack());
 

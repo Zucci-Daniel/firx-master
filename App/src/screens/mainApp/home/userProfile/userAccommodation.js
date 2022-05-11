@@ -15,6 +15,7 @@ import AppIndicator from './../../../../components/AppIndicator';
 import {convertToCurrency, naira} from '../../../../functions/commonFunctions';
 import SweetButton from './../../../../components/SweetButton';
 import PostHeader from './../../../../components/Post/PostHeader';
+import Retry from './../../../../components/Retry';
 
 const UserAccommodation = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -45,15 +46,14 @@ const UserAccommodation = ({navigation, route}) => {
     <View style={styles.container}>
       {isLoading && <AppIndicator />}
       {accommodation == false && !isLoading && (
-        <Link
-          touchStyles={{
-            flex: 1,
-            justifyContent: 'center',
-          }}
-          text={`no home posted yet`}
-          color={colors.info}
-          readOnly
-        />
+        <>
+          <Retry
+            notice={`no home posted yet`}
+            buttonText="go back"
+            handleRetry={() => navigation.goBack()}
+            extraStyle={{flex: 1, justifyContent: 'center'}}
+          />
+        </>
       )}
       {accommodation !== false && !isLoading && (
         <>

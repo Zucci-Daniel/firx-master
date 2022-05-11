@@ -32,7 +32,7 @@ const AppMediaDisplay = ({data, onRemoveItem, showRemove = true}) => {
           {showRemove && (
             <AppCancel
               size={30}
-              iconName="ios-remove-circle-sharp"
+              iconName="trash"
               extraStyle={styles.trash}
               onCancel={() => onRemoveItem(item.id)}
             />

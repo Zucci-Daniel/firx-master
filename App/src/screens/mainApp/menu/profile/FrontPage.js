@@ -1,6 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {StyleSheet, View, BackHandler} from 'react-native';
-
+import {StyleSheet, View} from 'react-native';
 import {
   universalPadding,
   colors,
@@ -8,7 +7,6 @@ import {
   tabBarLabelConfig,
   tabBarConfig,
   tabBarIndicatorConfig,
-  avatarEditWidth,
 } from '../../../../config/config';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import ProfilePane from './../../../../components/ProfilePane';
@@ -23,7 +21,6 @@ import InfoText from './../../../../components/InfoText';
 import AnimatedImage from '../../../../components/AnimatedImage';
 import SweetButton from './../../../../components/SweetButton';
 import SeparatedButtons from './../../../../components/SeparatedButtons';
-import Link from './../../../../components/Link';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -48,21 +45,15 @@ const FrontPage = () => {
             onBackPress={hideModal}
           />
           <ProfilePane
+            noPadding
             onPressOutImage={hideModal}
             onLongPressImage={showImage}
             extraUserNameStyle={styles.names}
             extraNameStyles={styles.school}
             readOnly
           />
-          {user?.bio && <InfoText info={user?.bio} />}
+          {user?.bio ? <InfoText info={user?.bio} /> : null}
           <SocialHandles />
-          <SeparatedButtons>
-            <SweetButton
-              extraStyle={styles.edit}
-              text="edit profile"
-              onPress={() => navigation.navigate('editProfile')}
-            />
-          </SeparatedButtons>
         </View>
         <Tab.Navigator
           sceneContainerStyle={styles.sceneContainerStyle}

@@ -1,12 +1,6 @@
 import {React, StyleSheet, View, Text} from '../imports/all_RnComponents';
 import {Headline, Subheading} from '../imports/all_packages';
-import {
-  universalPadding,
-  width,
-  sMargin,
-  colors,
-  brandFont,
-} from '../config/config';
+import {universalPadding, colors} from '../config/config';
 
 export default InfoText = ({info = 'information', extraStyles}) => {
   return <Headline style={[styles.balance, extraStyles]}>{info}</Headline>;
@@ -15,11 +9,10 @@ export default InfoText = ({info = 'information', extraStyles}) => {
 const styles = StyleSheet.create({
   balance: {
     color: colors.fadeWhite,
-    width: '70%',
+    width: '90%',
     fontSize: 12,
     fontWeight: '300',
     lineHeight: 14,
-    // fontFamily: brandFont.medium,
     textAlign: 'justify',
     marginVertical: 10,
     marginBottom: universalPadding / 3,

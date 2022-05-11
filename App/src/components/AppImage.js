@@ -12,7 +12,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {SignUpInfoContext} from './../screens/forms/signUpInfoContext';
 import {useGetFirstLetters} from './../hooks/useGetFirstLetters';
 import {handleImagePicker} from './../hooks/useOperation';
-import {width} from '../config/config';
+import {colors, width} from '../config/config';
 import {theme} from 'react-native-paper';
 
 export default AppImage = ({
@@ -51,9 +51,15 @@ export default AppImage = ({
         onPressOut={onPressOutImage}>
         {user.profileImage !== null && (
           <Avatar.Image
+            style={{borderWidth: 2, borderColor: colors.calmBlue}}
             size={size}
             source={{uri: source ? source : user.profileImage}}
-            theme={{...theme, backgroundColor: 'white'}}
+            theme={{
+              ...theme,
+              backgroundColor: 'white',
+              mode: 'adaptive',
+              roundness: 15,
+            }}
           />
         )}
         {!user.profileImage && (

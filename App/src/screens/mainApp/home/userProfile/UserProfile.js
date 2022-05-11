@@ -92,27 +92,28 @@ const UserProfile = ({navigation, route}) => {
         <>
           <View style={styles.container}>
             <AnimatedImage
-              image={selectedUser.profileImage}
+              image={selectedUser?.profileImage}
               isVisible={showModal}
               onBackButtonPress={hideModal}
               onBackPress={hideModal}
             />
             <ProfilePane
+              noPadding
               onPressOutImage={hideModal}
               onLongPressImage={showImage}
-              username={`${selectedUser.firstName} ${selectedUser.lastName}`}
-              schoolInfo={`${selectedUser.department} ${selectedUser.level}`}
-              externalProfileImage={selectedUser.profileImage}
+              username={`${selectedUser?.firstName} ${selectedUser?.lastName}`}
+              schoolInfo={`${selectedUser?.department} ${selectedUser?.level}`}
+              externalProfileImage={selectedUser?.profileImage}
               dark={true}
               readOnly
             />
             <InfoText info={selectedUser?.bio} />
             <SocialHandles
-              instagram={selectedUser.instagram}
-              twitter={selectedUser.twitter}
-              whatsapp={selectedUser.whatsapp}
-              facebook={selectedUser.facebook}
-              phone={selectedUser.phone}
+              instagram={selectedUser?.instagram}
+              twitter={selectedUser?.twitter}
+              whatsapp={selectedUser?.whatsapp}
+              facebook={selectedUser?.facebook}
+              phone={selectedUser?.phone}
             />
             <SeparatedButtons>
               <SweetButton
@@ -121,7 +122,7 @@ const UserProfile = ({navigation, route}) => {
                 onPress={() =>
                   handleGotoAcc(
                     posterUserUID,
-                    selectedUser.profileImage,
+                    selectedUser?.profileImage,
                     selectedUser?.firstName,
                   )
                 }
@@ -133,7 +134,7 @@ const UserProfile = ({navigation, route}) => {
                 onPress={() =>
                   handleGotoAcc(
                     posterUserUID,
-                    selectedUser.profileImage,
+                    selectedUser?.profileImage,
                     selectedUser?.firstName,
                   )
                 }
@@ -157,7 +158,7 @@ const UserProfile = ({navigation, route}) => {
             <Tab.Screen
               name="selectedUserAuthoredPosts"
               component={SelectedUserAuthoredPosts}
-              options={{title: `${selectedUser.firstName}'s posts`}}
+              options={{title: `${selectedUser?.firstName}'s posts`}}
             />
             <Tab.Screen
               name="selectedUserPersonalities"

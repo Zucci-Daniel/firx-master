@@ -8,9 +8,10 @@ const Retry = ({
   handleRetry,
   notice = 'failed due to network',
   buttonText = 'retry',
+  extraStyle,
 }) => {
   return (
-    <View style={styles.poorNetwork}>
+    <View style={[styles.poorNetwork, extraStyle]}>
       <Link readOnly text={notice} />
       <SweetButton text={buttonText} onPress={handleRetry} />
     </View>

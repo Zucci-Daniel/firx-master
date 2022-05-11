@@ -22,19 +22,11 @@ import {SelectedUserContext} from './selectedUserContext';
 import AppAnimatedImageView from '../../../../components/AppAnimatedImageView';
 
 const SelectedUserPersonalities = () => {
-  const {
-    selectedUserDoc,
-    setSelectedUserDoc,
-    isFetching,
-    setIsFetching,
-    id,
-    setId,
-  } = useContext(SelectedUserContext);
+  const {selectedUserDoc, setSelectedUserDoc, isFetching} =
+    useContext(SelectedUserContext);
 
   //   const navigation = useNavigation();
   const [personalities] = useState(selectedUserDoc?.personalities);
-
-  console.log(personalities, ' ===');
 
   return (
     <View style={styles.container}>

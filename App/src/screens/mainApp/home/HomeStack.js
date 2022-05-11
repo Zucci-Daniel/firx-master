@@ -1,17 +1,12 @@
 import React from 'react';
 import {Stack} from '../../../navigation/create/CreateNavigation';
 import Home from './Home';
-import CreatePost from './CreatePost';
-import Photo from './Photo';
-import Video from './Video';
 import Write from './Write';
-import Camera from './Camera';
-import AppCancel from './../../../components/AppCancel';
 import ViewPost from './userProfile/ViewPost';
-import UserProfileStack from './userProfile/UserProfileStack';
-import Link from '../../../components/Link';
 import {colors} from '../../../config/config';
 import SweetButton from './../../../components/SweetButton';
+import SelectedUserStack from './SelectedUserStack';
+import {View} from 'react-native';
 
 const HomeStack = ({navigation}) => {
   return (
@@ -19,18 +14,22 @@ const HomeStack = ({navigation}) => {
       screenOptions={{
         animation: 'slide_from_left',
         headerShadowVisible: false,
+        headerTintColor: colors.calmBlue,
+        headerStyle: {backgroundColor: colors.neonBg},
       }}>
       <Stack.Screen
         name="home"
         component={Home}
         options={{
-          title: `Vion`,
+          title: `|||-|||-|||-|||`,
           animation: 'slide_from_right',
           headerShown: true,
-          headerTintColor: colors.calmBlue,
-          headerStyle: {backgroundColor: colors.neonBg},
+
           headerRight: () => (
-            <SweetButton text="post" onPress={() => navigation.navigate('camera')} />
+            <SweetButton
+              text="create a post"
+              onPress={() => navigation.navigate('camera')}
+            />
           ),
         }}
       />
@@ -39,22 +38,15 @@ const HomeStack = ({navigation}) => {
         component={ViewPost}
         options={{
           animation: 'slide_from_right',
-          headerShown: false,
+          headerShown: true,
+          title: 'Post Details',
         }}
       />
       <Stack.Screen
         name="userProfileStack"
-        component={UserProfileStack}
+        component={SelectedUserStack}
         options={{
           animation: 'slide_from_right',
-          headerShown: false,
-        }}
-      />
-
-      <Stack.Screen
-        name="write"
-        component={Write}
-        options={{
           headerShown: false,
         }}
       />

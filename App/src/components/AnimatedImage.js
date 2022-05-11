@@ -3,9 +3,12 @@ import {View, StyleSheet, Image} from 'react-native';
 import {colors, postSize} from '../config/config';
 import AppAnimatedImageView from './AppAnimatedImageView';
 
-const AnimatedImage = ({image, isVisible, onBackPress,onBackButtonPress}) => {
+const AnimatedImage = ({image, isVisible, onBackPress, onBackButtonPress}) => {
   return (
-    <AppAnimatedImageView isVisible={isVisible} onBackdropPress={onBackPress} onBackButtonPress={onBackButtonPress}  >
+    <AppAnimatedImageView
+      isVisible={isVisible}
+      onBackdropPress={onBackPress}
+      onBackButtonPress={onBackButtonPress}>
       <View style={styles.imageShowCase}>
         <Image
           style={{width: '100%', height: '100%'}}
@@ -23,9 +26,10 @@ export default AnimatedImage;
 const styles = StyleSheet.create({
   imageShowCase: {
     alignSelf: 'center',
-    height: postSize,
+    height: postSize / 2,
     width: '100%',
-    borderWidth: 0,
+    borderWidth: 1,
     borderColor: colors.calmBlue,
+    
   },
 });
