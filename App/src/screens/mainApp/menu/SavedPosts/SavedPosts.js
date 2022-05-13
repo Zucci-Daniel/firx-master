@@ -91,7 +91,8 @@ const SavedPosts = () => {
         <Feed useData={savedPosts} userUID={userUID} />
       ) : (
         <Retry
-          notice="no saved post yet, go save a post?"
+          notice="no saved post yet, or your mobile data is turned off"
+          buttonText="try saving a post"
           handleRetry={() => navigation.navigate('home')}
         />
       )}

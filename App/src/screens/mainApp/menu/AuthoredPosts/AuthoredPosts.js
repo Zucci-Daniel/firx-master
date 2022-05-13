@@ -67,7 +67,7 @@ const AuthoredPosts = () => {
         </>
       ) : (
         <Retry
-          notice="no recent post yet, create a post"
+          notice="no recent post yet, create a post, or your mobile data is turned off"
           handleRetry={() => navigation.navigate('createPost')}
         />
       )}

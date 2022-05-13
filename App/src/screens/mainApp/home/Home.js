@@ -50,6 +50,7 @@ const Home = ({navigation}) => {
 
   const getInformation = async (userUID, online) => {
     setFetchedBasicInfo(false);
+    console.log('getting your basic online or locally');
     const response = await useGetUserInformation(userUID, online);
 
     if (response) {
@@ -108,7 +109,7 @@ const Home = ({navigation}) => {
   };
 
   useEffect(() => {
-    if (online && shouldGetUserInfo) {
+    if (online || shouldGetUserInfo) {
       console.log(' gonan get use info');
       //get the latest basic information
       getInformation(userUID, online);

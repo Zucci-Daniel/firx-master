@@ -25,7 +25,9 @@ const Personalities = () => {
   const {userUID} = useContext(AppContext);
 
   const navigation = useNavigation();
-  const [personalities, setPersonalities] = useState(user?.personalities);
+  const [personalities, setPersonalities] = useState(
+    user?.personalities ?? null,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const Personalities = () => {
       .collection('STUDENTS')
       .doc(userUID)
       .onSnapshot(documentSnapShot => {
-        setPersonalities(documentSnapShot.data().personalities);
+        setPersonalities(documentSnapShot.data()?.personalities ?? null);
         setIsLoading(false);
       });
 
@@ -42,10 +44,10 @@ const Personalities = () => {
 
   return (
     <View style={styles.container}>
-      {!isLoading && personalities?.length == 0 && (
+      {!isLoading && personalities == null && (
         <View style={{height: '100%', justifyContent: 'center'}}>
           <Retry
-            notice="you haven't added any personality yet!"
+            notice="you haven't added any personality yet, or your mobile data is turned off"
             handleRetry={() => navigation.navigate('editPersonalities')}
           />
         </View>

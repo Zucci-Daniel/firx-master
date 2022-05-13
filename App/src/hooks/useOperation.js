@@ -224,6 +224,7 @@ export const useGetUserInformationFromFirestore = async id => {
       return userBasicInfo;
     } else {
       log('failed to get user info from firebase ');
+      return false;
     }
   } catch (error) {
     console.log(
@@ -231,6 +232,7 @@ export const useGetUserInformationFromFirestore = async id => {
       error.message,
     );
   }
+  return false;
 };
 
 export const useGetUserBasicInformationFromLocalStorage = async id => {
@@ -256,10 +258,17 @@ export const useGetUserBasicInformationFromLocalStorage = async id => {
 };
 
 export const useGetUserInformation = async (id, online) => {
+    console.log('getting your basic info your online');
   if (online) {
     try {
       const response = await useGetUserInformationFromFirestore(id);
-      return response;
+      if (response) {
+        return response;
+      } else {
+        console.log()
+        const response = await useGetUserBasicInformationFromLocalStorage(id);
+        return response;
+      }
     } catch (error) {
       console.log(
         "you're online but we failed to get your info from firstore, we're fetching your details locally",
