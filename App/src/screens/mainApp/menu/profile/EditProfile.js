@@ -199,18 +199,21 @@ const EditProfile = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      {!everthingIsTheSame && isValid && !isUpdating ? (
-        <Link
-          text="update"
-          extraStyle={styles.update}
-          onPress={handleSubmit(handleUpdateProfile)}
-        />
-      ) : isUpdating ? (
-        <AppIndicator
-          forSubmiting
-          extraIndicatorStyle={styles.extraIndicatorStyle}
-        />
-      ) : null}
+      <View style={{height: undefined, width: '100%'}}>
+        {!everthingIsTheSame && isValid && !isUpdating ? (
+          <Link
+            text="update"
+            extraStyle={styles.update}
+            onPress={handleSubmit(handleUpdateProfile)}
+          />
+        ) : isUpdating ? (
+          <AppIndicator
+            size={30}
+            forSubmiting
+            extraIndicatorStyle={styles.extraIndicatorStyle}
+          />
+        ) : null}
+      </View>
 
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.wrapper}>
@@ -353,7 +356,7 @@ export default EditProfile;
 
 const styles = StyleSheet.create({
   container: {
-    height: undefined,
+    flex: 1,
     width: width,
     backgroundColor: colors.neonBg,
   },
@@ -375,9 +378,10 @@ const styles = StyleSheet.create({
     paddingBottom: postHeight,
   },
   update: {
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     color: colors.fadeWhite,
     fontWeight: 'bold',
+    margin: 0,
   },
   extraPasteLinkInput: {
     width: '80%',
@@ -387,7 +391,9 @@ const styles = StyleSheet.create({
     height: undefined,
     width: '100%',
   },
-  extraIndicatorStyle:{
-    
-  }
+  extraIndicatorStyle: {
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    alignSelf: 'center',
+  },
 });
