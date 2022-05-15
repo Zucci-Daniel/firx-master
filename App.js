@@ -50,6 +50,7 @@ export default App = () => {
     LogBox.ignoreLogs([
       'Require cycles are allowed, but can result in uninitialized values.',
       "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+      'new NativeEventEmitter()',
     ]);
   }, []);
 

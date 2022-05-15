@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   universalPadding,
@@ -21,6 +21,7 @@ import InfoText from './../../../../components/InfoText';
 import AnimatedImage from '../../../../components/AnimatedImage';
 import SweetButton from './../../../../components/SweetButton';
 import SeparatedButtons from './../../../../components/SeparatedButtons';
+import MediaSkeleton from './../../../../components/MediaSkeleton';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,33 +29,43 @@ const FrontPage = () => {
   const navigation = useNavigation();
   const {user} = useContext(SignUpInfoContext);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   const showImage = () => setShowModal(true);
 
   const hideModal = () => setShowModal(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+  }, []);
+
+  if (isLoading) return <MediaSkeleton />;
 
   return (
     <>
       <View style={styles.mainContainer}>
-        <View style={styles.container}>
-          <AnimatedImage
-            image={user?.profileImage}
-            isVisible={showModal}
-            onBackButtonPress={hideModal}
-            onBackPress={hideModal}
-          />
-          <ProfilePane
-            noPadding
-            onPressOutImage={hideModal}
-            onLongPressImage={showImage}
-            extraUserNameStyle={styles.names}
-            extraNameStyles={styles.school}
-            readOnly
-          />
-          {user?.bio ? <InfoText info={user?.bio} /> : null}
-          <SocialHandles />
-        </View>
+        {!isLoading && (
+          <View style={styles.container}>
+            <AnimatedImage
+              image={user?.profileImage}
+              isVisible={showModal}
+              onBackButtonPress={hideModal}
+              onBackPress={hideModal}
+            />
+            <ProfilePane
+              noPadding
+              onPressOutImage={hideModal}
+              onLongPressImage={showImage}
+              extraUserNameStyle={styles.names}
+              extraNameStyles={styles.school}
+              readOnly
+            />
+            {user?.bio ? <InfoText info={user?.bio} /> : null}
+            <SocialHandles />
+          </View>
+        )}
         <Tab.Navigator
           sceneContainerStyle={styles.sceneContainerStyle}
           screenOptions={{
