@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
-import {config, Ig} from '../../../../imports/all_files';
+
 import {SignUpInfoContext} from '../../../forms/signUpInfoContext';
 import {useContext, useState, useEffect} from 'react';
 import Link from './../../../../components/Link';
@@ -22,10 +22,16 @@ import SMHandle from './../../../../components/SMHandle';
 import WhatsApp from '../../../../components/icons/WhatsApp';
 import Fb from './../../../../components/icons/Fb';
 import Twitter from './../../../../components/icons/Twitter';
-import {postHeight} from '../../../../config/config';
+import {
+  universalPadding,
+  colors,
+  avatarEditWidth,
+  width,
+  height,
+  postHeight,
+} from '../../../../config/config';
 import AppIndicator from './../../../../components/AppIndicator';
-
-const {universalPadding, colors, avatarEditWidth, width, height} = config;
+import Ig from './../../../../components/icons/Ig';
 
 const EditProfile = ({navigation}) => {
   const {posted, setPosted} = useContext(HomeContext);

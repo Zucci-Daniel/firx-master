@@ -1,10 +1,5 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
-} from '../imports/all_RnComponents';
+import React from 'react';
+import {StyleSheet, View, Text, StatusBar} from 'react-native';
 import {MaterialIcons, Ionicons} from '../imports/all_packages';
 import {universalPadding, width, sMargin, colors} from '../config/config';
 

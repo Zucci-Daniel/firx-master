@@ -1,5 +1,5 @@
 import {React} from '../../imports/all_RnComponents';
-import {MainNavigation} from '../../imports/all_files';
+
 import {Stack} from '../../navigation/create/CreateNavigation';
 import EditProfile from './menu/profile/EditProfile';
 import {HomeContextProvider} from './home/homeContext';
@@ -8,6 +8,7 @@ import Camera from './home/Camera';
 import AccommodationSection from './menu/Accommodation/AccommodationSection';
 import {View} from 'react-native';
 import {colors} from '../../config/config';
+import MainNavigation from './MainNavigation';
 
 const MainApp = ({navigation, route}) => {
   // const {selectedUser} = route.params;

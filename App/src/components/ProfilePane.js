@@ -1,11 +1,8 @@
-import {
-  React,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from '../imports/all_RnComponents';
-import { Subheading} from '../imports/all_packages';
-import { AppImage} from '../imports/all_files';
+import React from 'react';
+
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Subheading} from '../imports/all_packages';
+
 import {
   colors,
   universalPadding,
@@ -15,6 +12,9 @@ import {
 } from '../config/config';
 import {SignUpInfoContext} from '../screens/forms/signUpInfoContext';
 import {useContext} from 'react';
+import Follow from './Follow';
+import SeparatedButtons from './SeparatedButtons';
+import AppImage from './AppImage';
 
 export default function ProfilePane({
   username,
@@ -71,6 +71,10 @@ export default function ProfilePane({
           </Subheading>
         </View>
       </View>
+      <SeparatedButtons extraStyle={{justifyContent: 'space-around'}}>
+        <Follow detail="followers" value="219,000" />
+        <Follow detail="following" value="21" />
+      </SeparatedButtons>
     </TouchableOpacity>
   );
 }

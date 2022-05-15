@@ -1,11 +1,12 @@
+import React from 'react';
+
 import {
-  React,
   StyleSheet,
   Text,
   View,
   Image,
   TouchableOpacity,
-} from '../imports/all_RnComponents';
+} from 'react-native';
 
 import {universalPadding, colors, height, width} from '../config/config';
 

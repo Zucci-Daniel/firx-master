@@ -1,6 +1,6 @@
-import {React, StyleSheet, View} from '../imports/all_RnComponents';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {RadioButton} from '../imports/all_packages';
-import {colors, sMargin, inputBorder} from '../config/config';
 
 export default AppRadioButton = ({label = 'Bank Transfer', color = 'red'}) => {
   const [checked, setChecked] = React.useState('first');
@@ -14,7 +14,6 @@ export default AppRadioButton = ({label = 'Bank Transfer', color = 'red'}) => {
         onPress={() => setChecked('first')}
         color={color}
         uncheckedColor={'#fff'}
-        color={'black'}
         mode="android"
       />
     </View>

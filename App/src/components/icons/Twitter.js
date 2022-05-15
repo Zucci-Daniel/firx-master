@@ -1,6 +1,8 @@
-import {React, TouchableOpacity} from '../../imports/all_RnComponents';
+import React from 'react';
+
+import {TouchableOpacity} from 'react-native';
 import Tweet from '../../assets/svg-raw/twitter.svg';
-import { socialMediaSize } from '../../config/config';
+import {socialMediaSize} from '../../config/config';
 
 const Twitter = ({onPress}) => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import LottieView from 'lottie-react-native';
-import {colors, universalPadding} from '../config/config';
+import {universalPadding} from '../config/config';
 
 const AppLoading = ({message = '', loop}) => {
   return (

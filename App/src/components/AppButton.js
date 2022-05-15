@@ -1,7 +1,7 @@
-import {React, StyleSheet, View} from '../imports/all_RnComponents';
-import {universalPadding, width, sMargin, colors} from '../config/config';
-import {Button, TextInput} from '../imports/all_packages';
-import { forwardRef } from 'react';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {universalPadding, sMargin, colors} from '../config/config';
+import {Button} from '../imports/all_packages';
 
 export default AppButton = ({
   extraStyles,
@@ -11,8 +11,8 @@ export default AppButton = ({
   title = 'Sign Up',
   disabled = false,
   wideButton = false,
-  mode="contained",
-  titleColor=colors.brandColor,
+  mode = 'contained',
+  titleColor = colors.brandColor,
   extraInnerStyle,
   ...props
 }) => {
@@ -27,11 +27,10 @@ export default AppButton = ({
         {width: wideButton ? '100%' : null},
         extraStyles,
       ]}
-      labelStyle={{color:disabled?'grey':titleColor}}
-      contentStyle={[styles.innerButton,extraInnerStyle]}
+      labelStyle={{color: disabled ? 'grey' : titleColor}}
+      contentStyle={[styles.innerButton, extraInnerStyle]}
       color={buttonColor}
-      {...props}
-      >
+      {...props}>
       {title}
     </Button>
   );
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
     width: undefined,
     alignSelf: 'center',
     margin: universalPadding,
-    borderRadius:40
+    borderRadius: 40,
   },
   innerButton: {
     paddingVertical: sMargin,

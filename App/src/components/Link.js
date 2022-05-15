@@ -1,9 +1,6 @@
-import {
-  React,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from '../imports/all_RnComponents';
+import React from 'react';
+
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {colors, universalPadding} from '../config/config';
 
 export default function Link({

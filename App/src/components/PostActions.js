@@ -9,7 +9,7 @@ import {
   postHeight,
 } from '../config/config';
 import Sheet from './Sheet';
-import {MenuItem} from '../imports/all_files';
+import MenuItem from './MenuItem';
 
 const PostActions = ({
   onStopSeeingThis = () => {

@@ -1,7 +1,9 @@
-import {React} from '../../imports/all_RnComponents';
-import {Confirmation, Register} from '../../imports/all_files';
+import React from 'react';
+
 import {Stack} from '../../navigation/create/CreateNavigation';
 import FormStack from './../forms/FormStack';
+import Register from './Register';
+import Confirmation from './../../trash/confirmAtion';
 
 const Auth = () => {
   return (

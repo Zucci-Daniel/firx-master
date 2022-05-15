@@ -1,12 +1,14 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from '../imports/all_RnComponents';
+import React from 'react';
+
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {Text as PaperText} from '../imports/all_packages';
-import {universalPadding, width, sMargin, colors,brandFont} from '../config/config';
+import {
+  universalPadding,
+  width,
+  sMargin,
+  colors,
+  brandFont,
+} from '../config/config';
 
 const NoticeBox = ({
   message = ' Game session is starts in 4days time...',
@@ -23,7 +25,10 @@ const NoticeBox = ({
         {backgroundColor: seen ? 'transparent' : colors.notificationBg},
       ]}>
       <Text
-        style={[styles.Text, {fontFamily: seen ? brandFont.medium : brandFont.medium }]}>
+        style={[
+          styles.Text,
+          {fontFamily: seen ? brandFont.medium : brandFont.medium},
+        ]}>
         {message}
       </Text>
       <Text style={styles.date}>{date}</Text>
@@ -42,7 +47,7 @@ const styles = StyleSheet.create({
   },
   Text: {
     fontSize: 14,
-    color:colors.inputUnderLineColor
+    color: colors.inputUnderLineColor,
   },
   date: {
     fontSize: 9,

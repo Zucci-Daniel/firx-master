@@ -1,31 +1,15 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {View, StyleSheet, ScrollView, FlatList, Text} from 'react-native';
-import {
-  colors,
-  height,
-  universalPadding,
-  width,
-} from '../../../../config/config';
+import {View, StyleSheet} from 'react-native';
+import {colors, width} from '../../../../config/config';
 import firestore from '@react-native-firebase/firestore';
 import {AppContext} from './../../../../appContext';
-import SponsorPost from './../../../../components/SponsorPost';
-import {commonFunctions} from '../../../../imports/all_files';
-import AppLoading from './../../../../components/AppLoading';
-import Link from './../../../../components/Link';
+
 import {useNavigation} from '@react-navigation/native';
-import {SheetManager} from 'react-native-actions-sheet';
-import {
-  handleDeletePost,
-  handleUnfollowAuthor,
-} from '../../../../hooks/postOperations';
-import {
-  handleSavePost,
-  confirmAction,
-} from './../../../../hooks/postOperations';
-import PostActions from '../../../../components/PostActions';
-import {getDocSnapshot} from './../../../../hooks/useOperation';
+
+import {confirmAction} from './../../../../hooks/postOperations';
+
 import Feed from './../../../../components/Feed';
-import FeedLoadingSkeleton from './../../../../components/FeedLoadingSkeleton';
+
 import AppIndicator from '../../../../components/AppIndicator';
 import Retry from './../../../../components/Retry';
 ///use a flast list

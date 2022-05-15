@@ -1,10 +1,11 @@
+import React from 'react';
 import {
-  React,
+ 
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
-} from '../imports/all_RnComponents';
+} from 'react-native';
 import {Headline, Subheading, Avatar} from '../imports/all_packages';
 import {
   universalPadding,

@@ -1,15 +1,14 @@
-import {React, StyleSheet, View, Text} from '../../../imports/all_RnComponents';
-import {Profile, MenuList, config} from '../../../imports/all_files';
+import React from 'react';
+
+import {StyleSheet, View, Text} from 'react-native';
 import {Stack} from '../../../navigation/create/CreateNavigation';
 import AuthoredPosts from './AuthoredPosts/AuthoredPosts';
-import ButtonText from './../../../components/ButtonText';
 import {useNavigation} from '@react-navigation/native';
 import SavedPosts from './SavedPosts/SavedPosts';
 import Link from './../../../components/Link';
-import {height, width} from '../../../config/config';
-
-
-const {colors, brandFont} = config;
+import {height, width, colors, brandFont} from '../../../config/config';
+import Profile from './profile/Profile';
+import MenuList from './MenuList';
 
 const Menu = () => {
   const navigation = useNavigation();

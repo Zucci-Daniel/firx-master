@@ -1,11 +1,5 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from '../imports/all_RnComponents';
-import {Headline, Subheading, Badge, Checkbox} from '../imports/all_packages';
+import React from 'react';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {universalPadding, width, sMargin, colors} from '../config/config';
 
 export default AppCheckBox = ({
@@ -31,9 +25,9 @@ const styles = StyleSheet.create({
     color: 'black',
     width: '80%',
     backgroundColor: 'transparent',
-    alignSelf:'center',
+    alignSelf: 'center',
     padding: universalPadding / 3,
-    borderRadius: universalPadding/4,
+    borderRadius: universalPadding / 4,
     textAlign: 'center',
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: 'goldenrod',
@@ -45,6 +39,5 @@ const styles = StyleSheet.create({
   selected: {
     backgroundColor: 'gold',
     width: '90%',
-
   },
 });

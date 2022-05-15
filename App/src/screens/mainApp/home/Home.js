@@ -1,19 +1,14 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  useState,
-} from '../../../imports/all_RnComponents';
+import React, {useState} from 'react';
+
+import {StyleSheet, View} from 'react-native';
 
 import {universalPadding, colors, width, height} from '../../../config/config';
 import {useEffect, useContext} from 'react';
 import {AppContext} from './../../../appContext';
 import {SignUpInfoContext} from './../../forms/signUpInfoContext';
 
-import AppFloatMenu from '../../../components/AppFloatMenu';
 import Feed from './../../../components/Feed';
-import FeedLoadingSkeleton from './../../../components/FeedLoadingSkeleton';
+
 import {useCheckNetworkStatus} from './../../../hooks/justHooks';
 import {
   useGetUserInformation,

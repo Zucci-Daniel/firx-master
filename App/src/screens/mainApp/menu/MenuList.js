@@ -1,5 +1,5 @@
-import {React, StyleSheet, View} from '../../../imports/all_RnComponents';
-import {ProfilePane, MenuItem} from '../../../imports/all_files';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {colors, universalPadding, height} from '../../../config/config';
 import {useContext} from 'react';
 import {SignUpInfoContext} from './../../forms/signUpInfoContext';
@@ -7,6 +7,8 @@ import {logOut} from './../../../hooks/useUserAuthFunctions';
 import {AppContext} from './../../../appContext';
 import {FlatList} from 'react-native';
 import {confirmAction} from './../../../hooks/postOperations';
+import ProfilePane from './../../../components/ProfilePane';
+import MenuItem from './../../../components/MenuItem';
 
 const MenuList = ({navigation}) => {
   const menu = [
@@ -42,20 +44,7 @@ const MenuList = ({navigation}) => {
       title: `unfollowed`,
       iconName: 'block-flipped',
     },
-    {
-      id: 3,
-      optionColor: colors.pureWhite,
-      onPress: () => null,
-      title: `following ${1.4}k`,
-      iconName: 'people',
-    },
-    {
-      id: 4,
-      optionColor: colors.pureWhite,
-      onPress: () => null,
-      title: `followed by ${3.4}m people`,
-      iconName: 'people-outline',
-    },
+
     {
       id: 5,
       optionColor: colors.info,

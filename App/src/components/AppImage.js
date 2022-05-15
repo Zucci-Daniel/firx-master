@@ -1,16 +1,8 @@
-import {
-  React,
-  StyleSheet,
-  TouchableOpacity,
-  useState,
-  View,
-  Text,
-} from '../imports/all_RnComponents';
+import React, {useState} from 'react';
+import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {useContext} from 'react';
 import {Avatar} from '../imports/all_packages';
-import {launchImageLibrary} from 'react-native-image-picker';
 import {SignUpInfoContext} from './../screens/forms/signUpInfoContext';
-import {useGetFirstLetters} from './../hooks/useGetFirstLetters';
 import {handleImagePicker} from './../hooks/useOperation';
 import {colors, width} from '../config/config';
 import {theme} from 'react-native-paper';

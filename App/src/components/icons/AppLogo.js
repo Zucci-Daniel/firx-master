@@ -1,4 +1,6 @@
-import {React, TouchableOpacity} from '../../imports/all_RnComponents';
+import React from 'react';
+
+import {React, TouchableOpacity} from 'react-native';
 import Logo from '../../assets/svg-raw/logo.svg';
 
 const AppLogo = ({onPress}) => {

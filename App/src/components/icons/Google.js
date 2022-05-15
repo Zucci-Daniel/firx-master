@@ -1,4 +1,6 @@
-import {React, TouchableOpacity} from '../../imports/all_RnComponents';
+import React from 'react';
+
+import {TouchableOpacity} from 'react-native';
 
 import GG from '../../assets/svg-raw/google.svg';
 

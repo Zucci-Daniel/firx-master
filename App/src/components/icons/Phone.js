@@ -1,7 +1,9 @@
-import {React, TouchableOpacity} from '../../imports/all_RnComponents';
+import React from 'react';
+
+import {TouchableOpacity} from 'react-native';
 
 import Ph from '../../assets/svg-raw/phone.svg';
-import { socialMediaSize } from '../../config/config';
+import {socialMediaSize} from '../../config/config';
 
 const Phone = ({onPress}) => {
   return (

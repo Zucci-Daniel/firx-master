@@ -1,20 +1,13 @@
-import {
-  React,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from '../imports/all_RnComponents';
-import {AppInput, Ig, AppInput2} from '../imports/all_files';
-import {Ionicons} from '../imports/all_packages';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {universalPadding} from '../config/config';
+import AppInput2 from './AppInput2';
 
-export default function EditHandle({logo, handle = 'instagram'}) {
+export default function EditHandle() {
   return (
     <>
       <View style={styles.container}>
-      
-        <AppInput2  />
+        <AppInput2 />
       </View>
     </>
   );

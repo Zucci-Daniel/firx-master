@@ -9,7 +9,6 @@ import {
   universalPadding,
   width,
 } from '../../config/config';
-import AppCarousel from './../AppCarousel';
 
 const PostContent = ({caption = 'fdfsfsdfs', postMedias = null, children}) => {
   return (

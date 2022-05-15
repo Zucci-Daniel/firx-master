@@ -1,16 +1,9 @@
-import {
-  React,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from '../imports/all_RnComponents';
+import React from 'react';
+
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Avatar, Subheading} from '../imports/all_packages';
 import {colors, universalPadding, brandFont} from '../config/config';
 import AppImage from './AppImage';
-import {SignUpInfoContext} from './../screens/forms/signUpInfoContext';
-import {useContext} from 'react';
-import {useGetFirstLetters} from './../hooks/useGetFirstLetters';
 
 export default function ProfileDetails({
   username = 'Afams Val',

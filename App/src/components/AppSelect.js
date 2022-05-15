@@ -1,18 +1,7 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  useState,
-} from '../imports/all_RnComponents';
-import {SelectDropdown, Ionicons, Picker} from '../imports/all_packages';
-import {
-  universalPadding,
-  width,
-  sMargin,
-  colors,
-  brandFont,
-} from '../config/config';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text} from 'react-native';
+import {Picker} from '../imports/all_packages';
+import {colors} from '../config/config';
 
 const options = ['one', 'two', 'three', 'four'];
 
@@ -23,7 +12,6 @@ const AppSelect = ({
   placeHolder = 'choose something',
   handleSelection,
 }) => {
-  // const [selectedColor, setselectedColor] = useState('black');
   const [selectedItem, setselectedItem] = useState();
 
   return (

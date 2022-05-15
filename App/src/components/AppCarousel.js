@@ -1,30 +1,10 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  useRef,
-  useState,
-} from '../imports/all_RnComponents';
-import {Headline, Subheading, Badge} from '../imports/all_packages';
-import {
-  universalPadding,
-  width,
-  height,
-  sMargin,
-  colors,
-  postSize,
-  postHeight,
-} from '../config/config';
+import React, {useState} from 'react';
 
-import {
-  FlatList,
-  Image,
-  Pressable,
-  ScrollView,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
+
+import {width, colors, postHeight} from '../config/config';
+
+import {FlatList, Image} from 'react-native';
 import AppPostImage from './AppPostImage';
 import AppPostVideo from './AppPostVideo';
 

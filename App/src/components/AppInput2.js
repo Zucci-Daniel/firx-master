@@ -1,4 +1,5 @@
-import {React, StyleSheet} from '../imports/all_RnComponents';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import {Input, Ionicons} from '../imports/all_packages';
 import {
   colors,
@@ -32,7 +33,7 @@ export default AppInput2 = ({
       inputContainerStyle={[styles.inputContainerStyle]}
       placeholder={placeholder}
       value={value}
-      onChangeText={(text)=>onChange(text)}
+      onChangeText={text => onChange(text)}
       leftIcon={
         showIcon ? (
           <Ionicons name={iconName} size={menuIconSize} color={iconColor} />

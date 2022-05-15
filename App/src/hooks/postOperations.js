@@ -1,7 +1,7 @@
 import {Alert} from 'react-native';
-import {commonFunctions} from '../imports/all_files';
 import firestore from '@react-native-firebase/firestore';
 import {addToArray} from './useOperation';
+import { commonFunctions } from '../imports/all_files';
 
 ///CONFIRM ACTION ISN'T IN USE.
 export const confirmAction = (

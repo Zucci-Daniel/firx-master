@@ -1,13 +1,5 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from '../imports/all_RnComponents';
-import {universalPadding} from '../config/config';
-import {Touchable} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, ScrollView} from 'react-native';
 
 export default AppScrollView = ({
   children,

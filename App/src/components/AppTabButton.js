@@ -1,12 +1,7 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from '../imports/all_RnComponents';
-import {Headline, Subheading, Badge, Button} from '../imports/all_packages';
-import {universalPadding, width, sMargin, colors} from '../config/config';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import { Button} from '../imports/all_packages';
+import { colors} from '../config/config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default AppTabButton = ({
@@ -32,7 +27,7 @@ export default AppTabButton = ({
       {/* {children} */}
       <Ionicons
         name={name}
-        color={isActive ?  colors.pureWhite :  colors.dimBlue}
+        color={isActive ? colors.pureWhite : colors.dimBlue}
         size={size}
         style={{fontWeight: 'bold'}}
       />
@@ -44,7 +39,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     borderWidth: 0,
-    borderRadius:0
+    borderRadius: 0,
   },
   innerButton: {
     height: '100%',

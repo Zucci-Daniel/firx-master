@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from '../imports/all_RnComponents';
+import {Dimensions, StyleSheet} from 'react-native';
 
 const brandFont = {
   medium: 'Ubuntu Mono',

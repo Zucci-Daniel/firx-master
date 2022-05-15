@@ -3,8 +3,7 @@ import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {colors} from '../config/config';
 import AppCancel from './AppCancel';
 import PlaceHolderParagraph from './PlaceHolderParagraph';
-import MiniLoading from './MiniLoading';
-import AppIndicator from './AppIndicator';
+
 
 const AppList = ({
   text,

@@ -3,8 +3,8 @@ import {View, StyleSheet} from 'react-native';
 
 // import { Container } from './styles';
 
-const SeparatedButtons = ({children}) => {
-  return <View style={styles.bottom}>{children}</View>;
+const SeparatedButtons = ({children, extraStyle}) => {
+  return <View style={[styles.bottom, extraStyle]}>{children}</View>;
 };
 
 export default SeparatedButtons;

@@ -1,6 +1,8 @@
-import {React, TouchableOpacity} from '../../imports/all_RnComponents';
+import React from 'react';
+
+import {TouchableOpacity} from 'react-native';
 import Facebook from '../../assets/svg-raw/fb.svg';
-import { socialMediaSize } from '../../config/config';
+import {socialMediaSize} from '../../config/config';
 
 const Fb = ({onPress}) => {
   return (

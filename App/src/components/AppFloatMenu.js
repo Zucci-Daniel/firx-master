@@ -1,8 +1,7 @@
-// import React from 'react';
+import * as React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {colors} from '../config/config';
 
-import * as React from 'react';
 import {FAB, Portal, Provider} from 'react-native-paper';
 
 const AppFloatMenu = ({onPressButton, handlePost = () => {}}) => {

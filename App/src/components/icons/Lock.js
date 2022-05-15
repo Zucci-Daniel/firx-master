@@ -1,4 +1,6 @@
-import {React, TouchableOpacity} from '../../imports/all_RnComponents';
+import React from 'react';
+
+import {TouchableOpacity} from 'react-native';
 
 import Locked from '../../assets/svg-raw/lock.svg';
 

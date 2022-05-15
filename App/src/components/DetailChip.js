@@ -1,5 +1,5 @@
-import {React, StyleSheet, View, Text} from '../imports/all_RnComponents';
-import {RadioButton} from '../imports/all_packages';
+import React from 'react';
+import {StyleSheet, View, Text} from 'react-native';
 import {colors, sMargin, inputBorder} from '../config/config';
 
 export default DetailChip = ({

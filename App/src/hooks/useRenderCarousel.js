@@ -1,4 +1,4 @@
-import {useRef} from '../imports/all_RnComponents';
+import {useRef} from 'react';
 
 //custom hooks to handle carousels
 export const useRenderCarousel = () => {

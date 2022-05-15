@@ -1,9 +1,6 @@
-import {
-  React,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from '../imports/all_RnComponents';
+import React from 'react';
+
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {List, MaterialIcons} from '../imports/all_packages';
 import {
   colors,

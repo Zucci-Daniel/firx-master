@@ -1,6 +1,7 @@
-import {React, StyleSheet, View, Text} from '../imports/all_RnComponents';
+import React from 'react';
+import {StyleSheet, View, Text} from 'react-native';
 import {Textarea} from '../imports/all_packages';
-import {universalPadding, width, sMargin, colors, brandFont} from '../config/config';
+import {universalPadding, colors} from '../config/config';
 import {useRef} from 'react';
 
 export default AppTextArea = ({

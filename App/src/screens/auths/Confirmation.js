@@ -1,19 +1,7 @@
-import {
-  React,
-  StyleSheet,
-  View,
-  useEffect,
-  useState,
-} from '../../imports/all_RnComponents';
-import {
-  AppInput,
-  InputsGroup,
-  AppButton,
-  FormTitle,
-  Link,
-  Lock,
-  commonFunctions,
-} from '../../imports/all_files';
+import React, {useEffect, useState} from 'react';
+
+import {StyleSheet, View} from 'react-native';
+
 import {colors, width, universalPadding} from '../../config/config';
 import auth from '@react-native-firebase/auth';
 
@@ -23,6 +11,13 @@ import {getIfDocExist} from '../../hooks/useOperation';
 import {storeLocally} from './../../hooks/useLocalStorageFunctions';
 import {SignUpInfoContext} from './../forms/signUpInfoContext';
 import {log} from './../../hooks/testLog';
+import AppInput from './../../components/AppInput';
+import InputsGroup from './../../components/InputsGroup';
+import AppButton from './../../components/AppButton';
+import FormTitle from './../../components/FormTitle';
+import Link from './../../components/Link';
+import Lock from './../../components/icons/Lock';
+import {commonFunctions} from '../../imports/all_files';
 
 //LATER: REFACTOR THIS CODE AND SEPARATE CONCERNS PLEASE!!...
 const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {

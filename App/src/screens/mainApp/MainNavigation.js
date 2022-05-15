@@ -1,19 +1,18 @@
-import {React, StyleSheet, useState} from '../../imports/all_RnComponents';
-import {Notification, Menu, ButtonText} from '../../imports/all_files';
-import {Ionicons} from '../../imports/all_packages';
+import React, {useState} from 'react';
+
+import {StyleSheet} from 'react-native';
+
 import {BottomTab} from '../../navigation/create/CreateNavigation';
 import {tabBarBottomConfig, colors, brandFont} from '../../config/config';
 import AppTabButton from '../../components/AppTabButton';
 import {useContext} from 'react';
-import {SignUpInfoContext} from './../forms/signUpInfoContext';
 import HomeStack from './home/HomeStack';
-import {Button, View} from 'react-native';
 import {AppContext} from './../../appContext';
-import AppFloatMenu from './../../components/AppFloatMenu';
+import Notification from './notification/Notification';
+import Menu from './menu/Menu';
+import ButtonText from './../../components/ButtonText';
 
-
-
-const InsideApp = ({navigation}) => {
+const MainNavigation = ({navigation}) => {
   const {showBottomTab} = useContext(AppContext);
   const [currentRoute, setCurrentRoute] = useState('homeStack');
   const handleRouteChange = (destination, routeName) => {
@@ -112,7 +111,7 @@ const InsideApp = ({navigation}) => {
   );
 };
 
-export default InsideApp;
+export default MainNavigation;
 
 const styles = StyleSheet.create({
   container: {

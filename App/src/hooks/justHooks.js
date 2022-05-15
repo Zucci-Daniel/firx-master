@@ -1,9 +1,7 @@
 import {useNetInfo} from '@react-native-community/netinfo';
-import {commonFunctions} from '../imports/all_files';
 import ImagePicker from 'react-native-image-crop-picker';
 import {postSize, width} from '../config/config';
 import uuid from 'react-native-uuid';
-
 
 export const useCheckNetworkStatus = () => {
   const netInfo = useNetInfo();
@@ -15,11 +13,6 @@ export const useCheckNetworkStatus = () => {
 
   console.log(subscribeToNetworkStats, ' network directly from the hook');
   const networkStatus = () => {
-    // return commonFunctions.showToast(
-    //   '',
-    //   `you are ${netInfo.isInternetReachable ? `online` : `offline`}`,
-    //   `${netInfo.isInternetReachable ? `success` : `alert`}`,
-    // );
     null;
   };
   return {networkStatus, subscribeToNetworkStats, subscribeToNetworkStatus};

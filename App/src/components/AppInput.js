@@ -1,4 +1,5 @@
-import {React, StyleSheet} from '../imports/all_RnComponents';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import {TextInput} from '../imports/all_packages';
 import {colors, sMargin, inputBorder, brandFont} from '../config/config';
 
@@ -33,15 +34,14 @@ export default AppInput = ({
         colors: {
           text: textColor ? textColor : colors.brandBg,
           placeholder: placeHolderColor ? placeHolderColor : colors.calmBlue,
-          backdrop:'red',
-          accent:'green',
-          surface:'red',
-          onSurface:'blue',
-          primary:colors.chip
+          backdrop: 'red',
+          accent: 'green',
+          surface: 'red',
+          onSurface: 'blue',
+          primary: colors.chip,
         },
       }}
       keyboardType={keyboardType}
-      
       mode={mode}
       dense={false}
       outlineColor={outlineColor}

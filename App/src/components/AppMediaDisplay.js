@@ -1,14 +1,8 @@
 import React from 'react';
-import {View, FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import AppPostVideo from './AppPostVideo';
 import AppPostImage from './AppPostImage';
-import {
-  colors,
-  height,
-  postHeight,
-  universalPadding,
-  width,
-} from '../config/config';
+import {postHeight, universalPadding, width} from '../config/config';
 import AppCancel from './AppCancel';
 
 const AppMediaDisplay = ({data, onRemoveItem, showRemove = true}) => {
