@@ -28,8 +28,6 @@ const Home = ({navigation}) => {
   const online = subscribeToNetworkStatus();
   const [allPosts, setAllPost] = useState([]);
   const [shouldGetUserInfo, setShouldGetUserInfo] = useState(true);
-  const [dontRunFromEffectAgain, setDontRunFromEffectAgain] = useState(false);
-  const [showRetry, setShowRetry] = useState(false);
 
   const [isFetchingData, setIsFetchingData] = useState(true);
   const [postsBlackListed, setPostsBlackListed] = useState(null);
