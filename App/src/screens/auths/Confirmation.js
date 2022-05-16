@@ -126,6 +126,7 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
           ...signedUp,
           phoneNumber: userObj.user['phoneNumber'],
         });
+        checkIfUserHasCompletedSignUp(userObj.user['uid']);
       }
     } catch (error) {
       commonFunctions.showToast('INCORRECT', 'code is not correct', 'error');
@@ -153,7 +154,7 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
       </InputsGroup>
       <AppButton
         disabled={confirm !== null ? false : true}
-        title="Verify"
+        title="Verify" //confirm !== null ? 'verify' : 'sending code...'
         wideButton
         onPress={confirmCode}
       />

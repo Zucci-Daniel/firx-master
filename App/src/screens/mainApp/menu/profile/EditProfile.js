@@ -34,7 +34,7 @@ import AppIndicator from './../../../../components/AppIndicator';
 import Ig from './../../../../components/icons/Ig';
 
 const EditProfile = ({navigation}) => {
-  const {posted, setPosted} = useContext(HomeContext);
+  // const {posted, setPosted} = useContext(HomeContext);
 
   const {userUID} = useContext(AppContext);
 
@@ -86,7 +86,7 @@ const EditProfile = ({navigation}) => {
 
   const updateLocalState = validData => {
     setImageChanged(false);
-    setPosted(posted + 1);
+    // setPosted(posted + 1);
     setUser({...user, ...validData});
 
     setIsUpdating(false);

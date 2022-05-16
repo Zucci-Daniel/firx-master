@@ -258,14 +258,14 @@ export const useGetUserBasicInformationFromLocalStorage = async id => {
 };
 
 export const useGetUserInformation = async (id, online) => {
-    console.log('getting your basic info your online');
+  console.log('getting your basic info your online');
   if (online) {
     try {
       const response = await useGetUserInformationFromFirestore(id);
       if (response) {
         return response;
       } else {
-        console.log()
+        console.log();
         const response = await useGetUserBasicInformationFromLocalStorage(id);
         return response;
       }
@@ -406,22 +406,10 @@ export const getFilteredPosts = async (
         lastVisibleItem: lastQueryResult,
         postsArray: allPosts,
       };
-
-      // console.log(
-      //   batches,
-      //   batches.length,
-      //   ' FINALYY OOOO',
-      //   batches.flat()[0].data(),
-      //   batches.flat().length,
-      //   '======',
-      // );
-      // return Promise.all(batches).then(response => {
-      //   console.log('POST LENGTH IS ', response.flat().length);
-      //   return {postsArray: response.flat(), lastVisibleItem: lastVisibleItem};
-      // });
     }
   } catch (error) {
     console.log('FATAL ERROR ', error.message);
+    return false;
   }
 };
 
@@ -465,8 +453,8 @@ export const fetchPostsFromServer = async (
       afterDoc,
       limit,
     );
+    console.log(querySnapshot, ' snappy');
     if (querySnapshot) {
-      // console.log(querySnapshot, ' snappy');
       const {lastVisibleItem, postsArray} = querySnapshot;
 
       //get last post

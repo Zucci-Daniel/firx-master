@@ -3,7 +3,7 @@ import React from 'react';
 import {Stack} from '../../navigation/create/CreateNavigation';
 import FormStack from './../forms/FormStack';
 import Register from './Register';
-import Confirmation from './../../trash/confirmAtion';
+import Confirmation from './Confirmation';
 
 const Auth = () => {
   return (

@@ -26,9 +26,9 @@ import AppScrollView from './../../../components/AppScrollView';
 import SweetButton from './../../../components/SweetButton';
 import {multiPost} from './../../../hooks/multiPosts';
 import {getUserLocation} from './../../../functions/commonFunctions';
-import AppBottomSheet from './../../../components/AppBottomSheet';
+
 import Sheet from './../../../components/Sheet';
-import PlaceHolderParagraph from '../../../components/PlaceHolderParagraph';
+
 import AppList from '../../../components/AppList';
 import Link from './../../../components/Link';
 
@@ -36,7 +36,7 @@ const Camera = () => {
   const sheetRef = useRef(null);
   const {userUID} = useContext(AppContext);
   const {user} = useContext(SignUpInfoContext);
-  const {posted, setPosted} = useContext(HomeContext);
+  // const {posted, setPosted} = useContext(HomeContext);
   const navigation = useNavigation();
 
   const [finishedUploadingMedia, setFinishedUploadingMedia] = useState(null);
@@ -177,7 +177,7 @@ const Camera = () => {
     }
 
     setFinishedUploadingMedia(true);
-    setPosted(posted + 1);
+    // setPosted(posted + 1);
     setPost({...post, postMedias: [], postCaption: ''});
 
     //prepare the post informations and send to AllPosts collection.

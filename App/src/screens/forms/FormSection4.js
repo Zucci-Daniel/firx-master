@@ -15,6 +15,7 @@ import {subscribeToNetworkStats} from './../../hooks/justHooks';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {departments, levels} from '../../hooks/utils';
 import {uploadAFile} from '../../hooks/uploadAfile';
+import MediaSkeleton from '../../components/MediaSkeleton';
 
 //refactor later
 
@@ -94,17 +95,12 @@ const FormSection4 = ({navigation}) => {
           hideMeFrom: [],
         };
 
-        log('ready to send you, =>', newUser);
-
         try {
           addNewUserToDb('STUDENTS', newUser.id, newUser);
-          log(userUID, page, '<===storing this now');
+
           storeLocally('userUID', userUID);
           //serialize user obj due to local storage obj rules
-          console.log(
-            ' to chck the local path again ',
-            user.profileImageLocalPath,
-          );
+
           const response = await storeLocally('currentUserBasicInfo', newUser);
 
           if (response)
@@ -150,8 +146,7 @@ const FormSection4 = ({navigation}) => {
   const department = getValues('department');
   const level = getValues('level');
 
-  if (creatingStudent)
-    return <AppLoading message="setting you up...chill for some sec.." />;
+  if (creatingStudent) return <MediaSkeleton />;
 
   return (
     <View

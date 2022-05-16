@@ -1,12 +1,12 @@
 import React from 'react';
 import {Stack} from '../../../navigation/create/CreateNavigation';
-import Home from './Home';
-import Write from './Write';
+
 import ViewPost from './userProfile/ViewPost';
 import {colors} from '../../../config/config';
 import SweetButton from './../../../components/SweetButton';
 import SelectedUserStack from './SelectedUserStack';
-import {View} from 'react-native';
+
+import HomeSection from './HomeSection';
 
 const HomeStack = ({navigation}) => {
   return (
@@ -19,7 +19,7 @@ const HomeStack = ({navigation}) => {
       }}>
       <Stack.Screen
         name="home"
-        component={Home}
+        component={HomeSection}
         options={{
           title: `|||-|||-|||-|||`,
           animation: 'slide_from_right',
