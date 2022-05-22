@@ -27,9 +27,8 @@ const styles = StyleSheet.create({
     color:colors.fadeWhite
   },
   detial: {
-    fontSize: 16,
+    fontSize: 12,
     textTransform: 'capitalize',
-    fontFamily: brandFont.mediumBold,
     color: colors.dimBlue,
   },
 });

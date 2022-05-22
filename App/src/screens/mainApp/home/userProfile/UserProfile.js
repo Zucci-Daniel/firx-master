@@ -220,7 +220,7 @@ const UserProfile = ({navigation, route}) => {
   );
 };
 
-export default UserProfile;
+export default UserProfile; 
 
 const styles = StyleSheet.create({
   mainContainer: {

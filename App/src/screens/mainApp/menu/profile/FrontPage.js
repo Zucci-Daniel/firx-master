@@ -1,34 +1,23 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {
-  universalPadding,
-  colors,
-  width,
-  tabBarLabelConfig,
-  tabBarConfig,
-  tabBarIndicatorConfig,
-} from '../../../../config/config';
+import {universalPadding, colors, width} from '../../../../config/config';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import ProfilePane from './../../../../components/ProfilePane';
 import SocialHandles from '../../../../components/SocialHandles';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import Personalities from './Personalities';
+
 import {useNavigation} from '@react-navigation/native';
-import AuthoredPosts from './../AuthoredPosts/AuthoredPosts';
-import SavedPosts from './../SavedPosts/SavedPosts';
-import AppIndicator from '../../../../components/AppIndicator';
+
 import InfoText from './../../../../components/InfoText';
 import AnimatedImage from '../../../../components/AnimatedImage';
-import SweetButton from './../../../../components/SweetButton';
-import SeparatedButtons from './../../../../components/SeparatedButtons';
+
 import MediaSkeleton from './../../../../components/MediaSkeleton';
 import firestore from '@react-native-firebase/firestore';
-import AppScrollView from './../../../../components/AppScrollView';
+
 import {MemoAppChip} from './../../../../components/AppChip';
 import {AppContext} from './../../../../appContext';
 import PlaceHolderParagraph from '../../../../components/PlaceHolderParagraph';
-
-const Tab = createMaterialTopTabNavigator();
+import Retry from './../../../../components/Retry';
+import Link from './../../../../components/Link';
 
 const FrontPage = () => {
   const navigation = useNavigation();
@@ -91,28 +80,33 @@ const FrontPage = () => {
         )}
 
         {!isLoadingPersonalities && personalities == null && (
-          <View style={{height: '100%', justifyContent: 'center'}}>
+          <View
+            style={{
+              height: undefined,
+              width: '100%',
+              justifyContent: 'center',
+              paddingVertical: 20,
+            }}>
             <Retry
-              notice="you haven't added any personality yet, or your mobile data is turned off"
+              notice="you probably haven't added any personality yet, or your mobile data is turned off"
               handleRetry={() => navigation.navigate('editPersonalities')}
             />
           </View>
         )}
 
-        <View style={styles.mainContainer2}>
-          <View style={styles.scrollContainer}>
-            {!isLoadingPersonalities && personalities?.length > 0
-              ? personalities.map((item, index) => (
-                  <MemoAppChip
-                    readOnly
-                    bg={colors.skeletonAnimationBg}
-                    value={item}
-                    key={index}
-                    onPress={() => null}
-                  />
-                ))
-              : null}
-          </View>
+        <Link readOnly text={`personalities`} centered={false} />
+        <View style={styles.scrollContainer}>
+          {!isLoadingPersonalities && personalities?.length > 0
+            ? personalities.map((item, index) => (
+                <MemoAppChip
+                  readOnly
+                  bg={colors.skeletonAnimationBg}
+                  value={item}
+                  key={index}
+                  onPress={() => null}
+                />
+              ))
+            : null}
         </View>
 
         <PlaceHolderParagraph
@@ -136,15 +130,9 @@ const styles = StyleSheet.create({
     flex: 1,
     width: width,
     backgroundColor: colors.neonBg,
-    paddingVertical: 0,
+    paddingHorizontal: 10,
   },
-  container: {
-    height: undefined,
-    width: width,
-    paddingHorizontal: universalPadding / 3,
-    paddingBottom: universalPadding / 5,
-    backgroundColor: colors.neonBg,
-  },
+  container: {},
   edit: {
     margin: 0,
     marginVertical: universalPadding / 2,
@@ -161,7 +149,6 @@ const styles = StyleSheet.create({
     height: undefined,
     width: width,
     paddingVertical: 40,
-    backgroundColor: 'transparent',
   },
   scrollContainer: {
     backgroundColor: 'transparent',
@@ -169,6 +156,7 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    paddingBottom: 20,
   },
   empty: {
     textAlign: 'center',

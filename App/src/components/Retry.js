@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {universalPadding} from '../config/config';
+import {universalPadding, colors} from '../config/config';
 import Link from './Link';
 import SweetButton from './SweetButton';
 
@@ -12,7 +12,12 @@ const Retry = ({
 }) => {
   return (
     <View style={[styles.poorNetwork, extraStyle]}>
-      <Link readOnly text={notice} />
+      <Link
+        readOnly
+        text={notice}
+        color={colors.calmBlue}
+        extraStyle={{textAlign: 'center'}}
+      />
       <SweetButton text={buttonText} onPress={handleRetry} />
     </View>
   );

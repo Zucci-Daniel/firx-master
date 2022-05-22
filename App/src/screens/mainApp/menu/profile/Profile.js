@@ -1,10 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {colors} from '../../../../config/config';
-import {Stack} from '../../../../navigation/create/CreateNavigation';
-import ButtonText from './../../../../components/ButtonText';
 import FrontPage from './FrontPage';
-import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
-import Link from './../../../../components/Link';
 import ProfileMedia from './ProfileMedia';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
