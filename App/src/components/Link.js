@@ -12,6 +12,7 @@ export default function Link({
   touchStyles,
   centered = true,
 }) {
+  console.log('linking...');
   return (
     <TouchableOpacity
       style={touchStyles}

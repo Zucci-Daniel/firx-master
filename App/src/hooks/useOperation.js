@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {commonFunctions} from '../imports/all_files';
 import {log} from './testLog';
-import ImagePicker from 'react-native-image-crop-picker';
+// import ImagePicker from 'react-native-image-crop-picker';
 import {
   getObjectFromLocalStorage,
   storeLocally,
@@ -89,21 +89,21 @@ export const getIfDocExist = async (colRef, docID) => {
   }
 };
 
-export const handleImagePicker = async () => {
-  try {
-    const result = await ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-      mediaType: 'photo',
-    });
-    console.log('result path ', result.path);
-    return result.path;
-  } catch (error) {
-    console.log(error.image, ' failed selecting an image');
-    return false;
-  }
-};
+// export const handleImagePicker = async () => {
+//   try {
+//     const result = await ImagePicker.openPicker({
+//       width: 300,
+//       height: 400,
+//       cropping: true,
+//       mediaType: 'photo',
+//     });
+//     console.log('result path ', result.path);
+//     return result.path;
+//   } catch (error) {
+//     console.log(error.image, ' failed selecting an image');
+//     return false;
+//   }
+// };
 
 export const updateDocument = async (id, colRef = 'STUDENTS', newDetails) => {
   try {
@@ -290,41 +290,31 @@ export const getFilteredPosts = async (
   limit = 10,
 ) => {
   try {
-    console.log('FOR ELLIS ', lastItem, ' FOR ELLIS');
-
-    // const baseUrl = firestore().collectionGroup('AllPosts').orderBy('postedOn');
-    // const baseUrl = firestore().collectionGroup('AllPosts').orderBy('postID');
     const baseUrl = firestore()
       .collection('AllPosts')
       .orderBy('postID', 'desc');
     const postCondition = lastItem ? baseUrl.startAfter(lastItem) : baseUrl;
 
     if (!postsBlacklisted.length > 0) {
-      console.log('FETCHING WITHOUT FILTER, NO BLACKLISTS ', postsBlacklisted);
       //just get all random post.
       let response = await postCondition.limit(limit).get();
 
       if (response) {
-        console.log(response, ' postsss');
-        //bring the store post func here from home
         const lastVisibleItem = response.docs[response.docs.length - 1];
 
         let results = response.docs.map(result => ({
           id: result.id,
           ...result.data(),
         }));
-        console.log(response, 'response');
+
         return {postsArray: results, lastVisibleItem: lastVisibleItem};
       } else {
         console.log('check ur filterOutBlackList method');
       }
-    } else {
-      console.log(' posts black list passed!!!', postsBlacklisted);
     }
 
     if (postsBlacklisted || postsBlacklisted.length > 0) {
-      console.log('FETCHING with FILTER, see BLACKLISTS ', postsBlacklisted);
-
+      console.log(' posts black list passed!!!', postsBlacklisted);
       var copiedPostsBlacklisted = [...postsBlacklisted];
       var batches = [];
       var index = 0;
@@ -332,31 +322,18 @@ export const getFilteredPosts = async (
 
       var lastQueryResult;
 
-      // console.log(batchChunks, ' BATCH CHUNKS');
-      console.log(' batchChunks size: ', '', batchChunks);
-
       while (index < batchChunks.length) {
         if (lastQueryResult) {
-          console.log(
-            '  AM RUNNING CUZ I GET A LAST QUERY',
-            lastQueryResult,
-            '  <><<><><<><><<> ',
-            batchChunks[index],
-          );
-
+          console.log('?????????????????');
+          console.log(batchChunks[index]);
+          console.log('?????????????????');
           const results = await postCondition
-            .where('postID', 'not-in', batchChunks[index])
-            .orderBy('postedOn', 'desc')
+            .where('postID', 'in', ['fdcda429-3f52-4c4c-b9c5-3025d4e3e04b'])
             .startAfter(lastQueryResult)
             .limit(10)
             .get();
 
           if (results) {
-            console.log(
-              'RESULT LOG FROM THE FOUND LAST QUERY =====> ',
-              results.docs,
-            );
-
             batches.push(results.docs);
           } else {
             console.log('there is no result from the RUNNING WITH LAST QUERY!');
@@ -364,27 +341,14 @@ export const getFilteredPosts = async (
         }
         //////
         else {
-          console.log(
-            '364  AM RUNNING CUZ I DIDNT GET A LAST QUERY',
-
-            '  <><<><><<><><<> ',
-            batchChunks[index],
-          );
-
+          console.log('?????????????????');
+          console.log(batchChunks[index][0]);
+          console.log('?????????????????');
           const results = await postCondition
-            .where('postID', 'not-in', batchChunks[index])
-            .orderBy('postedOn', 'desc')
+            .where('postID', 'in', ['fdcda429-3f52-4c4c-b9c5-3025d4e3e04b'])
             .limit(10)
             .get();
           if (results) {
-            console.log(
-              'RESULT LOG FROM THE NOT FOUND LAST QUERY =====> ',
-              results.docs,
-            );
-            console.log(results.size, ' the result size  ============');
-            // lastQueryResult = results.docs;
-
-            console.log(lastQueryResult, ' FOR ELLIS');
             lastQueryResult = results.docs[results.docs.length - 1];
             batches.push(results.docs);
           } else {
@@ -421,18 +385,18 @@ export function* splitArrayInChunks(arr, n) {
 }
 
 export const useGetBlackLists = async id => {
-  let postsBlacklisted = [];
+  let postsBlackListed = [];
   let profilesBlackListed = [];
 
   try {
     const response = await firestore().collection('STUDENTS').doc(id).get();
 
     if (response) {
-      postsBlacklisted = [...response.data().postsBlackListed];
+      postsBlackListed = [...response.data().postsBlackListed];
       profilesBlackListed = [...response.data().profilesBlackListed];
 
       return {
-        postsBlacklisted,
+        postsBlackListed,
         profilesBlackListed,
       };
     }
@@ -447,13 +411,20 @@ export const fetchPostsFromServer = async (
   afterDoc,
   limit,
 ) => {
+  console.log(
+    blackListedPosts,
+    blackListedProfiles,
+    afterDoc,
+    limit,
+    ' post server payload',
+  );
   try {
     const querySnapshot = await getFilteredPosts(
       blackListedPosts,
       afterDoc,
       limit,
     );
-    console.log(querySnapshot, ' snappy');
+    // console.log(querySnapshot, ' snappy');
     if (querySnapshot) {
       const {lastVisibleItem, postsArray} = querySnapshot;
 

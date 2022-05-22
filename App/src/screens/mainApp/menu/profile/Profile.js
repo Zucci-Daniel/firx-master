@@ -5,37 +5,28 @@ import ButtonText from './../../../../components/ButtonText';
 import FrontPage from './FrontPage';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import Link from './../../../../components/Link';
+import ProfileMedia from './ProfileMedia';
+
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import AppIndicator from './../../../../components/AppIndicator';
+
+const Tab = createMaterialTopTabNavigator();
 
 const Profile = ({navigation}) => {
-  const {user} = useContext(SignUpInfoContext);
 
   return (
     <>
-      <Stack.Navigator
+      <Tab.Navigator
+        sceneContainerStyle={{backgroundColor: colors.neonBg}}
         screenOptions={{
-          animation: 'slide_from_right',
-          presentation: 'modal',
-          headerShadowVisible: false,
-          headerShown: false,
+          lazy: true,
+          lazyPlaceholder: () => <AppIndicator />,
+          tabBarShowLabel: false,
+          tabBarStyle: {display: 'none'},
         }}>
-        <Stack.Screen
-          name="frontPage"
-          component={FrontPage}
-          options={{
-            headerTitle: '',
-            headerStyle: {backgroundColor: colors.neonBg},
-            headerShown: true,
-            headerTitle: user?.firstName,
-            headerTintColor: colors.calmBlue,
-            headerRight: () => (
-              <Link
-                text="edit profile"
-                onPress={() => navigation.navigate('editProfile')}
-              />
-            ),
-          }}
-        />
-      </Stack.Navigator>
+        <Tab.Screen name="frontPage" component={FrontPage} />
+        <Tab.Screen name="profileMedia" component={ProfileMedia} />
+      </Tab.Navigator>
     </>
   );
 };

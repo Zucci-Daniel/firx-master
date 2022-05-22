@@ -22,15 +22,26 @@ import AnimatedImage from '../../../../components/AnimatedImage';
 import SweetButton from './../../../../components/SweetButton';
 import SeparatedButtons from './../../../../components/SeparatedButtons';
 import MediaSkeleton from './../../../../components/MediaSkeleton';
+import firestore from '@react-native-firebase/firestore';
+import AppScrollView from './../../../../components/AppScrollView';
+import {MemoAppChip} from './../../../../components/AppChip';
+import {AppContext} from './../../../../appContext';
+import PlaceHolderParagraph from '../../../../components/PlaceHolderParagraph';
 
 const Tab = createMaterialTopTabNavigator();
 
 const FrontPage = () => {
   const navigation = useNavigation();
   const {user} = useContext(SignUpInfoContext);
+  const {userUID} = useContext(AppContext);
 
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [isLoadingPersonalities, setIsLoadingPersonalities] = useState(true);
+
+  const [personalities, setPersonalities] = useState(
+    user?.personalities ?? null,
+  );
 
   const showImage = () => setShowModal(true);
 
@@ -39,6 +50,18 @@ const FrontPage = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, 800);
+  }, []);
+
+  useEffect(() => {
+    const subscribe = firestore()
+      .collection('STUDENTS')
+      .doc(userUID)
+      .onSnapshot(documentSnapShot => {
+        setPersonalities(documentSnapShot.data()?.personalities ?? null);
+        setIsLoadingPersonalities(false);
+      });
+
+    return () => subscribe();
   }, []);
 
   if (isLoading) return <MediaSkeleton />;
@@ -66,30 +89,41 @@ const FrontPage = () => {
             <SocialHandles />
           </View>
         )}
-        <Tab.Navigator
-          sceneContainerStyle={styles.sceneContainerStyle}
-          screenOptions={{
-            tabBarLabelStyle: {...tabBarLabelConfig, color: colors.calmBlue},
-            tabBarStyle: {...tabBarConfig},
-            tabBarIndicatorStyle: {...tabBarIndicatorConfig},
-            tabBarShowLabel: true,
-            tabBarShowIcon: true,
-            swipeEnabled: false,
-            lazy: true,
-            lazyPlaceholder: () => <AppIndicator />,
-          }}>
-          <Tab.Screen
-            name="recentPosts"
-            component={AuthoredPosts}
-            options={{title: 'recent posts'}}
-          />
-          <Tab.Screen name="saved" component={SavedPosts} />
-          <Tab.Screen
-            name="personalities"
-            component={Personalities}
-            options={{title: 'personalities', lazy: true}}
-          />
-        </Tab.Navigator>
+
+        {!isLoadingPersonalities && personalities == null && (
+          <View style={{height: '100%', justifyContent: 'center'}}>
+            <Retry
+              notice="you haven't added any personality yet, or your mobile data is turned off"
+              handleRetry={() => navigation.navigate('editPersonalities')}
+            />
+          </View>
+        )}
+
+        <View style={styles.mainContainer2}>
+          <View style={styles.scrollContainer}>
+            {!isLoadingPersonalities && personalities?.length > 0
+              ? personalities.map((item, index) => (
+                  <MemoAppChip
+                    readOnly
+                    bg={colors.skeletonAnimationBg}
+                    value={item}
+                    key={index}
+                    onPress={() => null}
+                  />
+                ))
+              : null}
+          </View>
+        </View>
+
+        <PlaceHolderParagraph
+          onPress={() => navigation.navigate('profileMedia')}
+          text={'Swipe right to see your medias'}
+          extraStyles={{
+            textAlign: 'center',
+            color: colors.calmBlue,
+            marginVertical: 10,
+          }}
+        />
       </View>
     </>
   );
@@ -102,6 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: width,
     backgroundColor: colors.neonBg,
+    paddingVertical: 0,
   },
   container: {
     height: undefined,
@@ -121,7 +156,24 @@ const styles = StyleSheet.create({
   school: {
     color: colors.initials,
   },
-  sceneContainerStyle: {
-    backgroundColor: colors.neonBg,
+
+  mainContainer2: {
+    height: undefined,
+    width: width,
+    paddingVertical: 40,
+    backgroundColor: 'transparent',
+  },
+  scrollContainer: {
+    backgroundColor: 'transparent',
+    height: undefined,
+    width: width,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  empty: {
+    textAlign: 'center',
+    alignSelf: 'center',
+    color: colors.info,
+    fontWeight: '300',
   },
 });

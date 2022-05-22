@@ -3,21 +3,16 @@ import {View, StyleSheet} from 'react-native';
 import AppScrollView from '../../../../components/AppScrollView';
 import {
   colors,
-  height,
   universalPadding,
   width,
 } from '../../../../config/config';
-import {personalityTraits} from '../../../../hooks/helperArrays';
-import AppChip from './../../../../components/AppChip';
+
+import  { MemoAppChip } from './../../../../components/AppChip';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
-import Link from './../../../../components/Link';
-import ButtonText from './../../../../components/ButtonText';
-import AppButton from './../../../../components/AppButton';
+
 import {useNavigation} from '@react-navigation/native';
 import {AppContext} from './../../../../appContext';
 import firestore from '@react-native-firebase/firestore';
-import {useSubscribeToDocument} from '../../../../hooks/useSubscribeToDocument';
-import AppIndicator from './../../../../components/AppIndicator';
 import Retry from '../../../../components/Retry';
 
 const Personalities = () => {
@@ -58,7 +53,7 @@ const Personalities = () => {
             <View style={styles.scrollContainer}>
               {!isLoading && personalities?.length > 0
                 ? personalities.map((item, index) => (
-                    <AppChip
+                    <MemoAppChip
                       readOnly
                       bg={colors.skeletonAnimationBg}
                       value={item}

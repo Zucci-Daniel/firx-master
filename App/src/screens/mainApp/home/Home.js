@@ -33,6 +33,7 @@ const Home = () => {
   }, [online]);
 
   useEffect(() => {
+    console.log(state, 'from home');
     confirmBeforeGettingPosts();
   }, []);
 
@@ -44,14 +45,15 @@ const Home = () => {
         {!isFetchingFeeds && failedFetchingFeeds && (
           <Retry
             notice="failed to get posts due to network.."
-            handleRetry={()=>confirmBeforeGettingPosts()}
+            handleRetry={() => confirmBeforeGettingPosts()}
           />
         )}
         {!isFetchingFeeds && !failedFetchingFeeds && (
           <Feed
             useData={feeds}
             userUID={userUID}
-            loadMoreData={handleLoadMoreFeed}
+            // loadMoreData={() => null}
+            // loadMoreData={handleLoadMoreFeed}
             loading={() =>
               postIsFinished == false ? (
                 <MiniLoading />

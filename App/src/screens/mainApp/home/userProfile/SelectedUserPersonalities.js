@@ -8,7 +8,6 @@ import {
   width,
 } from '../../../../config/config';
 import {personalityTraits} from '../../../../hooks/helperArrays';
-import AppChip from './../../../../components/AppChip';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import Link from './../../../../components/Link';
 import ButtonText from './../../../../components/ButtonText';
@@ -20,6 +19,7 @@ import {useSubscribeToDocument} from '../../../../hooks/useSubscribeToDocument';
 import AppIndicator from './../../../../components/AppIndicator';
 import {SelectedUserContext} from './selectedUserContext';
 import AppAnimatedImageView from '../../../../components/AppAnimatedImageView';
+import {MemoAppChip} from './../../../../components/AppChip';
 
 const SelectedUserPersonalities = () => {
   const {selectedUserDoc, setSelectedUserDoc, isFetching} =
@@ -45,7 +45,7 @@ const SelectedUserPersonalities = () => {
             <View style={styles.scrollContainer}>
               {!isFetching && personalities?.length > 0
                 ? personalities.map((item, index) => (
-                    <AppChip
+                    <MemoAppChip
                       readOnly
                       bg={colors.skeletonAnimationBg}
                       value={item}

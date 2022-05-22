@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Pressable} from 'react-native';
 
 // import { Container } from './styles';
 
 const SeparatedButtons = ({children, extraStyle}) => {
-  return <View style={[styles.bottom, extraStyle]}>{children}</View>;
+  return <Pressable style={[styles.bottom, extraStyle]}>{children}</Pressable>;
 };
 
 export default SeparatedButtons;
@@ -12,7 +12,7 @@ export default SeparatedButtons;
 const styles = StyleSheet.create({
   bottom: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     padding: 5,
   },
 });

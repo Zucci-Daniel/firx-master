@@ -35,6 +35,8 @@ export default function ProfilePane({
   profileImageSize,
   onLongPressImage,
   onPressOutImage,
+  onPressFollowers,
+  onPressFollowing,
 }) {
   const {
     user: {firstName, lastName, department, level, profileImage},
@@ -72,8 +74,8 @@ export default function ProfilePane({
         </View>
       </View>
       <SeparatedButtons extraStyle={{justifyContent: 'space-around'}}>
-        <Follow detail="followers" value="219,000" />
-        <Follow detail="following" value="21" />
+        <Follow detail="followers" value="219,000" onPress={onPressFollowers} />
+        <Follow detail="following" value="21" onPress={onPressFollowing} />
       </SeparatedButtons>
     </TouchableOpacity>
   );

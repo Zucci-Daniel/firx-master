@@ -67,8 +67,9 @@ export const feedReducer = (state, action) => {
     case feedActions.UPDATE_FEEDS: {
       return {
         ...state,
-        feeds: [...payload.feeds],
+        feeds: [...state.feeds, ...payload.feeds],
         lastPost: payload.lastVisibleItem,
+        postIsFinished: payload.postIsFinished,
       };
     }
 

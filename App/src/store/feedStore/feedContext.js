@@ -43,11 +43,11 @@ const FeedContextProvider = ({children}) => {
   const getBlackLists = async userUID => {
     const response = await useGetBlackLists(userUID);
     if (response) {
-      const {postsBlacklisted, profilesBlackListed} = response;
+      const {postsBlackListed, profilesBlackListed} = response;
       dispatch({
         type: feedActions.FETCHED_BLACKLIST,
         payload: {
-          postsBlacklisted: postsBlacklisted,
+          postBlackListed: postsBlackListed,
           profilesBlackListed: profilesBlackListed,
           error: false,
           finishedFetchingBlackLists: true,
@@ -98,17 +98,22 @@ const FeedContextProvider = ({children}) => {
       if (posts.length == 0 || posts.length < limit) {
         dispatch({
           type: feedActions.UPDATE_FEEDS,
-          payload: {feeds: posts, lastVisibleItem: lastVisibleItem},
+          payload: {
+            feeds: posts,
+            lastVisibleItem: lastVisibleItem,
+            postIsFinished: true,
+          },
         });
+
         stopFetching();
-        dispatch({
-          type: feedActions.POST_IS_FINISHED,
-          payload: {postIsFinished: true},
-        });
       } else {
         dispatch({
           type: feedActions.UPDATE_FEEDS,
-          payload: {feeds: posts, lastVisibleItem: lastVisibleItem},
+          payload: {
+            feeds: posts,
+            lastVisibleItem: lastVisibleItem,
+            postIsFinished: false,
+          },
         });
         stopFetching();
       }
@@ -128,6 +133,14 @@ const FeedContextProvider = ({children}) => {
     lastPost = state.lastPost,
     limit = state.itemsPerPage,
   ) => {
+    console.log(state, 'from confirm');
+    console.log(
+      blackListedPosts,
+      blackListedProfiles,
+      lastPost,
+      limit,
+      'confirm payload',
+    );
     dispatch({
       type: feedActions.IS_FETCHING_FEED,
       payload: {isFetchingFeeds: true, failedFetchingFeeds: false},
@@ -156,8 +169,15 @@ const FeedContextProvider = ({children}) => {
 
   const handleLoadMoreFeed = async () => {
     if (state.postIsFinished == false) {
+      console.log(
+        'loading more',
+        state.postBlackListed,
+        state.profilesBlackListed,
+        state.lastPost,
+        state.itemsPerPage,
+      );
       return await fetchPosts(
-        state.postsBlackListed,
+        state.postBlackListed,
         state.profilesBlackListed,
         state.lastPost,
         state.itemsPerPage,

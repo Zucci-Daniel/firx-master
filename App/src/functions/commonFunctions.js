@@ -59,11 +59,12 @@ export const getUserLocation = async () => {
     // getUserPermission();
 
     if (!permission) {
-      getUserPermission();
-      if (permission) {
+      const permissionAgain = await getUserPermission();
+      if (permissionAgain) {
         location = await RNLocation.getLatestLocation({timeout: 100});
       } else {
         console.log('failed');
+        return false;
       }
 
       if (permission) {

@@ -292,7 +292,7 @@ const EditProfile = ({navigation}) => {
           </AppRadioField>
 
           <Link
-            text={'social media handles'}
+            text={ showSocialMedia ? ' hide social media handles': 'show social media handles'}
             onPress={() => setShowSocialMedia(!showSocialMedia)}
           />
 

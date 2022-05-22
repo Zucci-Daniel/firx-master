@@ -12,7 +12,7 @@ import {
 } from 'react-native-paper';
 
 import color from 'color';
-import {brandFont, colors} from './App/src/config/config';
+import {colors} from './App/src/config/config';
 import {turnOfLocalPersistence} from './App/src/hooks/useOperation';
 
 turnOfLocalPersistence();

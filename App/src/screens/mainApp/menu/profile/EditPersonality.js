@@ -1,4 +1,10 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import {View, StyleSheet} from 'react-native';
 import AppScrollView from '../../../../components/AppScrollView';
 import {
@@ -8,7 +14,6 @@ import {
   universalPadding,
 } from '../../../../config/config';
 import {personalityTraits} from '../../../../hooks/helperArrays';
-import AppChip from './../../../../components/AppChip';
 import Link from './../../../../components/Link';
 import {addToArray, updateDocument} from './../../../../hooks/useOperation';
 import {AppContext} from './../../../../appContext';
@@ -16,29 +21,30 @@ import AppIndicator from './../../../../components/AppIndicator';
 import {useNavigation} from '@react-navigation/native';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
 import SweetButton from './../../../../components/SweetButton';
+import {MemoAppChip} from './../../../../components/AppChip';
 
 const EditPersonality = () => {
   const {userUID} = useContext(AppContext);
   const {user} = useContext(SignUpInfoContext);
 
   const navigation = useNavigation();
-  const [personalities, setPersonalities] = useState(user?.personalities);
+  let [personalities, setPersonalities] = useState(user?.personalities);
+
   const [isUpdating, setIsUpdating] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [personalitiesArray, setPersonalitiesArray] = useState([]);
 
   const handleOnSelectChip = item => {
-    let copiedPersonalities = [...personalities];
-
-    //add it if it isnt there
-    if (personalities.includes(item) == true) {
-      copiedPersonalities = copiedPersonalities.filter(
+    let copiedPersonalities = personalities;
+    console.log(copiedPersonalities, 'old', personalities);
+    //remove it if it is there
+    if (copiedPersonalities.includes(item) == true) {
+      const newPersonalities = copiedPersonalities.filter(
         personality => personality !== item,
       );
-      setPersonalities([...copiedPersonalities]);
+      setPersonalities([...newPersonalities]);
     } else {
-      //remove it if it is there
-
+      //add it if it isnt there
       setPersonalities(old => [...old, item]);
     }
   };
@@ -63,8 +69,10 @@ const EditPersonality = () => {
       setIsUpdating(false);
     }
   };
+  console.log('im rendinging ', personalities);
 
   useEffect(() => {
+    console.log('effect');
     setPersonalitiesArray(personalityTraits);
     setIsLoading(false);
   }, []);
@@ -95,7 +103,7 @@ const EditPersonality = () => {
           <View style={styles.scrollContainer}>
             {personalities.length > 0 &&
               personalities.map((item, index) => (
-                <AppChip
+                <MemoAppChip
                   readOnly
                   bg={colors.skeletonAnimationBg}
                   value={item}
@@ -118,7 +126,7 @@ const EditPersonality = () => {
           <View style={styles.scrollContainer}>
             {!isLoading ? (
               personalitiesArray.map((item, index) => (
-                <AppChip
+                <MemoAppChip
                   selected={personalities.includes(item) == true ? true : false}
                   value={item}
                   key={index}

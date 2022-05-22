@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import {StyleSheet, View, Text} from 'react-native';
 import {Stack} from '../../../navigation/create/CreateNavigation';
@@ -9,8 +9,12 @@ import Link from './../../../components/Link';
 import {height, width, colors, brandFont} from '../../../config/config';
 import Profile from './profile/Profile';
 import MenuList from './MenuList';
+import {SignUpInfoContext} from './../../forms/signUpInfoContext';
+import AppHeader from './../../../components/AppHeader';
 
 const Menu = () => {
+  const {user} = useContext(SignUpInfoContext);
+
   const navigation = useNavigation();
   //this "might" be a stack navigation, so be prepared!
   return (
@@ -24,30 +28,25 @@ const Menu = () => {
           animation: 'slide_from_right',
           headerTitleStyle: {
             fontFamily: brandFont.medium,
+            left: 0,
           },
+          headerLeft: () => (
+            <AppHeader title={` ${user?.firstName} ${user?.lastName}`} />
+          ),
           headerRight: () => (
-            <Link text="post" onPress={() => navigation.navigate('camera')} />
+            <Link
+              text="Edit Profile"
+              onPress={() => navigation.navigate('editProfile')}
+            />
           ),
         }}>
         <Stack.Screen name="menuList" component={MenuList} />
-        <Stack.Screen name="profile" component={Profile} />
         <Stack.Screen
-          name="authoredPosts"
-          component={AuthoredPosts}
+          name="profile"
+          component={Profile}
           options={{
-            headerTitle: 'Your recent posts',
             headerShown: true,
-
-            animationTypeForReplace: 'push',
-          }}
-        />
-        <Stack.Screen
-          name="savedPosts"
-          component={SavedPosts}
-          options={{
-            headerTitle: 'Your saved posts',
-            headerShown: true,
-            animationTypeForReplace: 'push',
+            title: '',
           }}
         />
       </Stack.Navigator>

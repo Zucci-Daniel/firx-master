@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import Toast from 'react-native-toast-message';
 import {StatusBar, LogBox, View} from 'react-native';
-import {AppToast, commonFunctions} from './App/src/imports/all_files';
+import {commonFunctions} from './App/src/imports/all_files';
 import Navigation from './App/src/navigation/Navigation';
 
 import {SignUpInfoContextProvider} from './App/src/screens/forms/signUpInfoContext';
@@ -14,6 +14,7 @@ import {turnOfLocalPersistence} from './App/src/hooks/useOperation';
 
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import AppToast from './App/src/components/AppToast';
 
 //refactor
 

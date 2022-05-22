@@ -1,16 +1,14 @@
 import React, {useState} from 'react';
 import {Chip} from 'react-native-paper';
 import {StyleSheet} from 'react-native';
-import {universalPadding, width, sMargin, colors} from '../config/config';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {colors} from '../config/config';
 
 const AppChip = ({
   value = 'damn',
   onPress = () => console.log('closed'),
   readOnly,
   bg,
-  selected
+  selected,
 }) => {
   const [isSelected, setIsSelected] = useState(selected);
 
@@ -18,7 +16,7 @@ const AppChip = ({
     onPress();
     setIsSelected(!isSelected);
   };
-
+  // console.log('app chp');
   return (
     <Chip
       selected={isSelected}
@@ -45,7 +43,10 @@ const AppChip = ({
   );
 };
 
-export default AppChip;
+const chipAreEqual = (prev, next) =>
+  prev.selected === next.selected && prev.value === next.value;
+
+export const MemoAppChip = React.memo(AppChip, chipAreEqual);
 
 const styles = StyleSheet.create({
   chip: {

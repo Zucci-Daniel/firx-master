@@ -6,6 +6,7 @@ import {SignUpInfoContext} from './../screens/forms/signUpInfoContext';
 import {handleImagePicker} from './../hooks/useOperation';
 import {colors, width} from '../config/config';
 import {theme} from 'react-native-paper';
+import {handleOpenGallery} from '../hooks/justHooks';
 
 export default AppImage = ({
   clustered,
@@ -21,8 +22,9 @@ export default AppImage = ({
   // const [imageUri, setimageUri] = useState();
 
   const handleSelectImage = async () => {
-    const image = await handleImagePicker();
-    // setimageUri(image);
+    let image = await handleOpenGallery();
+
+    image = image[0].path;
     if (image) {
       setUser({...user, profileImage: image});
       theImage && theImage(image);

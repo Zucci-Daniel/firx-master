@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, StatusBar} from 'react-native';
 import {MaterialIcons, Ionicons} from '../imports/all_packages';
 import {universalPadding, width, sMargin, colors} from '../config/config';
 
-export default AppToast = ({message, title, type = 'error', ...props}) => {
+export default AppToast = ({message='', title='', type = 'error', ...props}) => {
   //converting the string gotten from the type parameters into lowercase first before checking it. incase the we mistakenly parse in mixtures of letter case.✌
   let formattedType = type.toLowerCase();
 
@@ -59,7 +59,7 @@ export default AppToast = ({message, title, type = 'error', ...props}) => {
 const styles = StyleSheet.create({
   container: {
     width: '98%',
-    padding: universalPadding / 3,
+    padding: universalPadding / 7,
     // position: 'absolute',
     flexDirection: 'row',
     borderRadius: 10,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     marginHorizontal: universalPadding / 5,
   },
   title: {
-    color: 'white',
+    color: colors.pureWhite,
     textTransform: 'capitalize',
   },
   message: {
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#CC3333',
   },
   success: {
-    backgroundColor: '#4BB543',
+    backgroundColor: colors.dimBlue,
   },
   warning: {
     backgroundColor: '#FFCC00',

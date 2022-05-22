@@ -158,7 +158,7 @@ const UserProfile = ({navigation, route}) => {
               phone={selectedUser?.phone}
             />
             <SeparatedButtons>
-              {/* <SweetButton
+              <SweetButton
                 extraStyles={styles.accommodation}
                 text="accommodation"
                 onPress={() =>
@@ -168,8 +168,14 @@ const UserProfile = ({navigation, route}) => {
                     selectedUser?.firstName,
                   )
                 }
-              /> */}
+              />
               <SweetButton
+                extraStyles={styles.accommodation}
+                text="send request"
+                bg={colors.info}
+                onPress={handleLocalNotification}
+              />
+              {/* <SweetButton
                 extraStyles={styles.accommodation}
                 text="send request"
                 bg={colors.info}
@@ -180,7 +186,7 @@ const UserProfile = ({navigation, route}) => {
                 text="remote request"
                 bg={colors.calmRed}
                 onPress={handleRemoteNotification}
-              />
+              /> */}
             </SeparatedButtons>
           </View>
           <Tab.Navigator

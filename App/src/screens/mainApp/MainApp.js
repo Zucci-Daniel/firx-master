@@ -10,6 +10,7 @@ import {View} from 'react-native';
 import {colors} from '../../config/config';
 import MainNavigation from './MainNavigation';
 import {FeedContextProvider} from '../../store/feedStore/feedContext';
+import AppHeader from './../../components/AppHeader';
 
 const MainApp = ({navigation, route}) => {
   return (
@@ -53,7 +54,8 @@ const MainApp = ({navigation, route}) => {
           component={AccommodationSection}
           options={{
             headerShown: true,
-            title: 'Edit your accommodation',
+            headerLeft: () => <AppHeader title={`Edit your accommodation`} />,
+            title: '',
           }}
         />
       </Stack.Navigator>
