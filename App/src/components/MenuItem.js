@@ -54,5 +54,6 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     color: colors.pureWhite,
     fontSize: 16,
+    fontWeight: '700',
   },
 });

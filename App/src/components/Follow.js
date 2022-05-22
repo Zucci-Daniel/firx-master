@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textTransform: 'capitalize',
     fontFamily: brandFont.mediumBold,
-    color: colors.info,
+    color: colors.dimBlue,
   },
 });
