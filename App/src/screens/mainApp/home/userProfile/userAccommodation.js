@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useGetNewUser} from './../../../../hooks/useOperation';
 import AppMediaDisplay from './../../../../components/AppMediaDisplay';
@@ -16,13 +16,13 @@ import {convertToCurrency, naira} from '../../../../functions/commonFunctions';
 import SweetButton from './../../../../components/SweetButton';
 import PostHeader from './../../../../components/Post/PostHeader';
 import Retry from './../../../../components/Retry';
+import {SelectedUserContext} from './selectedUserContext';
 
 const UserAccommodation = ({navigation, route}) => {
+  const {selectedUserDoc, isFetching} = useContext(SelectedUserContext);
+
   const [isLoading, setIsLoading] = useState(true);
   const [accommodation, setAccommodation] = useState(null);
-  // const [user, setUser] = useState(null);
-
-  const {userID, image, name} = route.params;
 
   const fetchAccommodationDetails = async id => {
     const response = await useGetNewUser('STUDENTS', id);
@@ -39,7 +39,7 @@ const UserAccommodation = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    fetchAccommodationDetails(userID);
+    fetchAccommodationDetails(selectedUserDoc?.id);
   }, []);
 
   return (
@@ -60,8 +60,8 @@ const UserAccommodation = ({navigation, route}) => {
           <AppScrollView>
             <PostHeader
               showDateAndLocation={false}
-              name={`${name}'s Accommodation`}
-              profileImage={image}
+              name={`${selectedUserDoc?.firstName}'s Accommodation`}
+              profileImage={selectedUserDoc?.profileImage}
               showMenu={false}
             />
             <Link

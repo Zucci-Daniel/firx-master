@@ -9,15 +9,16 @@ const AppHeader = ({onPress, title = 'title..'}) => {
 
   const handleNavigation = () => {
     try {
-      navigation.pop();
+      navigation?.pop(1);
     } catch (error) {
       navigation.goBack();
+      console.log(error.message, 'h 0000');
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleNavigation} >
+      <TouchableOpacity onPress={() => handleNavigation()}>
         <Ionicons name="chevron-back-sharp" color={colors.calmBlue} size={30} />
       </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>

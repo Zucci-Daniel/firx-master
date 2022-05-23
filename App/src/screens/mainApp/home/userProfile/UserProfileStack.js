@@ -29,14 +29,6 @@ const UserProfileStack = ({navigation}) => {
             headerTintColor: colors.calmBlue,
           }}
         />
-        <Stack.Screen
-          name="userAccommodation"
-          component={UserAccommodation}
-          options={{
-            animation: 'slide_from_right',
-            headerShown: false,
-          }}
-        />
       </Stack.Navigator>
     </View>
   );
