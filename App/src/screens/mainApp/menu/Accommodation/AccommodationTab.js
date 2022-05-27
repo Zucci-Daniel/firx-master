@@ -12,13 +12,11 @@ import {
 import AppIndicator from './../../../../components/AppIndicator';
 import Accommodation from './Accommodation';
 import Descriptions from './Descriptions';
-import {useNavigation} from '@react-navigation/native';
 import {AccommodationContext} from './accContext/accContext';
 import Preferences from './Preferences';
 import AppBadge from './../../../../components/AppBadge';
 import PlaceHolderParagraph from '../../../../components/PlaceHolderParagraph';
 import {AppContext} from './../../../../appContext';
-import {firestore} from '@react-native-firebase/firestore';
 import {useGetNewUser} from './../../../../hooks/useOperation';
 
 const AccommodationTab = () => {
@@ -30,7 +28,6 @@ const AccommodationTab = () => {
   const fetchAccommodationDetails = async id => {
     const response = await useGetNewUser('STUDENTS', id);
     if (response) {
-      console.log(response.data()?.accommodationDetails);
       setAccommodation(
         response.data()?.accommodationDetails
           ? {...response.data()?.accommodationDetails}
@@ -41,7 +38,6 @@ const AccommodationTab = () => {
   };
 
   useEffect(() => {
-    console.log('fetch thier accomodation now', userUID);
     fetchAccommodationDetails(userUID);
   }, []);
 

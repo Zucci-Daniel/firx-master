@@ -1,28 +1,19 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {colors, universalPadding, width} from '../../../../config/config';
 import AppMediaDisplay from './../../../../components/AppMediaDisplay';
 import MediaDisplayActions from './../../../../components/MediaDisplayActions';
-import {useNavigation} from '@react-navigation/native';
-import {uploadAfile} from './../../../../hooks/uploadAfile';
-import {AppContext} from './../../../../appContext';
-import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
-import {HomeContext} from './../../home/homeContext';
+
 import {handleOpenCamera, handleOpenGallery} from '../../../../hooks/justHooks';
 import {AccommodationContext} from './accContext/accContext';
 import {
   handleOpenVideo,
   handlePrepareMedias,
 } from './../../../../hooks/justHooks';
-import Link from '../../../../components/Link';
 import PlaceHolderParagraph from '../../../../components/PlaceHolderParagraph';
 import SweetButton from './../../../../components/SweetButton';
 
-const Accommodation = ({accommodationMedias, navigation}) => {
-  const {userUID} = useContext(AppContext);
-  const {user} = useContext(SignUpInfoContext);
-
-  const [finishedUploadingMedia, setFinishedUploadingMedia] = useState(null);
+const Accommodation = ({navigation}) => {
   //this post state should be global laters!
   const {accommodation, setAccommodation} = useContext(AccommodationContext);
   const camera = async () => {
@@ -69,7 +60,6 @@ const Accommodation = ({accommodationMedias, navigation}) => {
     setAccommodation({...accommodation, medias: stateMedia});
   };
 
-  // console.log(accommodation.medias,' acc media',accommodation.medias.length)
   return (
     <>
       {!accommodation.medias?.length > 0 && (

@@ -8,7 +8,7 @@ import {
   updateAllPostsFields,
   updateDocument,
 } from '../../../../hooks/useOperation';
-import {uploadAfile} from './../../../../hooks/uploadAfile';
+import {uploadAFile} from './../../../../hooks/uploadAfile';
 import {AppContext} from './../../../../appContext';
 import AppInputField from '../../../../components/form-components/AppInputField';
 import {useForm} from 'react-hook-form';
@@ -145,7 +145,7 @@ const EditProfile = ({navigation}) => {
     //check if he changed the image state
     try {
       if (imageChanged) {
-        let imageUri = await uploadAfile(currentProfileImage);
+        let imageUri = await uploadAFile(currentProfileImage);
         if (imageUri) {
           console.log(imageUri, ' image rui');
           updateMe(true, data, imageUri);

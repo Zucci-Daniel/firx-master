@@ -24,7 +24,7 @@ const UserProfileStack = ({navigation}) => {
             headerShown: true,
             headerTitle:
               !isFetching && selectedUserDoc
-                ? `${selectedUserDoc?.firstName}'s Profile`
+                ? `${selectedUserDoc?.firstName ?? 'Anonymous'}'s Profile`
                 : '...', //should be user name.
             headerTintColor: colors.calmBlue,
           }}

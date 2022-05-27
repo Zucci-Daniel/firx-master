@@ -7,6 +7,7 @@ import {
   universalPadding,
   height,
   postHeight,
+  width,
 } from '../../../../config/config';
 import {defaultPreferences} from '../../../../hooks/helperArrays';
 import AppScrollView from './../../../../components/AppScrollView';
@@ -24,7 +25,8 @@ import AppIndicator from './../../../../components/AppIndicator';
 const Preferences = ({navigation}) => {
   const {userUID} = useContext(AppContext);
 
-  const {accommodation, setAccommodation} = useContext(AccommodationContext);
+  const {accommodation, setAccommodation, isPosting, setIsPosting} =
+    useContext(AccommodationContext);
   const [isLoading, setIsLoading] = useState(true);
   const [defaultPref, setDefaultPref] = useState([]);
   const [miniLoading, setMiniLoading] = useState(null);
@@ -52,6 +54,9 @@ const Preferences = ({navigation}) => {
   };
 
   const handlePost = async () => {
+    //notify state to tell it's loading
+    // setIsPosting();
+    setIsPosting(true);
     try {
       setShowModal(false);
 
@@ -59,13 +64,23 @@ const Preferences = ({navigation}) => {
       if (mediaLinks) {
         // console.log(mediaLinks)
         //post to firebase
-        updateDocument(userUID, 'STUDENTS', {
+        const response = await updateDocument(userUID, 'STUDENTS', {
           accommodationDetails: {...accommodation, medias: mediaLinks},
         });
+
+        if (response) {
+          console.log(response);
+        } else {
+          console.log(response);
+        }
       } else {
         console.log('failed to post accomodation');
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      //set loading state to false
+      setIsPosting(false);
+    }
   };
 
   const handleIsAvialable = value =>
@@ -83,6 +98,28 @@ const Preferences = ({navigation}) => {
     setDefaultPref(defaultPreferences);
     setIsLoading(false);
   }, []);
+
+  if (isPosting)
+    return (
+      <AppAnimatedImageView
+        isVisible={isPosting}
+        onBackdropPress={() => null}
+        onBackButtonPress={() => null}>
+        <View
+          style={{
+            height: height,
+            width: width,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AppIndicator extraIndicatorStyle={{flex: 0}} />
+          <Link
+            extraStyle={{textAlign: 'center'}}
+            text={`posting your accommodation, do not leave this screen`}
+          />
+        </View>
+      </AppAnimatedImageView>
+    );
 
   return (
     <View style={styles.container}>

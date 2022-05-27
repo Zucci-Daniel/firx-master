@@ -35,7 +35,7 @@ const UserMedia = ({route, navigation}) => {
         <Tab.Screen
           name="selectedUserAuthoredPosts"
           component={SelectedUserAuthoredPosts}
-          options={{title: `${selectedUserDoc?.firstName}'s posts`}}
+          options={{title: `${selectedUserDoc?.firstName ?? 'Anonymous'}'s posts`}}
         />
         <Tab.Screen
           name="userAccommodation"

@@ -11,7 +11,7 @@ const Follow = ({detail = 'followers', value = '534', onPress}) => {
   );
 };
 
-export default Follow; 
+export default Follow;
 const styles = StyleSheet.create({
   container: {
     height: undefined,
@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
   figure: {
     fontSize: 28,
     fontFamily: brandFont.mediumBold,
-    color:colors.fadeWhite
+    color: colors.fadeWhite,
   },
   detial: {
     fontSize: 12,
     textTransform: 'capitalize',
-    color: colors.dimBlue,
+    color: colors.calmBlue,
   },
 });

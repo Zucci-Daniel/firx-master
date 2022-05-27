@@ -1,19 +1,17 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import AppScrollView from '../../../../components/AppScrollView';
-import {
-  colors,
-  universalPadding,
-  width,
-} from '../../../../config/config';
+import {colors, universalPadding, width} from '../../../../config/config';
 
-import  { MemoAppChip } from './../../../../components/AppChip';
+import {MemoAppChip} from './../../../../components/AppChip';
 import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
-
+import AppIndicator from '../../../../components/AppIndicator';
 import {useNavigation} from '@react-navigation/native';
 import {AppContext} from './../../../../appContext';
 import firestore from '@react-native-firebase/firestore';
 import Retry from '../../../../components/Retry';
+
+//tjhis file is not in use anymore
 
 const Personalities = () => {
   const {user} = useContext(SignUpInfoContext);
@@ -51,17 +49,19 @@ const Personalities = () => {
         <AppScrollView>
           <View style={styles.mainContainer}>
             <View style={styles.scrollContainer}>
-              {!isLoading && personalities?.length > 0
-                ? personalities.map((item, index) => (
-                    <MemoAppChip
-                      readOnly
-                      bg={colors.skeletonAnimationBg}
-                      value={item}
-                      key={index}
-                      onPress={() => null}
-                    />
-                  ))
-                : null}
+              {!isLoading && personalities?.length > 0 ? (
+                personalities.map((item, index) => (
+                  <MemoAppChip
+                    readOnly
+                    bg={colors.skeletonAnimationBg}
+                    value={item}
+                    key={index}
+                    onPress={() => null}
+                  />
+                ))
+              ) : (
+                <AppIndicator />
+              )}
             </View>
           </View>
         </AppScrollView>

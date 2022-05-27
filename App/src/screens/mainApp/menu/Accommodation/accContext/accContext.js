@@ -15,11 +15,18 @@ export const AccommodationContextProvider = ({children}) => {
     endDate: '',
   });
   const [isLoading, setIsLoading] = useState(null);
-  console.log('context is runnin');
+  const [isPosting, setIsPosting] = useState(null);
 
   return (
     <AccommodationContext.Provider
-      value={{accommodation, setAccommodation, isLoading, setIsLoading}}>
+      value={{
+        accommodation,
+        setAccommodation,
+        isLoading,
+        setIsLoading,
+        isPosting,
+        setIsPosting,
+      }}>
       {children}
     </AccommodationContext.Provider>
   );

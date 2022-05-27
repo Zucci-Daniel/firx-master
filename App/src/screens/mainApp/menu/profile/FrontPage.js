@@ -18,6 +18,8 @@ import {AppContext} from './../../../../appContext';
 import PlaceHolderParagraph from '../../../../components/PlaceHolderParagraph';
 import Retry from './../../../../components/Retry';
 import Link from './../../../../components/Link';
+import SweetButton from './../../../../components/SweetButton';
+import AppIndicator from '../../../../components/AppIndicator';
 
 const FrontPage = () => {
   const navigation = useNavigation();
@@ -96,27 +98,30 @@ const FrontPage = () => {
 
         <Link readOnly text={`personalities`} centered={false} />
         <View style={styles.scrollContainer}>
-          {!isLoadingPersonalities && personalities?.length > 0
-            ? personalities.map((item, index) => (
-                <MemoAppChip
-                  readOnly
-                  bg={colors.skeletonAnimationBg}
-                  value={item}
-                  key={index}
-                  onPress={() => null}
-                />
-              ))
-            : null}
+          {!isLoadingPersonalities && personalities?.length > 0 ? (
+            personalities.map((item, index) => (
+              <MemoAppChip
+                readOnly
+                bg={colors.skeletonAnimationBg}
+                value={item}
+                key={index}
+                onPress={() => null}
+              />
+            ))
+          ) : (
+            <AppIndicator />
+          )}
         </View>
 
-        <PlaceHolderParagraph
-          onPress={() => navigation.navigate('profileMedia')}
-          text={'Swipe right to see your medias'}
+        <SweetButton
           extraStyles={{
-            textAlign: 'center',
-            color: colors.calmBlue,
-            marginVertical: 10,
+            backgroundColor: 'transparent',
+            borderWidth: 5,
+            borderColor: colors.calmBlue,
+            width: '100%',
           }}
+          text={`Click or Swipe right to see activities`}
+          onPress={() => navigation.navigate('profileMedia')}
         />
       </View>
     </>

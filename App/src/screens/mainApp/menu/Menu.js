@@ -31,7 +31,10 @@ const Menu = () => {
             left: 0,
           },
           headerLeft: () => (
-            <AppHeader title={` ${user?.firstName} ${user?.lastName}`} />
+            <AppHeader
+              title={` ${user?.firstName} ${user?.lastName}`}
+              onPress={() => navigation.goBack()}
+            />
           ),
           headerRight: () => (
             <Link

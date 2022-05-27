@@ -10,6 +10,7 @@ import MiniLoading from '../../../components/MiniLoading';
 import Retry from './../../../components/Retry';
 import MediaSkeleton from './../../../components/MediaSkeleton';
 import {useFeedContext} from '../../../store/feedStore/feedContext';
+import AppIndicator from '../../../components/AppIndicator';
 
 const Home = () => {
   const {subscribeToNetworkStatus} = useCheckNetworkStatus();
@@ -56,7 +57,7 @@ const Home = () => {
             // loadMoreData={handleLoadMoreFeed}
             loading={() =>
               postIsFinished == false ? (
-                <MiniLoading />
+                <AppIndicator />
               ) : postIsFinished == true ? (
                 <Finished />
               ) : null

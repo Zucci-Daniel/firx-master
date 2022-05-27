@@ -12,9 +12,11 @@ import Notification from './notification/Notification';
 import Menu from './menu/Menu';
 import ButtonText from './../../components/ButtonText';
 
-const MainNavigation = ({navigation}) => {
+const MainNavigation = ({navigation, route}) => {
+
   const {showBottomTab} = useContext(AppContext);
   const [currentRoute, setCurrentRoute] = useState('homeStack');
+
   const handleRouteChange = (destination, routeName) => {
     setCurrentRoute(routeName);
     return navigation.navigate(destination);

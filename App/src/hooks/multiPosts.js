@@ -1,19 +1,20 @@
 import {createThumbnail} from 'react-native-create-thumbnail';
-import { uploadAFile } from './uploadAfile';
+import {uploadAFile} from './uploadAfile';
 
 export const multiPost = async (data = []) => {
-
-
-  console.log(data, ' the data given in the mulitpost fun');
   try {
+    const oldFiles = [];
+    const newMedia = [];
     const mediaFiles = [];
-    for (const media of data) {
-      console.log(media.path, media, ' waht the fuck');
+    //check if the files has a path
+    data.filter(media =>
+      media.path ? newMedia.push(media) : oldFiles.push(media),
+    );
+
+    for (const media of newMedia) {
       const uri = await uploadAFile(media.path);
       let thumbnail = null;
       if (uri !== false && media.mime == 'video') {
-        console.log('theres media');
-
         let response = createThumbnail({
           url: uri,
           timeStamp: 10000,
@@ -22,7 +23,6 @@ export const multiPost = async (data = []) => {
         const thumbnailUri = await uploadAFile(response.path);
 
         if (thumbnailUri !== false) {
-          console.log('theres thumbnail');
           thumbnail = thumbnailUri;
         }
         if (thumbnailUri == false) {
@@ -43,10 +43,10 @@ export const multiPost = async (data = []) => {
         width: media.width,
         size: media.size,
       };
-      console.log(newMedia, ' before firestore');
       mediaFiles.push(newMedia);
     }
-    return mediaFiles;
+
+    return [...oldFiles, ...mediaFiles];
   } catch (error) {
     console.log('FAILED TO LOAD MULITIPLE FILES ', error.message);
   }

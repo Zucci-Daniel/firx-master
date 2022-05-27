@@ -4,15 +4,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors, width} from '../config/config';
 import {useNavigation} from '@react-navigation/native';
 
-const AppHeader = ({onPress, title = 'title..'}) => {
+const AppHeader = ({
+  onPress = () => console.log('waiting for u to attach a handler'),
+  title = 'title..',
+}) => {
   const navigation = useNavigation();
 
   const handleNavigation = () => {
     try {
-      navigation?.pop(1);
+      navigation.canGoBack() ? navigation.goBack() : onPress();
     } catch (error) {
-      navigation.goBack();
-      console.log(error.message, 'h 0000');
+      console.log('check yor app header', error.message);
     }
   };
 
