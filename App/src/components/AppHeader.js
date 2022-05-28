@@ -21,7 +21,12 @@ const AppHeader = ({
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => handleNavigation()}>
-        <Ionicons name="chevron-back-sharp" color={colors.calmBlue} size={30} />
+        <Ionicons
+          name="chevron-back-sharp"
+          color={colors.calmBlue}
+          size={30}
+          style={{marginLeft: -10}}
+        />
       </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
     </View>
@@ -37,7 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 16,

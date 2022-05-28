@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import { Button} from '../imports/all_packages';
-import { colors} from '../config/config';
+import {Button} from '../imports/all_packages';
+import {colors} from '../config/config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default AppTabButton = ({
@@ -24,12 +24,10 @@ export default AppTabButton = ({
       ]}
       contentStyle={styles.innerButton}
       accessibilityRole="link">
-      {/* {children} */}
       <Ionicons
         name={name}
         color={isActive ? colors.pureWhite : colors.dimBlue}
         size={size}
-        style={{fontWeight: 'bold'}}
       />
     </Button>
   );

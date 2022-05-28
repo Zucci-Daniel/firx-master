@@ -28,7 +28,7 @@ const AuthoredPosts = () => {
         .where('posterUserUID', '==', userUID)
         .onSnapshot(querySnapshot => {
           let posts = [];
-          querySnapshot.forEach(postSnapShot => {
+          querySnapshot.docs.forEach(postSnapShot => {
             posts.push({
               item: {
                 ...postSnapShot.data(),

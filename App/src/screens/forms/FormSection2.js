@@ -1,15 +1,12 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import AppButton from './../../components/AppButton';
-import AppInputField from './../../components/form-components/AppInputField';
 import {useFormContext} from 'react-hook-form';
 import Link from './../../components/Link';
 import AppRadioField from './../../components/form-components/AppRadioField';
 import AppRadioOption from '../../components/AppRadioOption';
-import AppSelectField from '../../components/form-components/AppSelectField';
-import AppDatePicker from './../../components/AppDatePicker';
+
 import AppFormDatePicker from './../../components/form-components/AppFormDatePicker';
-import AppImage from '../../components/AppImage';
 import AppImagePicker from './../../components/form-components/AppImagePicker';
 import {colors} from '../../config/config';
 
@@ -31,7 +28,7 @@ const FormSection2 = ({navigation}) => {
         justifyContent: 'space-evenly',
         alignItems: 'center',
         padding: 50,
-        backgroundColor: '#010101',
+        backgroundColor: colors.dimBlue,
       }}>
       <AppImagePicker name="profileImage" control={control} />
       <AppRadioField

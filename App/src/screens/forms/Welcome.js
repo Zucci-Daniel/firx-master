@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import AppButton from '../../components/AppButton';
 import FormTitle from '../../components/FormTitle';
 import {useNavigation} from '@react-navigation/native';
-import { universalPadding } from '../../config/config';
+import {universalPadding, colors} from '../../config/config';
 
 const Welcome = ({}) => {
   const navigation = useNavigation();
@@ -22,16 +22,12 @@ const Welcome = ({}) => {
       style={{
         flex: 1,
         justifyContent: 'space-around',
-        backgroundColor: '#010101',
-        padding:universalPadding
+        backgroundColor: colors.dimBlue,
+        padding: universalPadding,
       }}>
       <FormTitle color={'white'} title="welcome" />
 
-      <AppButton
-        wideButton
-        title="start"
-        onPress={handleResetAndNavigate}
-      />
+      <AppButton wideButton title="start" onPress={handleResetAndNavigate} />
     </View>
   );
 };

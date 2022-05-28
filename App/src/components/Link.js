@@ -35,7 +35,7 @@ export default function Link({
 const styles = StyleSheet.create({
   Link: {
     color: '#435CAC',
-    margin: universalPadding / 3,
+    margin: 7,
     fontWeight: '600',
     textTransform: 'capitalize',
   },

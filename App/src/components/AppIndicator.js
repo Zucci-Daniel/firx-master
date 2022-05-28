@@ -6,10 +6,11 @@ const AppIndicator = ({
   extraIndicatorStyle,
   forSubmiting = false,
   size = 50,
+  color,
 }) => {
   return (
     <ActivityIndicator
-      color={colors.dimBlue}
+      color={color ? color : colors.dimBlue}
       size={size}
       style={[
         forSubmiting ? styles.forSubmiting : styles.activity,

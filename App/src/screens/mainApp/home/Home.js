@@ -16,6 +16,8 @@ const Home = () => {
   const {subscribeToNetworkStatus} = useCheckNetworkStatus();
   const online = subscribeToNetworkStatus();
   const {userUID} = useContext(AppContext);
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const {state, getInformation, handleLoadMoreFeed, confirmBeforeGettingPosts} =
     useFeedContext();
 
@@ -34,9 +36,17 @@ const Home = () => {
   }, [online]);
 
   useEffect(() => {
-    console.log(state, 'from home');
     confirmBeforeGettingPosts();
   }, []);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    // await confirmBeforeGettingPosts();
+    setTimeout(() => {
+      //once you've fixed the issue with  FATAL ERROR  [firestore/invalid-argument] Client specified an invalid argument. Note that this differs from failed-precondition. invalid-argument indicates arguments that are problematic regardless of the state of the system (e.g., an invalid field name). THEN, REMOVE THIS SETTIMEOUT FUNCTION and call confirmBeforeGettingPosts();
+      setRefreshing(false);
+    }, 3000);
+  };
 
   if (isFetchingFeeds) return <MediaSkeleton />;
 
@@ -53,11 +63,13 @@ const Home = () => {
           <Feed
             useData={feeds}
             userUID={userUID}
+            refreshing={refreshing}
+            onRefresh={() => handleRefresh()}
             // loadMoreData={() => null}
             // loadMoreData={handleLoadMoreFeed}
             loading={() =>
               postIsFinished == false ? (
-                <AppIndicator />
+                <AppIndicator color={colors.inputUnderLineColor} />
               ) : postIsFinished == true ? (
                 <Finished />
               ) : null

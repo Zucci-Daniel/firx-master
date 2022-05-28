@@ -175,6 +175,7 @@ const UserMainProfile = ({navigation, route}) => {
             facebook={selectedUserDoc?.facebook}
             phone={selectedUserDoc?.phone}
           />
+
           <SeparatedButtons>
             <SweetButton
               extraStyles={styles.accommodation}
@@ -188,6 +189,17 @@ const UserMainProfile = ({navigation, route}) => {
               onPress={() => handleRemoteNotification()}
             />
           </SeparatedButtons>
+          <SweetButton
+            extraStyles={{
+              backgroundColor: 'transparent',
+              borderWidth: 5,
+              borderColor: colors.calmBlue,
+              width: '100%',
+              marginVertical: 10,
+            }}
+            text={`Click or Swipe right to see activities`}
+            onPress={() => navigation.navigate('userMedia')}
+          />
           <View style={styles.mainContainer}>
             <Link readOnly text={`personalities`} centered={false} />
 
@@ -204,16 +216,6 @@ const UserMainProfile = ({navigation, route}) => {
                   ))
                 : null}
             </View>
-            <SweetButton
-              extraStyles={{
-                backgroundColor: 'transparent',
-                borderWidth: 5,
-                borderColor: colors.calmBlue,
-                width: '95%',
-              }}
-              text={`Click or Swipe right to see activities`}
-              onPress={() => navigation.navigate('userMedia')}
-            />
           </View>
         </>
       )}

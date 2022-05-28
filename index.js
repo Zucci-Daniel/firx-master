@@ -14,7 +14,6 @@ import {
 import color from 'color';
 import {colors} from './App/src/config/config';
 import {turnOfLocalPersistence} from './App/src/hooks/useOperation';
-import messaging from '@react-native-firebase/messaging';
 
 turnOfLocalPersistence();
 
@@ -59,9 +58,7 @@ const theme = {
   },
 };
 
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Message handled in the background!', remoteMessage);
-});
+
 
 export default function Main() {
   return (

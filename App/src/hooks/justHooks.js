@@ -11,7 +11,6 @@ export const useCheckNetworkStatus = () => {
   const subscribeToNetworkStatus = () =>
     netInfo.isInternetReachable ? true : false;
 
-  console.log(subscribeToNetworkStats, ' network directly from the hook');
   const networkStatus = () => {
     null;
   };
@@ -81,4 +80,21 @@ export const handlePrepareMedias = data => {
   });
 
   return awaitingMedias;
+};
+
+export const extractFirstTwoLetterOfWordToUpperCase = sentence => {
+  let result = '';
+  const sentenceToWordsInArray = sentence.split(' ');
+  for (let index = 0; index < sentenceToWordsInArray.length; index++) {
+    if (index === 2) {
+      break;
+    }
+
+    const word = sentenceToWordsInArray[index];
+    const letter = word.charAt(0).toUpperCase();
+
+    result = `${result}${letter}`;
+  }
+
+  return result;
 };

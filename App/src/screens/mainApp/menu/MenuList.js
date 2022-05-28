@@ -9,6 +9,7 @@ import {FlatList} from 'react-native';
 import {confirmAction} from './../../../hooks/postOperations';
 import ProfilePane from './../../../components/ProfilePane';
 import MenuItem from './../../../components/MenuItem';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const MenuList = ({navigation}) => {
   const menu = [
@@ -72,6 +73,12 @@ const MenuList = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
+        <Entypo
+          name="app-store"
+          size={50}
+          color={colors.calmBlue}
+          style={{alignSelf: 'center'}}
+        />
         <FlatList
           data={menu}
           keyExtractor={item => item.title + item.id}

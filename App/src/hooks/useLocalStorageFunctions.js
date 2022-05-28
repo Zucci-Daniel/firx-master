@@ -31,7 +31,6 @@ export const getObjectFromLocalStorage = async nameOfTheItem => {
   try {
     const theItem = await AsyncStorage.getItem(nameOfTheItem);
     if (theItem) {
-      console.log(theItem, ' object from the getFromLocalStorage');
       return JSON.parse(theItem);
     }
   } catch (error) {

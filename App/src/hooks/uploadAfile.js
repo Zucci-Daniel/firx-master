@@ -1,8 +1,5 @@
-import {useState, useContext} from 'react';
-import {Alert} from 'react-native';
 
 import storage from '@react-native-firebase/storage';
-import {SignUpInfoContext} from '../screens/forms/signUpInfoContext';
 import {showToast} from '../functions/commonFunctions';
 
 export const uploadAFile = async imageUri => {

@@ -1,37 +1,30 @@
-import React, {useState, useRef, useEffect} from 'react';
-import {
-  View,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
+import {View, StyleSheet, Alert, RefreshControl} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {
-  universalPadding,
-  height,
-  colors,
-  postHeight,
-  width,
-  postSize,
-} from '../config/config';
+import {colors, width} from '../config/config';
 import Post from './Post/Post';
 import AppCarousel from './AppCarousel';
 import PostActions from './PostActions';
 import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
 import {
-  confirmAction,
   handleDeletePost,
   handleSavePost,
   handleStopSeeingPost,
   handleUnfollowAuthor,
 } from '../hooks/postOperations';
-import PostHeader from './Post/PostHeader';
 import PosterInitials from './Post/utils/PosterInitials';
 import {convertToReadableDate} from './../functions/commonFunctions';
 
-const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
+const Feed = ({
+  useData = [],
+  userUID,
+  loading,
+  loadMoreData = () => {},
+  refreshing,
+  onRefresh = () => {
+    console.log('refreshing..');
+  },
+}) => {
   const globalNavigation = useNavigation();
   const sheetRef = useRef(null);
 
@@ -98,11 +91,12 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
     });
   }, [useData]);
 
-  const toggleSheet = (posterID, userUID, item) => {
+  const toggleSheet = (posterID, userUID, {posterName, postID}) => {
     sheetRef.current.open();
-    console.log(item.postID);
-    setSelectedPost({...item});
+    // console.log(item.postID);
     setSelectedMyPost(posterID == userUID ? true : false);
+
+    // setSelectedPost({posterName, postID});
   };
 
   const _deletePost = postID => {
@@ -164,7 +158,12 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
           onTapInitials={() =>
             handleProfileSelection(item.posterUserUID, userUID)
           }
-          onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID, item)}
+          onPressPostMenu={() =>
+            toggleSheet(item.posterUserUID, userUID, {
+              postID: item.postID,
+              posterName: item.posterName,
+            })
+          }
           onTapPost={() =>
             globalNavigation.navigate('viewPost', {
               postId: item.postID,
@@ -195,11 +194,11 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
           }
           onStopSeeingThis={() => _stopSeeingThis(selectedPost.postID, userUID)}
           onPostInfo={() => console.log('info ready')}>
-          <PosterInitials
+          {/* <PosterInitials
             extraInitialsStyles={styles.extraInitialsStyles}
-            name={`perform actions for ${selectedPost?.posterName}`}
+            name={`perform actions for ${selectedPost?.posterName}'s post`}
             showDateAndLocation={false}
-          />
+          /> */}
         </PostActions>
       </>
     );
@@ -212,6 +211,10 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
     );
     // setCurrentMedia(index + 1);
   };
+
+  const refreshHandler = React.useCallback(() => {
+    onRefresh();
+  }, []);
 
   return (
     <>
@@ -235,14 +238,13 @@ const Feed = ({useData = [], userUID, loading, loadMoreData = () => {}}) => {
               showsVerticalScrollIndicator: false,
               initialNumToRender: 4,
               removeClippedSubviews: true,
-              // snapToAlignment: 'center',
-              // decelerationRate: 0.186,
-              // snapToInterval:height,
-              // onMomentumScrollEnd: event => getCurrentIndex(event),
-              // pagingEnabled: true,
-              // contentInset: {
-              //   bottom: 100,
-              // },
+              refreshControl: (
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={refreshHandler}
+                  progressBackgroundColor={colors.calmBlue}
+                />
+              ),
             }}
           />
         ) : null}
@@ -284,5 +286,6 @@ const styles = StyleSheet.create({
   extraInitialsStyles: {
     fontWeight: 'bold',
     fontSize: 14,
+    paddingHorizontal: 10,
   },
 });

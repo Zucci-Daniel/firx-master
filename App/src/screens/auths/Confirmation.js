@@ -18,6 +18,9 @@ import FormTitle from './../../components/FormTitle';
 import Link from './../../components/Link';
 import Lock from './../../components/icons/Lock';
 import {commonFunctions} from '../../imports/all_files';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
+
+const size = width / 8;
 
 //LATER: REFACTOR THIS CODE AND SEPARATE CONCERNS PLEASE!!...
 const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
@@ -140,10 +143,12 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
         <Lock />
       </View>
       <FormTitle
-        title={''}
-        subheading={`Enter the code sent to your ${choiceOfAlert}`}
+        color={colors.calmGreen}
+        title={``}
+        subheading={`Enter the code sent to your ${choiceOfAlert} : ${phone}`}
+        suhHeadingStyles={{color: colors.dimBlue, fontWeight: '600'}}
       />
-      <InputsGroup>
+      {/* <InputsGroup>
         <AppInput
           keyboardType="number-pad"
           label="Enter Code"
@@ -151,10 +156,22 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
             setCode(text);
           }}
         />
-      </InputsGroup>
+      </InputsGroup> */}
+      <View style={styles.wrapper}>
+        <OTPInputView
+          secureTextEntry={false}
+          style={{width: '100%', height: size}}
+          pinCount={6}
+          codeInputFieldStyle={styles.pin}
+          onCodeFilled={code => setCode(code)}
+          autoFocusOnLoad
+          keyboardType="number-pad"
+        />
+      </View>
       <AppButton
+        buttonColor={colors.skeletonBg}
         disabled={confirm !== null ? false : true}
-        title="Verify" //confirm !== null ? 'verify' : 'sending code...'
+        title={confirm !== null ? 'verify now' : 'sending code...'} //confirm !== null ? 'verify' : 'sending code...'
         wideButton
         onPress={confirmCode}
       />
@@ -182,5 +199,21 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  wrapper: {
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingVertical: 30,
+  },
+  pin: {
+    backgroundColor: colors.pureWhite,
+    width: size,
+    height: size,
+    borderRadius: 16,
+    borderWidth: 0,
+    color: colors.hairLineColor,
+    fontSize: 20,
+    fontWeight: '600',
   },
 });

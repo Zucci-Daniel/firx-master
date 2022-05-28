@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
 import AppButton from './../../components/AppButton';
 import {useFormContext} from 'react-hook-form';
 import AppSelectField from './../../components/form-components/AppSelectField';
@@ -9,9 +9,7 @@ import {storeLocally} from './../../hooks/useLocalStorageFunctions';
 import {addNewUserToDb} from './../../hooks/useOperation';
 import {commonFunctions} from '../../imports/all_files';
 import {log} from './../../hooks/testLog';
-import AppLoading from './../../components/AppLoading';
 import Link from './../../components/Link';
-import {subscribeToNetworkStats} from './../../hooks/justHooks';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {departments, levels} from '../../hooks/utils';
 import {uploadAFile} from '../../hooks/uploadAfile';

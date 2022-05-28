@@ -10,11 +10,14 @@ export default FormTitle = ({
   showSubHeading = true,
   extraStyle,
   color,
+  suhHeadingStyles,
 }) => {
   return (
     <View style={[styles.container, extraStyle]}>
       <Headline style={[styles.FormTitle, {color: color}]}>{title}</Headline>
-      {showSubHeading && <Subheading>{subheading}</Subheading>}
+      {showSubHeading && (
+        <Subheading style={suhHeadingStyles}>{subheading}</Subheading>
+      )}
     </View>
   );
 };

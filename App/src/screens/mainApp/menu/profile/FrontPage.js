@@ -95,7 +95,17 @@ const FrontPage = () => {
             />
           </View>
         )}
-
+        <SweetButton
+          extraStyles={{
+            backgroundColor: 'transparent',
+            borderWidth: 5,
+            borderColor: colors.calmBlue,
+            width: '100%',
+            marginVertical: 10,
+          }}
+          text={`Click or Swipe right to see activities`}
+          onPress={() => navigation.navigate('profileMedia')}
+        />
         <Link readOnly text={`personalities`} centered={false} />
         <View style={styles.scrollContainer}>
           {!isLoadingPersonalities && personalities?.length > 0 ? (
@@ -112,17 +122,6 @@ const FrontPage = () => {
             <AppIndicator />
           )}
         </View>
-
-        <SweetButton
-          extraStyles={{
-            backgroundColor: 'transparent',
-            borderWidth: 5,
-            borderColor: colors.calmBlue,
-            width: '100%',
-          }}
-          text={`Click or Swipe right to see activities`}
-          onPress={() => navigation.navigate('profileMedia')}
-        />
       </View>
     </>
   );

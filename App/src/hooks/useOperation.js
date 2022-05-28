@@ -1,12 +1,10 @@
 import firestore from '@react-native-firebase/firestore';
 import {commonFunctions} from '../imports/all_files';
 import {log} from './testLog';
-// import ImagePicker from 'react-native-image-crop-picker';
 import {
   getObjectFromLocalStorage,
   storeLocally,
 } from './useLocalStorageFunctions';
-import {useCheckNetworkStatus} from './justHooks';
 
 export const turnOfLocalPersistence = async () => {
   try {
@@ -14,7 +12,6 @@ export const turnOfLocalPersistence = async () => {
   } catch (error) {
     console.warn('failed to clear persistence ', error.message);
   }
-  // console.log('lollll')
 };
 
 export const addNewUserToDb = (colRef, docID, newUser) => {
@@ -213,10 +210,6 @@ export const useGetUserInformationFromFirestore = async id => {
         personalities: responseObj.personalities,
       };
       try {
-        console.log(
-          'storing the information from firestore locally.',
-          userBasicInfo,
-        );
         await storeLocally('currentUserBasicInfo', userBasicInfo);
       } catch (error) {
         log(' faild to store response locally', error.message);
@@ -242,8 +235,6 @@ export const useGetUserBasicInformationFromLocalStorage = async id => {
     );
 
     if (responseFromStorage) {
-      console.log(`got basic info locally , setting user context `);
-      console.log(responseFromStorage, ' the response from local storage');
       return responseFromStorage;
     } else {
       console.log(
@@ -265,7 +256,6 @@ export const useGetUserInformation = async (id, online) => {
       if (response) {
         return response;
       } else {
-        console.log();
         const response = await useGetUserBasicInformationFromLocalStorage(id);
         return response;
       }

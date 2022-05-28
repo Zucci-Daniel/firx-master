@@ -133,14 +133,7 @@ const FeedContextProvider = ({children}) => {
     lastPost = state.lastPost,
     limit = state.itemsPerPage,
   ) => {
-    console.log(state, 'from confirm');
-    console.log(
-      blackListedPosts,
-      blackListedProfiles,
-      lastPost,
-      limit,
-      'confirm payload',
-    );
+  
     dispatch({
       type: feedActions.IS_FETCHING_FEED,
       payload: {isFetchingFeeds: true, failedFetchingFeeds: false},

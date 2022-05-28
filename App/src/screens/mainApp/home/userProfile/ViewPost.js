@@ -69,41 +69,43 @@ const ViewPost = ({navigation, route}) => {
   if (isLoading) return <MediaSkeleton />;
 
   return (
-    <AppScrollView>
-      <View style={styles.container}>
-        {isLoading && <ActivityIndicator />}
+    <View style={{backgroundColor: colors.neonBg, flex: 1}}>
+      <AppScrollView>
+        <View style={styles.container}>
+          {isLoading && <ActivityIndicator />}
 
-        <Post
-          onTapInitials={() =>
-            handleProfileSelection(selectedPost.posterUserUID, userUID)
-          }
-          onPressPostMenu={null}
-          profileImage={selectedPost.posterAvatar}
-          name={selectedPost.posterName}
-          caption={selectedPost.postCaption}
-          date={'today :23:00pm wat'}>
-          <View style={styles.scrollContainer}>
-            {selectedPost.postMedias.map(media => {
-              return media.type == 'picture' ? (
-                <AppPostImage
-                  useHeight={postHeight}
-                  key={media.id}
-                  imageUri={media?.url}
-                />
-              ) : (
-                <AppPostVideo
-                  key={media.id}
-                  useHeight={postHeight}
-                  shouldPlay={false}
-                  videoUri={media?.url}
-                  thumbnail={media?.thumbnail}
-                />
-              );
-            })}
-          </View>
-        </Post>
-      </View>
-    </AppScrollView>
+          <Post
+            onTapInitials={() =>
+              handleProfileSelection(selectedPost.posterUserUID, userUID)
+            }
+            onPressPostMenu={null}
+            profileImage={selectedPost.posterAvatar}
+            name={selectedPost.posterName}
+            caption={selectedPost.postCaption}
+            date={'today :23:00pm wat'}>
+            <View style={styles.scrollContainer}>
+              {selectedPost.postMedias.map(media => {
+                return media.type == 'picture' ? (
+                  <AppPostImage
+                    useHeight={postHeight}
+                    key={media.id}
+                    imageUri={media?.url}
+                  />
+                ) : (
+                  <AppPostVideo
+                    key={media.id}
+                    useHeight={postHeight}
+                    shouldPlay={false}
+                    videoUri={media?.url}
+                    thumbnail={media?.thumbnail}
+                  />
+                );
+              })}
+            </View>
+          </Post>
+        </View>
+      </AppScrollView>
+    </View>
   );
 };
 

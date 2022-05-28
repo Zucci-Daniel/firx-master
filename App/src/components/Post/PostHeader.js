@@ -41,7 +41,7 @@ const PostHeader = ({
           <PostActionIcon
             useDefault={false}
             onPress={onPressPostMenu}
-            iconName="ellipsis-vertical-outline"
+            iconName="ellipsis-vertical"
             showText={false}
             color={colors.calmBlue}
           />
