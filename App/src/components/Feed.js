@@ -96,7 +96,7 @@ const Feed = ({
     // console.log(item.postID);
     setSelectedMyPost(posterID == userUID ? true : false);
 
-    // setSelectedPost({posterName, postID});
+    setSelectedPost({posterName, postID});
   };
 
   const _deletePost = postID => {
