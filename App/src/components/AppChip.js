@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {Chip} from 'react-native-paper';
-import {StyleSheet} from 'react-native';
-import {colors} from '../config/config';
+import React, { useState } from 'react';
+import { Chip } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
+import { colors } from '../config/config';
 
-const AppChip = ({
+export const MemoAppChip = ({
   value = 'damn',
   onPress = () => console.log('closed'),
   readOnly,
@@ -23,7 +23,7 @@ const AppChip = ({
       mode="outlined"
       textStyle={[
         styles.text,
-        {color: isSelected ? colors.hairLineColor : colors.calmBlue},
+        { color: isSelected ? colors.hairLineColor : colors.calmBlue },
       ]}
       closeIcon={'close'}
       onPress={readOnly ? null : handlePress}
@@ -34,8 +34,8 @@ const AppChip = ({
           backgroundColor: isSelected
             ? colors.calmBlue
             : bg
-            ? bg
-            : 'transparent',
+              ? bg
+              : 'transparent',
         },
       ]}>
       {value}
@@ -43,10 +43,12 @@ const AppChip = ({
   );
 };
 
-const chipAreEqual = (prev, next) =>
-  prev.selected === next.selected && prev.value === next.value;
+// const chipAreEqual = (prev, next) =>
+//   prev.selected === next.selected && prev.value === next.value;
 
-export const MemoAppChip = React.memo(AppChip, chipAreEqual);
+// export const MemoAppChip = React.memo(AppChip, chipAreEqual);
+
+
 
 const styles = StyleSheet.create({
   chip: {

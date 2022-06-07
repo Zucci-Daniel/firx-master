@@ -1,8 +1,8 @@
-import React, {useContext, useRef} from 'react';
-import {Stack} from '../../../navigation/create/CreateNavigation';
-import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
+import React, { useContext, useRef } from 'react';
+import { Stack } from '../../../navigation/create/CreateNavigation';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import ViewPost from './userProfile/ViewPost';
-import {colors, universalPadding, width} from '../../../config/config';
+import { colors, universalPadding, width } from '../../../config/config';
 import SelectedUserStack from './SelectedUserStack';
 
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -11,15 +11,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeSection from './HomeSection';
 import Sheet from '../../../components/Sheet';
 import MenuItem from '../../../components/MenuItem';
-import {SignUpInfoContext} from './../../forms/signUpInfoContext';
-import {extractFirstTwoLetterOfWordToUpperCase} from '../../../hooks/justHooks';
+import { SignUpInfoContext } from './../../forms/signUpInfoContext';
+import { extractFirstTwoLetterOfWordToUpperCase } from '../../../hooks/justHooks';
 
-const HomeStack = ({navigation}) => {
+const HomeStack = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
   const openSheet = () => bottomSheetRef.current.open();
   const closeSheet = () => bottomSheetRef.current.close();
 
-  const {user, setUser} = useContext(SignUpInfoContext);
+  const { user, setUser } = useContext(SignUpInfoContext);
 
   const actions = [
     {
@@ -57,7 +57,7 @@ const HomeStack = ({navigation}) => {
           animation: 'slide_from_left',
           headerShadowVisible: false,
           headerTintColor: colors.calmBlue,
-          headerStyle: {backgroundColor: colors.neonBg},
+          headerStyle: { backgroundColor: colors.neonBg },
         }}>
         <Stack.Screen
           name="home"
@@ -119,9 +119,9 @@ const HomeStack = ({navigation}) => {
           name="app-store"
           size={70}
           color={colors.calmBlue}
-          style={{alignSelf: 'center', padding: 20}}
+          style={{ alignSelf: 'center', padding: 20 }}
         />
-        <View style={[styles.container, {height: undefined}]}>
+        <View style={[styles.container, { height: undefined }]}>
           <View style={styles.actionRow}>
             {actions.map((action, index) => (
               <MenuItem

@@ -1,13 +1,13 @@
-import React, {useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {colors, height, width} from '../../../../config/config';
-import {Stack} from '../../../../navigation/create/CreateNavigation';
+import React, { useContext } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { colors, height, width } from '../../../../config/config';
+import { Stack } from '../../../../navigation/create/CreateNavigation';
 import UserProfile from './UserProfile';
 import UserAccommodation from './userAccommodation';
-import {SelectedUserContext} from './selectedUserContext';
+import { SelectedUserContext } from './selectedUserContext';
 
-const UserProfileStack = ({navigation}) => {
-  const {selectedUserDoc, isFetching} = useContext(SelectedUserContext);
+const UserProfileStack = ({ navigation }) => {
+  const { selectedUserDoc, isFetching } = useContext(SelectedUserContext);
   return (
     <View style={styles.sceneContainerStyle}>
       <Stack.Navigator
@@ -20,7 +20,7 @@ const UserProfileStack = ({navigation}) => {
           component={UserProfile}
           options={{
             animation: 'slide_from_right',
-            headerStyle: {backgroundColor: colors.neonBg},
+            headerStyle: { backgroundColor: colors.neonBg },
             headerShown: true,
             headerTitle:
               !isFetching && selectedUserDoc

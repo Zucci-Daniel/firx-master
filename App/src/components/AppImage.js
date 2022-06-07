@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
-import {useContext} from 'react';
-import {Avatar} from '../imports/all_packages';
-import {SignUpInfoContext} from './../screens/forms/signUpInfoContext';
-import {handleImagePicker} from './../hooks/useOperation';
-import {colors, width} from '../config/config';
-import {theme} from 'react-native-paper';
-import {handleOpenGallery} from '../hooks/justHooks';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { useContext } from 'react';
+import { Avatar } from '../imports/all_packages';
+import { SignUpInfoContext } from './../screens/forms/signUpInfoContext';
+import { handleImagePicker } from './../hooks/useOperation';
+import { colors, width } from '../config/config';
+import { theme } from 'react-native-paper';
+import { handleOpenGallery } from '../hooks/justHooks';
 
 export default AppImage = ({
   clustered,
@@ -18,19 +18,24 @@ export default AppImage = ({
   onLongPressImage,
   onPressOutImage,
 }) => {
-  const {user, setUser} = useContext(SignUpInfoContext);
+  const { user, setUser } = useContext(SignUpInfoContext);
   // const [imageUri, setimageUri] = useState();
 
   const handleSelectImage = async () => {
-    let image = await handleOpenGallery();
+    try {
 
-    image = image[0].path;
-    if (image) {
-      setUser({...user, profileImage: image});
-      theImage && theImage(image);
-    } else {
-      console.log(' user canceled selection ');
-      theImage(false);
+      let image = await handleOpenGallery();
+
+      image = image[0].path;
+      if (image) {
+        setUser({ ...user, profileImage: image });
+        theImage && theImage(image);
+      } else {
+        console.log(' user canceled selection ');
+        theImage(false);
+      }
+    } catch (error) {
+      console.log(error.message, ' failed to pick a photo')
     }
   };
 
@@ -45,9 +50,9 @@ export default AppImage = ({
         onPressOut={onPressOutImage}>
         {user.profileImage !== null && (
           <Avatar.Image
-            style={{borderWidth: 2, borderColor: colors.calmBlue}}
+            style={{ borderWidth: 2, borderColor: colors.calmBlue }}
             size={size}
-            source={{uri: source ? source : user.profileImage}}
+            source={{ uri: source ? source : user.profileImage }}
             theme={{
               ...theme,
               backgroundColor: 'white',

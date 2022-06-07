@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const brandFont = {
   medium: 'Ubuntu Mono',
@@ -39,9 +39,10 @@ const colors = {
   calmGreen: 'green',
   skeletonBg: '#020035',
   skeletonAnimationBg: '#002244',
+  black: '#010101'
 };
 
-const {width, height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 const universalPadding = width / 10;
 const sMargin = 10;
 const inputBorder = 5;
@@ -53,9 +54,9 @@ const avatarWidth = width / 13;
 const avatarEditWidth = width / 3;
 
 const tabBarConfigObject = {
-  tabBarLabelStyle: {...tabBarLabelConfig},
-  tabBarStyle: {...tabBarConfig},
-  tabBarIndicatorStyle: {...tabBarIndicatorConfig},
+  tabBarLabelStyle: { ...tabBarLabelConfig },
+  tabBarStyle: { ...tabBarConfig },
+  tabBarIndicatorStyle: { ...tabBarIndicatorConfig },
   tabBarShowLabel: true,
   tabBarShowIcon: true,
   swipeEnabled: false,
@@ -77,7 +78,7 @@ const tabBarConfig = {
   backgroundColor: 'transparent',
   elevation: 0,
   shadowColor: '#000000',
-  shadowOffset: {width: 0, height: 10}, // change this for more shadow
+  shadowOffset: { width: 0, height: 10 }, // change this for more shadow
   shadowOpacity: 0.4,
   shadowRadius: 6,
 };

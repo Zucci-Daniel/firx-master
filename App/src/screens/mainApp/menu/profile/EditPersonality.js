@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useMemo,
 } from 'react';
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import AppScrollView from '../../../../components/AppScrollView';
 import {
   width,
@@ -13,19 +13,20 @@ import {
   height,
   universalPadding,
 } from '../../../../config/config';
-import {personalityTraits} from '../../../../hooks/helperArrays';
+import { personalityTraits } from '../../../../hooks/helperArrays';
 import Link from './../../../../components/Link';
-import {addToArray, updateDocument} from './../../../../hooks/useOperation';
-import {AppContext} from './../../../../appContext';
+import { addToArray, updateDocument } from './../../../../hooks/useOperation';
+import { AppContext } from './../../../../appContext';
 import AppIndicator from './../../../../components/AppIndicator';
-import {useNavigation} from '@react-navigation/native';
-import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
+import { useNavigation } from '@react-navigation/native';
+import { SignUpInfoContext } from './../../../forms/signUpInfoContext';
 import SweetButton from './../../../../components/SweetButton';
-import {MemoAppChip} from './../../../../components/AppChip';
+import { MemoAppChip } from './../../../../components/AppChip';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const EditPersonality = () => {
-  const {userUID} = useContext(AppContext);
-  const {user} = useContext(SignUpInfoContext);
+  const { userUID } = useContext(AppContext);
+  const { user } = useContext(SignUpInfoContext);
 
   const navigation = useNavigation();
   let [personalities, setPersonalities] = useState(user?.personalities);
@@ -122,7 +123,9 @@ const EditPersonality = () => {
           extraStyle={styles.empty}
           text={'select personalities'}
         />
-        <AppScrollView>
+        {/* <AppScrollView> */}
+        <ScrollView>
+
           <View style={styles.scrollContainer}>
             {!isLoading ? (
               personalitiesArray.map((item, index) => (
@@ -137,7 +140,9 @@ const EditPersonality = () => {
               <AppIndicator extraIndicatorStyle={styles.extraIndicatorStyle} />
             )}
           </View>
-        </AppScrollView>
+
+        </ScrollView>
+        {/* </AppScrollView> */}
       </View>
     </View>
   );

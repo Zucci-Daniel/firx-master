@@ -1,25 +1,27 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Toast from 'react-native-toast-message';
-import {StatusBar, LogBox, View} from 'react-native';
-import {commonFunctions} from './App/src/imports/all_files';
+import { StatusBar, LogBox, View } from 'react-native';
+import { commonFunctions } from './App/src/imports/all_files';
 import Navigation from './App/src/navigation/Navigation';
 
-import {SignUpInfoContextProvider} from './App/src/screens/forms/signUpInfoContext';
-import {AppContext} from './App/src/appContext';
-import {getFromLocalStorage} from './App/src/hooks/useLocalStorageFunctions';
-import {log} from './App/src/hooks/testLog';
-import {useCheckNetworkStatus} from './App/src/hooks/justHooks';
+import { SignUpInfoContextProvider } from './App/src/screens/forms/signUpInfoContext';
+import { AppContext } from './App/src/appContext';
+import { getFromLocalStorage } from './App/src/hooks/useLocalStorageFunctions';
+import { log } from './App/src/hooks/testLog';
+import { useCheckNetworkStatus } from './App/src/hooks/justHooks';
 import AppLoading from './App/src/components/AppLoading';
-import {turnOfLocalPersistence} from './App/src/hooks/useOperation';
+import { turnOfLocalPersistence } from './App/src/hooks/useOperation';
 
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppToast from './App/src/components/AppToast';
+
+
 
 //refactor
 
 export default App = () => {
-  const {networkStatus, subscribeToNetworkStats} = useCheckNetworkStatus();
+  const { networkStatus, subscribeToNetworkStats } = useCheckNetworkStatus();
 
   const page = 'app';
   const [showBottomTab, setShowBottomTab] = useState(true);
@@ -51,13 +53,13 @@ export default App = () => {
     LogBox.ignoreLogs([
       'Require cycles are allowed, but can result in uninitialized values.',
       "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
-      'new NativeEventEmitter()',"Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function."
+      'new NativeEventEmitter()', "Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function."
     ]);
   }, []);
 
   const toastConfig = {
     //aside from text1, text2, which are the default package props, any other props assigned via props.propName are my custom properties, and i can call them in the show method object where im calling the toast service, and then parse the custom assigned props which in this case is "toastType" in the props object in that place. 😘 simple and short
-    appToast: ({text1, text2, props}) => (
+    appToast: ({ text1, text2, props }) => (
       <AppToast title={text1} message={text2} type={props.toastType} />
     ),
   };
@@ -78,7 +80,7 @@ export default App = () => {
 
   return (
     <SafeAreaProvider>
-      <GestureHandlerRootView style={{flex: 1}}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <AppContext.Provider
           value={{
             seenUserUID,

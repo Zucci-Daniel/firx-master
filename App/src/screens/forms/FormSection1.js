@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import AppButton from './../../components/AppButton';
 import AppInputField from './../../components/form-components/AppInputField';
-import {useFormContext} from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
+import { colors } from '../../config/config';
 
-const FormSection1 = ({navigation}) => {
+const FormSection1 = ({ navigation }) => {
   const handleContinue = () => navigation.navigate('formSection2');
 
   const {
     control,
     getValues,
-    formState: {isValid},
+    formState: { isValid },
   } = useFormContext();
 
   const firstName = getValues('firstName');
@@ -22,7 +23,7 @@ const FormSection1 = ({navigation}) => {
         flex: 1,
         padding: 50,
         justifyContent: 'center',
-        backgroundColor: '#010101',
+        backgroundColor: colors.black,
       }}>
       <AppInputField
         control={control}
@@ -30,7 +31,7 @@ const FormSection1 = ({navigation}) => {
         label={'first name'}
         required={{
           required: 'hey...your first name?',
-          minLength: {value: 4, message: 'must be more than 4'},
+          minLength: { value: 4, message: 'must be more than 4' },
         }}
       />
 
@@ -40,7 +41,7 @@ const FormSection1 = ({navigation}) => {
         label={'last name'}
         required={{
           required: 'hey...your last name?',
-          minLength: {value: 4, message: 'must be more than 4'},
+          minLength: { value: 4, message: 'must be more than 4' },
         }}
       />
 

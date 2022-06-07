@@ -1,32 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import {colors, width, universalPadding} from '../../config/config';
+import { colors, width, universalPadding } from '../../config/config';
 import auth from '@react-native-firebase/auth';
 
-import {AppContext} from './../../appContext';
-import {useContext} from 'react';
-import {getIfDocExist} from '../../hooks/useOperation';
-import {storeLocally} from './../../hooks/useLocalStorageFunctions';
-import {SignUpInfoContext} from './../forms/signUpInfoContext';
-import {log} from './../../hooks/testLog';
+import { AppContext } from './../../appContext';
+import { useContext } from 'react';
+import { getIfDocExist } from '../../hooks/useOperation';
+import { storeLocally } from './../../hooks/useLocalStorageFunctions';
+import { SignUpInfoContext } from './../forms/signUpInfoContext';
+import { log } from './../../hooks/testLog';
 import AppInput from './../../components/AppInput';
 import InputsGroup from './../../components/InputsGroup';
 import AppButton from './../../components/AppButton';
 import FormTitle from './../../components/FormTitle';
 import Link from './../../components/Link';
 import Lock from './../../components/icons/Lock';
-import {commonFunctions} from '../../imports/all_files';
+import { commonFunctions } from '../../imports/all_files';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 const size = width / 8;
 
 //LATER: REFACTOR THIS CODE AND SEPARATE CONCERNS PLEASE!!...
-const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
-  const {setUserUID, setSeenUserUID} = useContext(AppContext); //incase there's no userUID in the local storage.
+const Confirmation = ({ navigation, route, choiceOfAlert = 'Phone Number' }) => {
+  const { setUserUID, setSeenUserUID } = useContext(AppContext); //incase there's no userUID in the local storage.
 
-  const {user: signedUp, setUser: setSignedUp} = useContext(SignUpInfoContext); //renamed this due to naming conflict in this file.
+  const { user: signedUp, setUser: setSignedUp } = useContext(SignUpInfoContext); //renamed this due to naming conflict in this file.
 
   // Set an initializing state while Firebase connects
   const [initializing, setInitializing] = useState(true);
@@ -46,7 +46,7 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
       storeLocally('userUID', id);
 
       return setSeenUserUID(true);
-    } else return navigation.reset({index: 0, routes: [{name: 'formStack'}]});
+    } else return navigation.reset({ index: 0, routes: [{ name: 'formStack' }] });
   };
 
   useEffect(() => {
@@ -63,9 +63,9 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
   }, [user, stopValidation]);
 
   useEffect(() => {
-    const {phoneNumber} = route.params;
+    const { phoneNumber } = route.params;
     setPhone(phoneNumber);
-    return () => {};
+    return () => { };
   }, []);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
     } else {
       console.log('waiting');
     }
-    return () => {};
+    return () => { };
   }, [phone]);
 
   useEffect(() => {
@@ -139,28 +139,18 @@ const Confirmation = ({navigation, route, choiceOfAlert = 'Phone Number'}) => {
 
   return (
     <View style={styles.container}>
-      <View id="test" style={styles.padLock}>
-        <Lock />
-      </View>
+
       <FormTitle
         color={colors.calmGreen}
         title={``}
         subheading={`Enter the code sent to your ${choiceOfAlert} : ${phone}`}
-        suhHeadingStyles={{color: colors.dimBlue, fontWeight: '600'}}
+        suhHeadingStyles={{ color: colors.dimBlue, fontWeight: '600' }}
       />
-      {/* <InputsGroup>
-        <AppInput
-          keyboardType="number-pad"
-          label="Enter Code"
-          onChangeText={text => {
-            setCode(text);
-          }}
-        />
-      </InputsGroup> */}
+
       <View style={styles.wrapper}>
         <OTPInputView
           secureTextEntry={false}
-          style={{width: '100%', height: size}}
+          style={{ width: '100%', height: size }}
           pinCount={6}
           codeInputFieldStyle={styles.pin}
           onCodeFilled={code => setCode(code)}

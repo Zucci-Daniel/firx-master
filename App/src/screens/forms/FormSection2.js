@@ -1,19 +1,19 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 import AppButton from './../../components/AppButton';
-import {useFormContext} from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Link from './../../components/Link';
 import AppRadioField from './../../components/form-components/AppRadioField';
 import AppRadioOption from '../../components/AppRadioOption';
 
 import AppFormDatePicker from './../../components/form-components/AppFormDatePicker';
 import AppImagePicker from './../../components/form-components/AppImagePicker';
-import {colors} from '../../config/config';
+import { colors } from '../../config/config';
 
-const FormSection2 = ({navigation}) => {
+const FormSection2 = ({ navigation }) => {
   const {
     control,
-    formState: {isValid},
+    formState: { isValid },
     getValues,
   } = useFormContext();
 
@@ -28,12 +28,12 @@ const FormSection2 = ({navigation}) => {
         justifyContent: 'space-evenly',
         alignItems: 'center',
         padding: 50,
-        backgroundColor: colors.dimBlue,
+        backgroundColor: colors.black,
       }}>
       <AppImagePicker name="profileImage" control={control} />
       <AppRadioField
         name={'gender'}
-        required={{required: true}}
+        required={{ required: true }}
         control={control}>
         <AppRadioOption value={'Male'} />
         <AppRadioOption value={'Female'} />

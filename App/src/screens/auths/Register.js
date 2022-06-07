@@ -1,12 +1,12 @@
-import React, {useState, useRef} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, StyleSheet } from 'react-native';
 import FormTitle from './../../components/FormTitle';
 import InputsGroup from './../../components/InputsGroup';
 import PhoneInput from 'react-native-phone-number-input';
 import AppButton from './../../components/AppButton';
-import {colors, universalPadding, width} from '../../config/config';
+import { colors, universalPadding, width } from '../../config/config';
 
-const Register = ({navigation}) => {
+const Register = ({ navigation }) => {
   const [value, setValue] = useState('');
   const [formattedValue, setFormattedValue] = useState('');
   const [valid, setValid] = useState(false);
@@ -14,7 +14,7 @@ const Register = ({navigation}) => {
   const phoneInput = useRef(null);
 
   const handleSubmit = () =>
-    navigation.navigate('confirmation', {phoneNumber: formattedValue});
+    navigation.navigate('confirmation', { phoneNumber: formattedValue });
 
   return (
     <View style={styles.container}>
@@ -32,7 +32,7 @@ const Register = ({navigation}) => {
             setFormattedValue(text);
           }}
           withDarkTheme
-          withShadow
+          withShadow={false}
           autoFocus
         />
       </InputsGroup>
