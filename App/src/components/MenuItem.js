@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {List, MaterialIcons} from '../imports/all_packages';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { List, MaterialIcons } from '../imports/all_packages';
 import {
   colors,
   universalPadding,
@@ -17,25 +17,27 @@ export default function MenuItem({
   optionColor,
   iconColor,
   optionPadding,
+  disabled = false
 }) {
   return (
     <TouchableOpacity
+      activeOpacity={disabled ? 1 : .7}
       onPress={onPress}
-      style={[styles.container, {paddingVertical: optionPadding}]}>
+      style={[styles.container, { paddingVertical: optionPadding, }]}>
       <List.Item
-        titleStyle={[styles.Option, {color: optionColor}]}
+        titleStyle={[styles.Option, { color: disabled ? 'gray' : optionColor }]}
         title={title}
         left={props => (
           <List.Icon
             {...props}
-            icon={({color}) =>
+            icon={({ color }) =>
               icon ? (
                 icon
               ) : (
                 <MaterialIcons
                   name={iconName}
                   size={menuIconSize}
-                  color={iconColor ? iconColor : colors.calmBlue}
+                  color={(iconColor && !disabled) ? iconColor : disabled ? 'gray' : colors.calmBlue}
                 />
               )
             }

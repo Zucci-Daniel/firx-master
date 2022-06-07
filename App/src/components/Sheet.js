@@ -1,7 +1,7 @@
-import React, {useRef} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {Modalize} from 'react-native-modalize';
-import {Portal} from 'react-native-portalize';
+import React, { useRef } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
 
 export default Sheet = ({
   children,

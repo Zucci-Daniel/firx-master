@@ -1,25 +1,26 @@
-import {React} from '../../imports/all_RnComponents';
+import { React } from '../../imports/all_RnComponents';
 
-import {Stack} from '../../navigation/create/CreateNavigation';
+import { Stack } from '../../navigation/create/CreateNavigation';
 import EditProfile from './menu/profile/EditProfile';
-import {HomeContextProvider} from './home/homeContext';
+import { HomeContextProvider } from './home/homeContext';
 import EditPersonality from './menu/profile/EditPersonality';
 import Camera from './home/Camera';
 import AccommodationSection from './menu/Accommodation/AccommodationSection';
-import {View} from 'react-native';
-import {colors} from '../../config/config';
+import { View } from 'react-native';
+import { colors } from '../../config/config';
 import MainNavigation from './MainNavigation';
-import {FeedContextProvider} from '../../store/feedStore/feedContext';
+import { FeedContextProvider } from '../../store/feedStore/feedContext';
 import AppHeader from './../../components/AppHeader';
+import Security from './home/Security';
 
-const MainApp = ({navigation, route}) => {
+const MainApp = ({ navigation, route }) => {
   return (
-    <View style={{flex: 1, backgroundColor: colors.neonBg}}>
+    <View style={{ flex: 1, backgroundColor: colors.neonBg }}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
-          headerStyle: {backgroundColor: colors.neonBg},
+          headerStyle: { backgroundColor: colors.neonBg },
           headerTintColor: colors.calmBlue,
         }}>
         <Stack.Screen name="mainNavigation" component={MainNavigation} />
@@ -39,6 +40,15 @@ const MainApp = ({navigation, route}) => {
           options={{
             headerShown: true,
             title: 'Edit your profile',
+          }}
+        />
+        <Stack.Screen
+          name="security"
+          component={Security}
+          options={{
+            animation: 'slide_from_right',
+            headerShown: true,
+            title: 'Add Security',
           }}
         />
         <Stack.Screen

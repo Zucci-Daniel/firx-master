@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Stack } from '../../../navigation/create/CreateNavigation';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import ViewPost from './userProfile/ViewPost';
@@ -13,13 +13,38 @@ import Sheet from '../../../components/Sheet';
 import MenuItem from '../../../components/MenuItem';
 import { SignUpInfoContext } from './../../forms/signUpInfoContext';
 import { extractFirstTwoLetterOfWordToUpperCase } from '../../../hooks/justHooks';
+import Security from './Security';
+import { detectBiometrics } from '../../../hooks/operations';
 
 const HomeStack = ({ navigation }) => {
+
   const bottomSheetRef = useRef(null);
   const openSheet = () => bottomSheetRef.current.open();
   const closeSheet = () => bottomSheetRef.current.close();
 
   const { user, setUser } = useContext(SignUpInfoContext);
+  const [isBiometricSupported, setIsBiometricSupported] = useState(null)
+
+
+  const _handleBiometrics = async () => {
+    const response = await detectBiometrics()
+    console.log(response, 'resposne');
+    if (response === '' || response === 'error' || response === undefined) {
+      setIsBiometricSupported(false)
+    } else {
+      setIsBiometricSupported(true)
+    }
+  }
+
+  console.log(isBiometricSupported)
+
+  useEffect(() => {
+    //check if biometric is supported
+    _handleBiometrics()
+    //update the state
+
+  }, [])
+
 
   const actions = [
     {
@@ -45,8 +70,9 @@ const HomeStack = ({ navigation }) => {
     },
     {
       title: 'add security',
-      onPress: () => null,
+      onPress: () => isBiometricSupported ? navigation.navigate('security') : null,
       iconName: 'security',
+      disabled: !isBiometricSupported//tricky, calm down and read the code again.
     },
   ];
 
@@ -104,6 +130,7 @@ const HomeStack = ({ navigation }) => {
             title: 'Post Details',
           }}
         />
+
         <Stack.Screen
           name="userProfileStack"
           component={SelectedUserStack}
@@ -136,6 +163,7 @@ const HomeStack = ({ navigation }) => {
                   closeSheet();
                 }}
                 iconName={action.iconName}
+                disabled={action?.disabled}
               />
             ))}
           </View>
