@@ -1,17 +1,18 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {colors, universalPadding, height} from '../../../config/config';
-import {useContext} from 'react';
-import {SignUpInfoContext} from './../../forms/signUpInfoContext';
-import {logOut} from './../../../hooks/useUserAuthFunctions';
-import {AppContext} from './../../../appContext';
-import {FlatList} from 'react-native';
-import {confirmAction} from './../../../hooks/postOperations';
+import { StyleSheet, View } from 'react-native';
+import { colors, universalPadding, height } from '../../../config/config';
+import { useContext } from 'react';
+import { SignUpInfoContext } from './../../forms/signUpInfoContext';
+import { logOut } from './../../../hooks/useUserAuthFunctions';
+import { AppContext } from './../../../appContext';
+import { FlatList } from 'react-native';
+import { confirmAction } from './../../../hooks/postOperations';
 import ProfilePane from './../../../components/ProfilePane';
 import MenuItem from './../../../components/MenuItem';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const MenuList = ({navigation}) => {
+const MenuList = ({ navigation }) => {
+
   const menu = [
     {
       id: 11,
@@ -62,12 +63,12 @@ const MenuList = ({navigation}) => {
     },
   ];
 
-  const {setSeenUserUID} = useContext(AppContext);
-  const {user} = useContext(SignUpInfoContext);
+  const { setSeenUserUID } = useContext(AppContext);
+  const { user } = useContext(SignUpInfoContext);
 
   const handleLogout = () => {
-    setSeenUserUID(null);
     logOut();
+    setSeenUserUID(null);
   };
 
   return (
@@ -77,13 +78,13 @@ const MenuList = ({navigation}) => {
           name="app-store"
           size={50}
           color={colors.calmBlue}
-          style={{alignSelf: 'center'}}
+          style={{ alignSelf: 'center' }}
         />
         <FlatList
           data={menu}
           keyExtractor={item => item.title + item.id}
           renderItem={(
-            {item: {optionColor, title, iconName, onPress, iconColor}},
+            { item: { optionColor, title, iconName, onPress, iconColor } },
             index,
           ) => (
             <MenuItem

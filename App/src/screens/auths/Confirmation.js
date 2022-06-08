@@ -19,6 +19,7 @@ import Link from './../../components/Link';
 import Lock from './../../components/icons/Lock';
 import { commonFunctions } from '../../imports/all_files';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import * as Keychain from 'react-native-keychain';
 
 const size = width / 8;
 
@@ -95,6 +96,7 @@ const Confirmation = ({ navigation, route, choiceOfAlert = 'Phone Number' }) => 
     if (user !== null) {
       //1) get the user obj and store it in context, incase they exit the app during the registration, then they'll start from begining.
       setUserUID(user['uid']);
+      storeCredentials(JSON.stringify(user))
       setSignedUp({
         ...signedUp,
         phoneNumber: user['phoneNumber'],
@@ -113,6 +115,17 @@ const Confirmation = ({ navigation, route, choiceOfAlert = 'Phone Number' }) => 
       commonFunctions.showToast("CAN'T RECIEVE TOKEN,", error.message, 'error');
     }
   };
+
+
+  const storeCredentials = async (id) => {
+    try {
+      await Keychain.setGenericPassword(id, id);
+    } catch (error) {
+      console.log('failed to store credentials ', error)
+    } finally {
+      return true
+    }
+  }
 
   const confirmCode = async () => {
     try {
@@ -154,7 +167,7 @@ const Confirmation = ({ navigation, route, choiceOfAlert = 'Phone Number' }) => 
           pinCount={6}
           codeInputFieldStyle={styles.pin}
           onCodeFilled={code => setCode(code)}
-          autoFocusOnLoad
+          autoFocusOnLoad={true}
           keyboardType="number-pad"
         />
       </View>

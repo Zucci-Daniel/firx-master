@@ -23,7 +23,6 @@ const Security = ({ navigation }) => {
 
 
     useEffect(() => {
-        console.log('running..>')
         confirmIfUserEnabledBiometric()
         checkIfCredentialsWasSaved()
     }, [])
@@ -53,7 +52,8 @@ const Security = ({ navigation }) => {
     const checkIfCredentialsWasSaved = async () => {
         const credentials = await Keychain.getGenericPassword();
         if (credentials) {
-            setUserCredentials({ ...userCredentials, userId: credentials.username })
+            var userCred = JSON.parse(credentials.password)
+            setUserCredentials({ ...userCred })
             setCredentialsSavedBefore(true)
         } else {
             console.log('No credentials stored');
@@ -81,7 +81,7 @@ const Security = ({ navigation }) => {
     const disableFingerPrint = async () => {
         await AsyncStorage.setItem('userHasEnabledBiometric', 'false');
         setBiometricEnabled(false)
-        setMessage({ ...message, title: 'Disabled fingerprint', desc: `tap the icon to enable fingerprint.`, titleColor: colors.pureWhite, descColor: colors.fadeWhite })
+        setMessage({ ...message, title: 'Disabled fingerprint', desc: `tap the icon to enable fingerprint.`, titleColor: colors.chip, descColor: colors.fadeWhite })
     }
 
     const storeCredentials = async (email) => {
@@ -99,9 +99,9 @@ const Security = ({ navigation }) => {
         setMessage({
             ...message, title: 'Congratulations!!', desc: `${user?.firstName}! you can log in with your fingerprint now!`, titleColor: colors.calmGreen, descColor: colors.fadeWhite
         })
-        // setTimeout(() => {
-        //     navigation.goBack()
-        // }, 2000);
+        setTimeout(() => {
+            navigation.goBack()
+        }, 2000);
     }
     const errorFeedback = () => {
         if (biometricEnabled) {

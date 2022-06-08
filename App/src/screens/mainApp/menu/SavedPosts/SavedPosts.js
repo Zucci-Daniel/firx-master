@@ -1,12 +1,12 @@
-import React, {useEffect, useState, useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {colors, width} from '../../../../config/config';
+import React, { useEffect, useState, useContext } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { colors, width } from '../../../../config/config';
 import firestore from '@react-native-firebase/firestore';
-import {AppContext} from './../../../../appContext';
+import { AppContext } from './../../../../appContext';
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-import {confirmAction} from './../../../../hooks/postOperations';
+import { confirmAction } from './../../../../hooks/postOperations';
 
 import Feed from './../../../../components/Feed';
 
@@ -20,7 +20,7 @@ const SavedPosts = () => {
   const [mySavedPostsIDs, setMySavedPostsIDs] = useState(null);
   const [isFetchingData, setIsFetchingData] = useState(true); //use this state to show a loading animation.
 
-  const {userUID} = useContext(AppContext);
+  const { userUID } = useContext(AppContext);
 
   //try refactoring this.
   useEffect(() => {
@@ -43,10 +43,10 @@ const SavedPosts = () => {
           .where('postID', 'in', mySavedPostsIDs)
           .onSnapshot(querySnapshot => {
             let posts = [];
-            querySnapshot.forEach(postSnapShot => {
+            querySnapshot?.forEach(postSnapShot => {
               posts.push({
                 item: {
-                  ...postSnapShot.data(),
+                  ...postSnapShot?.data(),
                 },
                 type: 'normal',
               });
@@ -59,7 +59,7 @@ const SavedPosts = () => {
       setIsFetchingData(false);
     }
 
-    return () => {};
+    return () => { };
   }, [mySavedPostsIDs]);
 
   const _deletePost = (postID, deleteAction) => {
