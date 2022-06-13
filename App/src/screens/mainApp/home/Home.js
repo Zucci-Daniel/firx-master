@@ -1,24 +1,27 @@
-import React, {useEffect, useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {universalPadding, colors, width, height} from '../../../config/config';
-import {AppContext} from './../../../appContext';
+import React, { useEffect, useContext } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { universalPadding, colors, width, height } from '../../../config/config';
+import { AppContext } from './../../../appContext';
 import Feed from './../../../components/Feed';
-import {useCheckNetworkStatus} from './../../../hooks/justHooks';
+import { useCheckNetworkStatus } from './../../../hooks/justHooks';
 
 import Finished from '../../../components/Finished';
 import MiniLoading from '../../../components/MiniLoading';
 import Retry from './../../../components/Retry';
 import MediaSkeleton from './../../../components/MediaSkeleton';
-import {useFeedContext} from '../../../store/feedStore/feedContext';
+import { useFeedContext } from '../../../store/feedStore/feedContext';
 import AppIndicator from '../../../components/AppIndicator';
+import { HomeContext } from './homeContext';
 
 const Home = () => {
-  const {subscribeToNetworkStatus} = useCheckNetworkStatus();
+  const { posted, setPosted } = useContext(HomeContext);
+
+  const { subscribeToNetworkStatus } = useCheckNetworkStatus();
   const online = subscribeToNetworkStatus();
-  const {userUID} = useContext(AppContext);
+  const { userUID } = useContext(AppContext);
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const {state, getInformation, handleLoadMoreFeed, confirmBeforeGettingPosts} =
+  const { state, getInformation, handleLoadMoreFeed, confirmBeforeGettingPosts } =
     useFeedContext();
 
   const {
@@ -36,8 +39,9 @@ const Home = () => {
   }, [online]);
 
   useEffect(() => {
+    console.log('MADE AN UPDATE.')
     confirmBeforeGettingPosts();
-  }, []);
+  }, [posted]);
 
   const handleRefresh = async () => {
     setRefreshing(true);

@@ -15,9 +15,7 @@ import auth from '@react-native-firebase/auth';
 
 const Register = ({ navigation }) => {
 
-
   const { setUserUID, setSeenUserUID } = useContext(AppContext); //incase there's no userUID in the local storage.
-
 
   const [value, setValue] = useState('');
   const [formattedValue, setFormattedValue] = useState('');
@@ -91,7 +89,11 @@ const Register = ({ navigation }) => {
   const login = async () => {
     try {
       console.log(userCredentials, ' before')
+
+      const testCred = auth.PhoneAuthProvider.credential();
+      console.log(testCred, 'test')
       await auth().signInWithCredential(userCredentials)
+
       console.log(userCredentials, ' bllaa')
       setUserUID(userCredentials);
       setSeenUserUID(true)

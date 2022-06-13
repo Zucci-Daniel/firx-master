@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
-import {commonFunctions} from '../imports/all_files';
-import {log} from './testLog';
+import { commonFunctions } from '../imports/all_files';
+import { log } from './testLog';
 import {
   getObjectFromLocalStorage,
   storeLocally,
@@ -8,7 +8,7 @@ import {
 
 export const turnOfLocalPersistence = async () => {
   try {
-    await firestore().settings({persistence: false});
+    await firestore().settings({ persistence: false });
   } catch (error) {
     console.warn('failed to clear persistence ', error.message);
   }
@@ -46,7 +46,7 @@ export const getAllPost = async colRef => {
     const response = await firestore().collection(colRef).get();
 
     if (response) {
-      response.forEach(post => allPosts.push({...post.data()}));
+      response.forEach(post => allPosts.push({ ...post.data() }));
     }
 
     return allPosts;
@@ -158,11 +158,11 @@ export const addToArray = async (
       .update(
         Array.isArray(value)
           ? {
-              [fieldName]: firestore.FieldValue.arrayUnion(...value),
-            }
+            [fieldName]: firestore.FieldValue.arrayUnion(...value),
+          }
           : {
-              [fieldName]: firestore.FieldValue.arrayUnion(value),
-            },
+            [fieldName]: firestore.FieldValue.arrayUnion(value),
+          },
       );
     console.log(fieldName, ' updated');
     return true;
@@ -188,7 +188,7 @@ export const useGetUserInformationFromFirestore = async id => {
     const response = await useGetNewUser('STUDENTS', id);
 
     if (response) {
-      const responseObj = {...response.data()};
+      const responseObj = { ...response.data() };
 
       const userBasicInfo = {
         birthdate: responseObj.birthdate,
@@ -297,7 +297,7 @@ export const getFilteredPosts = async (
           ...result.data(),
         }));
 
-        return {postsArray: results, lastVisibleItem: lastVisibleItem};
+        return { postsArray: results, lastVisibleItem: lastVisibleItem };
       } else {
         console.log('check ur filterOutBlackList method');
       }
@@ -416,7 +416,7 @@ export const fetchPostsFromServer = async (
     );
     // console.log(querySnapshot, ' snappy');
     if (querySnapshot) {
-      const {lastVisibleItem, postsArray} = querySnapshot;
+      const { lastVisibleItem, postsArray } = querySnapshot;
 
       //get last post
 
@@ -427,7 +427,7 @@ export const fetchPostsFromServer = async (
           if (
             blackListedProfiles
               ? blackListedProfiles.includes(documentSnapshot.posterUserUID) ==
-                false
+              false
               : true
           ) {
             posts.push({

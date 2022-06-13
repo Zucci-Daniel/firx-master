@@ -1,23 +1,23 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 
-import {SignUpInfoContext} from '../../../forms/signUpInfoContext';
-import {useContext, useState, useEffect} from 'react';
+import { SignUpInfoContext } from '../../../forms/signUpInfoContext';
+import { useContext, useState, useEffect } from 'react';
 import Link from './../../../../components/Link';
 import {
   updateAllPostsFields,
   updateDocument,
 } from '../../../../hooks/useOperation';
-import {uploadAFile} from './../../../../hooks/uploadAfile';
-import {AppContext} from './../../../../appContext';
+import { uploadAFile } from './../../../../hooks/uploadAfile';
+import { AppContext } from './../../../../appContext';
 import AppInputField from '../../../../components/form-components/AppInputField';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import AppSelectField from '../../../../components/form-components/AppSelectField';
-import {departments, levels, schools} from '../../../../hooks/utils';
+import { departments, levels, schools } from '../../../../hooks/utils';
 import AppRadioField from '../../../../components/form-components/AppRadioField';
 import AppRadioOption from '../../../../components/AppRadioOption';
 import AppImage from './../../../../components/AppImage';
-import {HomeContext} from '../../home/homeContext';
+import { HomeContext } from '../../home/homeContext';
 import SMHandle from './../../../../components/SMHandle';
 import WhatsApp from '../../../../components/icons/WhatsApp';
 import Fb from './../../../../components/icons/Fb';
@@ -33,12 +33,12 @@ import {
 import AppIndicator from './../../../../components/AppIndicator';
 import Ig from './../../../../components/icons/Ig';
 
-const EditProfile = ({navigation}) => {
-  // const {posted, setPosted} = useContext(HomeContext);
+const EditProfile = ({ navigation }) => {
+  const { posted, setPosted } = useContext(HomeContext);
 
-  const {userUID} = useContext(AppContext);
+  const { userUID } = useContext(AppContext);
 
-  const {user, setUser} = useContext(SignUpInfoContext);
+  const { user, setUser } = useContext(SignUpInfoContext);
 
   const {
     department,
@@ -64,7 +64,7 @@ const EditProfile = ({navigation}) => {
     control,
     handleSubmit,
     watch,
-    formState: {isValid},
+    formState: { isValid },
   } = useForm({
     defaultValues: {
       gender,
@@ -86,8 +86,8 @@ const EditProfile = ({navigation}) => {
 
   const updateLocalState = validData => {
     setImageChanged(false);
-    // setPosted(posted + 1);
-    setUser({...user, ...validData});
+    setPosted(posted + 1);
+    setUser({ ...user, ...validData });
 
     setIsUpdating(false);
   };
@@ -205,7 +205,7 @@ const EditProfile = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={{height: undefined, width: '100%'}}>
+      <View style={{ height: undefined, width: '100%' }}>
         {!everthingIsTheSame && isValid && !isUpdating ? (
           <Link
             text="update"
@@ -237,7 +237,7 @@ const EditProfile = ({navigation}) => {
             label={'first name'}
             required={{
               required: 'hey...your first name?',
-              minLength: {value: 4, message: 'must be more than 4'},
+              minLength: { value: 4, message: 'must be more than 4' },
             }}
           />
           <AppInputField
@@ -248,7 +248,7 @@ const EditProfile = ({navigation}) => {
             label={'last name'}
             required={{
               required: 'hey...your last name?',
-              minLength: {value: 4, message: 'must be more than 4'},
+              minLength: { value: 4, message: 'must be more than 4' },
             }}
           />
           <AppInputField
@@ -265,14 +265,14 @@ const EditProfile = ({navigation}) => {
             placeholder="select your school"
             name="school"
             control={control}
-            required={{required: 'your school'}}
+            required={{ required: 'your school' }}
             data={schools}
           />
           <AppSelectField
             placeholder="select your department"
             name="department"
             control={control}
-            required={{required: 'your department'}}
+            required={{ required: 'your department' }}
             data={departments}
           />
 
@@ -280,19 +280,19 @@ const EditProfile = ({navigation}) => {
             placeholder="select your level"
             name="level"
             control={control}
-            required={{required: 'your levels'}}
+            required={{ required: 'your levels' }}
             data={levels}
           />
           <AppRadioField
             name={'typeOfStudent'}
-            required={{required: true}}
+            required={{ required: true }}
             control={control}>
             <AppRadioOption value={'Aspirant'} />
             <AppRadioOption value={'Admitted'} />
           </AppRadioField>
 
           <Link
-            text={ showSocialMedia ? ' hide social media handles': 'show social media handles'}
+            text={showSocialMedia ? ' hide social media handles' : 'show social media handles'}
             onPress={() => setShowSocialMedia(!showSocialMedia)}
           />
 

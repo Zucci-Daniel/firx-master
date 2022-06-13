@@ -15,61 +15,63 @@ import Security from './home/Security';
 
 const MainApp = ({ navigation, route }) => {
   return (
-    <View style={{ flex: 1, backgroundColor: colors.neonBg }}>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          animation: 'slide_from_right',
-          headerStyle: { backgroundColor: colors.neonBg },
-          headerTintColor: colors.calmBlue,
-        }}>
-        <Stack.Screen name="mainNavigation" component={MainNavigation} />
-        {/* //idealy, this shouldnt be here, i did this beecause i dont want to show the tab bar */}
-        <Stack.Screen
-          name="camera"
-          component={Camera}
-          options={{
+    <HomeContextProvider>
+      <View style={{ flex: 1, backgroundColor: colors.neonBg }}>
+        <Stack.Navigator
+          screenOptions={{
             headerShown: false,
-            title: '',
-            animation: 'slide_from_left',
-          }}
-        />
-        <Stack.Screen
-          name="editProfile"
-          component={EditProfile}
-          options={{
-            headerShown: true,
-            title: 'Edit your profile',
-          }}
-        />
-        <Stack.Screen
-          name="security"
-          component={Security}
-          options={{
             animation: 'slide_from_right',
-            headerShown: true,
-            title: 'Add Security',
-          }}
-        />
-        <Stack.Screen
-          name="editPersonalities"
-          component={EditPersonality}
-          options={{
-            headerShown: true,
-            title: 'Edit your personalities',
-          }}
-        />
-        <Stack.Screen
-          name="AccommodationTab"
-          component={AccommodationSection}
-          options={{
-            headerShown: true,
-            headerLeft: () => <AppHeader title={`Edit your accommodation`} />,
-            title: '',
-          }}
-        />
-      </Stack.Navigator>
-    </View>
+            headerStyle: { backgroundColor: colors.neonBg },
+            headerTintColor: colors.calmBlue,
+          }}>
+          <Stack.Screen name="mainNavigation" component={MainNavigation} />
+          {/* //idealy, this shouldnt be here, i did this beecause i dont want to show the tab bar */}
+          <Stack.Screen
+            name="camera"
+            component={Camera}
+            options={{
+              headerShown: false,
+              title: '',
+              animation: 'slide_from_left',
+            }}
+          />
+          <Stack.Screen
+            name="editProfile"
+            component={EditProfile}
+            options={{
+              headerShown: true,
+              title: 'Edit your profile',
+            }}
+          />
+          <Stack.Screen
+            name="security"
+            component={Security}
+            options={{
+              animation: 'slide_from_right',
+              headerShown: true,
+              title: 'Add Security',
+            }}
+          />
+          <Stack.Screen
+            name="editPersonalities"
+            component={EditPersonality}
+            options={{
+              headerShown: true,
+              title: 'Edit your personalities',
+            }}
+          />
+          <Stack.Screen
+            name="AccommodationTab"
+            component={AccommodationSection}
+            options={{
+              headerShown: true,
+              headerLeft: () => <AppHeader title={`Edit your accommodation`} />,
+              title: '',
+            }}
+          />
+        </Stack.Navigator>
+      </View>
+    </HomeContextProvider>
   );
 };
 

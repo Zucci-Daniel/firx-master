@@ -96,6 +96,8 @@ const Confirmation = ({ navigation, route, choiceOfAlert = 'Phone Number' }) => 
     if (user !== null) {
       //1) get the user obj and store it in context, incase they exit the app during the registration, then they'll start from begining.
       setUserUID(user['uid']);
+      const testCred = auth.PhoneAuthProvider.credential();
+      console.log(testCred, ' llllll')
       storeCredentials(JSON.stringify(user))
       setSignedUp({
         ...signedUp,
