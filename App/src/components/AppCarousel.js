@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {StyleSheet, View, Text} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
-import {width, colors, postHeight} from '../config/config';
+import { width, colors, postHeight } from '../config/config';
 
-import {FlatList, Image} from 'react-native';
+import { FlatList, Image } from 'react-native';
 import AppPostImage from './AppPostImage';
 import AppPostVideo from './AppPostVideo';
 
 const AppCarousel = ({
   useData = [],
-  shouldPlaySecondCondition = index => {},
+  shouldPlaySecondCondition = index => { },
   children,
   horizontal = true,
 }) => {
@@ -19,7 +19,7 @@ const AppCarousel = ({
   const getCurrentIndex = event => {
     const index = Math.floor(
       event.nativeEvent.contentOffset.x /
-        event.nativeEvent.layoutMeasurement.width,
+      event.nativeEvent.layoutMeasurement.width,
     );
     setCurrentMedia(index + 1);
   };
@@ -60,7 +60,7 @@ const AppCarousel = ({
         initialNumToRender={3}
         horizontal={horizontal}
         keyExtractor={item => item.id}
-        renderItem={({item, index}) => renderItem(item, index)}
+        renderItem={({ item, index }) => renderItem(item, index)}
         snapToAlignment="start"
         decelerationRate={0.8}
         snapToInterval={width}

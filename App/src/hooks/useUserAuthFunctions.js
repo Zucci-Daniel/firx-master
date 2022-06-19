@@ -6,6 +6,6 @@ import { AppContext } from '../appContext';
 export const logOut = () => {
   removeFromLocalStorage('userUID');
   removeFromLocalStorage('currentUserBasicInfo');
-  return auth().signOut();
+  // return auth().signOut();
 
 };

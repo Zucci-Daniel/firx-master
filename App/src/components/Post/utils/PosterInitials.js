@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import {
   avatarWidth,
   brandFont,
@@ -14,13 +14,12 @@ const PosterInitials = ({
   date = '22/3/100',
   showName = true,
   showDateAndLocation = true,
-  extraInitialsStyles,
+  extraInitialsStyles, nameColor
 }) => {
   return (
     <TouchableOpacity activeOpacity={0.4} onPress={onTapInitials}>
       <View style={styles.initials}>
-        <Text style={[styles.name, extraInitialsStyles]}>{name}</Text>
-
+        <Text style={[styles.name, nameColor && { color: nameColor }, extraInitialsStyles]}>{name}</Text>
         {showDateAndLocation && (
           <Text style={styles.date}>
             {date} {date && location && <Text>|</Text>}

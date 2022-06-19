@@ -56,6 +56,7 @@ const Confirmation = ({ navigation, route, choiceOfAlert = 'Phone Number' }) => 
     //gonna run if real message was sent to that device
     if (user && stopValidation == false) {
       console.log(' the current user ,', user);
+      ///// u stoped here while figuring biometric out.
 
       checkIfUserHasCompletedSignUp(user['uid']);
     } else {
@@ -96,7 +97,7 @@ const Confirmation = ({ navigation, route, choiceOfAlert = 'Phone Number' }) => 
     if (user !== null) {
       //1) get the user obj and store it in context, incase they exit the app during the registration, then they'll start from begining.
       setUserUID(user['uid']);
-      storeCredentials(JSON.stringify(user))
+      storeCredentials(user['uid'])
       setSignedUp({
         ...signedUp,
         phoneNumber: user['phoneNumber'],
