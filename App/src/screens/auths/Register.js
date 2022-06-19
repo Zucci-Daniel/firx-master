@@ -26,7 +26,7 @@ const Register = ({ navigation }) => {
 
 
   const [biometricEnabled, setBiometricEnabled] = useState(null)
-  const [userCredentials, setUserCredentials] = useState({})
+  const [userCredentials, setUserCredentials] = useState(null)
   const [credentialsSavedBefore, setCredentialsSavedBefore] = useState(null)
 
   const phoneInput = useRef(null);
@@ -58,9 +58,9 @@ const Register = ({ navigation }) => {
   const checkIfCredentialsWasSaved = async () => {
     const credentials = await Keychain.getGenericPassword();
     if (credentials) {
-      var userCred = JSON.parse(credentials.password)
+      var userCred = credentials.password
 
-      setUserCredentials({ ...userCred })
+      setUserCredentials(userCred)
 
       setCredentialsSavedBefore(true)
     } else {
@@ -90,9 +90,9 @@ const Register = ({ navigation }) => {
 
   const login = async () => {
     try {
-      console.log(userCredentials, ' before')
-      await auth().signInWithCredential(userCredentials)
-      console.log(userCredentials, ' bllaa')
+      // console.log(userCredentials, ' before')
+      // await auth().signInWithCredential(userCredentials)
+      // console.log(userCredentials, ' bllaa')
       setUserUID(userCredentials);
       setSeenUserUID(true)
 
@@ -103,8 +103,9 @@ const Register = ({ navigation }) => {
   const errorFeedback = () => console.log('failed to log in')
 
 
-  const handleSubmit = () =>
+  const handleSubmit = () => {
     navigation.navigate('confirmation', { phoneNumber: formattedValue });
+  }
 
   return (
     <View style={styles.container}>

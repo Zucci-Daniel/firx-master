@@ -1,11 +1,11 @@
-import React, {useState, useRef, useEffect, useCallback} from 'react';
-import {View, StyleSheet, Alert, RefreshControl} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {colors, width} from '../config/config';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { View, StyleSheet, Alert, RefreshControl } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { colors, width } from '../config/config';
 import Post from './Post/Post';
 import AppCarousel from './AppCarousel';
 import PostActions from './PostActions';
-import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
+import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview';
 import {
   handleDeletePost,
   handleSavePost,
@@ -13,13 +13,13 @@ import {
   handleUnfollowAuthor,
 } from '../hooks/postOperations';
 import PosterInitials from './Post/utils/PosterInitials';
-import {convertToReadableDate} from './../functions/commonFunctions';
+import { convertToReadableDate } from './../functions/commonFunctions';
 
 const Feed = ({
   useData = [],
   userUID,
   loading,
-  loadMoreData = () => {},
+  loadMoreData = () => { },
   refreshing,
   onRefresh = () => {
     console.log('refreshing..');
@@ -91,12 +91,18 @@ const Feed = ({
     });
   }, [useData]);
 
-  const toggleSheet = (posterID, userUID, {posterName, postID}) => {
-    sheetRef.current.open();
-    // console.log(item.postID);
-    setSelectedMyPost(posterID == userUID ? true : false);
+  // const toggleSheet = (posterID, userUID, {posterName, postID}) => {
+  //   sheetRef.current.open();
+  //   // console.log(item.postID);
+  //   setSelectedMyPost(posterID == userUID ? true : false);
 
-    setSelectedPost({posterName, postID});
+  //   setSelectedPost({posterName, postID});
+  // };
+  const toggleSheet = (posterID, userUID, item) => {
+    sheetRef.current.open();
+    console.log(item.postID);
+    setSelectedPost({ ...item });
+    setSelectedMyPost(posterID == userUID ? true : false);
   };
 
   const _deletePost = postID => {
@@ -141,16 +147,16 @@ const Feed = ({
 
   const handleProfileSelection = (posterUID, userUID) => {
     if (posterUID == userUID)
-      return globalNavigation.navigate('menu', {screen: 'profile'});
+      return globalNavigation.navigate('menu', { screen: 'profile' });
     else
       globalNavigation.navigate('userProfileStack', {
         screen: 'userProfile',
-        params: {posterUserUID: posterUID},
+        params: { posterUserUID: posterUID },
       });
   };
 
   const handleRowRender = (type, data, index, extendedState) => {
-    const {item, type: innerType} = data;
+    const { item, type: innerType } = data;
 
     return (
       <>
@@ -158,12 +164,13 @@ const Feed = ({
           onTapInitials={() =>
             handleProfileSelection(item.posterUserUID, userUID)
           }
-          onPressPostMenu={() =>
-            toggleSheet(item.posterUserUID, userUID, {
-              postID: item.postID,
-              posterName: item.posterName,
-            })
-          }
+          // onPressPostMenu={() =>
+          //   toggleSheet(item.posterUserUID, userUID, {
+          //     postID: item.postID,
+          //     posterName: item.posterName,
+          //   })
+          // }
+          onPressPostMenu={() => toggleSheet(item.posterUserUID, userUID, item)}
           onTapPost={() =>
             globalNavigation.navigate('viewPost', {
               postId: item.postID,
@@ -194,11 +201,11 @@ const Feed = ({
           }
           onStopSeeingThis={() => _stopSeeingThis(selectedPost.postID, userUID)}
           onPostInfo={() => console.log('info ready')}>
-          {/* <PosterInitials
+          <PosterInitials
             extraInitialsStyles={styles.extraInitialsStyles}
             name={`perform actions for ${selectedPost?.posterName}'s post`}
             showDateAndLocation={false}
-          /> */}
+          />
         </PostActions>
       </>
     );
@@ -207,7 +214,7 @@ const Feed = ({
   const getCurrentIndex = event => {
     const index = Math.floor(
       event.nativeEvent.contentOffset.y /
-        event.nativeEvent.layoutMeasurement.height,
+      event.nativeEvent.layoutMeasurement.height,
     );
     // setCurrentMedia(index + 1);
   };
