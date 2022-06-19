@@ -14,7 +14,7 @@ const Security = ({ navigation }) => {
     const { user } = useContext(SignUpInfoContext);
     const { userUID } = useContext(AppContext);
     const [credentialsSavedBefore, setCredentialsSavedBefore] = useState(null)
-    const [userCredentials, setUserCredentials] = useState({})
+    const [userCredentials, setUserCredentials] = useState()
 
 
     const [biometricEnabled, setBiometricEnabled] = useState(null)
@@ -52,8 +52,8 @@ const Security = ({ navigation }) => {
     const checkIfCredentialsWasSaved = async () => {
         const credentials = await Keychain.getGenericPassword();
         if (credentials) {
-            var userCred = JSON.parse(credentials.password)
-            setUserCredentials({ ...userCred })
+            var userCred = credentials.password;
+            setUserCredentials(userCred)
             setCredentialsSavedBefore(true)
         } else {
             console.log('No credentials stored');

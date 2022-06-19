@@ -1,7 +1,7 @@
 import Toast from 'react-native-toast-message';
 import dayjs from 'dayjs';
 import RNLocation from 'react-native-location';
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 
 //this function basically calls a reuseable toast method.
 export const showToast = (
@@ -13,7 +13,7 @@ export const showToast = (
     type: 'appToast',
     text1: title,
     text2: message,
-    props: {toastType: toastType},
+    props: { toastType: toastType },
   });
 };
 
@@ -27,24 +27,26 @@ export const convertToReadableDate = date =>
 ////
 export const naira = () => '\u20A6'; //naira symbol
 ////
-export const getUserLocation = async () => {
-  try {
-    let location;
 
+export const getUserLocation = async () => {
+
+
+  try {
     let permission = await RNLocation.checkPermission({
       ios: 'whenInUse', // or 'always'
       android: {
-        detail: 'coarse', // or 'fine'
-      },
+        detail: 'coarse' // or 'fine'
+      }
     });
 
-    if (permission) return true;
+    console.log(permission)
 
-    const getUserPermission = async () => {
+    let location;
+    if (!permission) {
       permission = await RNLocation.requestPermission({
-        ios: 'whenInUse',
+        ios: "whenInUse",
         android: {
-          detail: 'coarse',
+          detail: "coarse",
           rationale: {
             title: 'We need to access your location',
             message:
@@ -52,22 +54,12 @@ export const getUserLocation = async () => {
             buttonPositive: 'OK',
             buttonNegative: 'Cancel',
           },
-        },
-      });
-    };
-
-    // getUserPermission();
-
-    if (!permission) {
-      const permissionAgain = await getUserPermission();
-      if (permissionAgain) {
-        location = await RNLocation.getLatestLocation({timeout: 100});
-      } else {
-        console.log('failed');
-        return false;
-      }
-
+        }
+      })
       if (permission) {
+        location = await RNLocation.getLatestLocation({ timeout: 100 })
+        console.log(location, ' daniel 1')
+
         let userLocation = {
           location,
           longitude: location.longitude,
@@ -76,23 +68,26 @@ export const getUserLocation = async () => {
         };
         return userLocation;
       } else {
-        return false;
+        return false
       }
+
     } else {
-      location = await RNLocation.getLatestLocation({timeout: 100});
-      let userLocation = {
-        location,
-        longitude: location.longitude,
-        latitude: location.latitude,
-        timestamp: location.timestamp,
-      };
-      return userLocation;
+      if (permission) {
+        location = await RNLocation.getLatestLocation({ timeout: 100 })
+        console.log(location, ' daniel')
+        let userLocation = {
+          location,
+          longitude: location.longitude,
+          latitude: location.latitude,
+          timestamp: location.timestamp,
+        };
+        return userLocation;
+
+      }
     }
   } catch (error) {
-    console.log(error.message, ' failed to get user location ');
-    return false;
+    console.log(error?.mesage)
   }
-  // RNLocation.configure({
-  //   distanceFilter: 0,//maximum distance before the users location is updated.
-  // });
-};
+
+
+}
