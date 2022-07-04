@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {universalPadding, colors, width} from '../../../../config/config';
-import {SignUpInfoContext} from './../../../forms/signUpInfoContext';
+import React, { useState, useEffect, useContext } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { universalPadding, colors, width } from '../../../../config/config';
+import { SignUpInfoContext } from './../../../forms/signUpInfoContext';
 import ProfilePane from './../../../../components/ProfilePane';
 import SocialHandles from '../../../../components/SocialHandles';
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import InfoText from './../../../../components/InfoText';
 import AnimatedImage from '../../../../components/AnimatedImage';
@@ -13,8 +13,8 @@ import AnimatedImage from '../../../../components/AnimatedImage';
 import MediaSkeleton from './../../../../components/MediaSkeleton';
 import firestore from '@react-native-firebase/firestore';
 
-import {MemoAppChip} from './../../../../components/AppChip';
-import {AppContext} from './../../../../appContext';
+import { MemoAppChip } from './../../../../components/AppChip';
+import { AppContext } from './../../../../appContext';
 import PlaceHolderParagraph from '../../../../components/PlaceHolderParagraph';
 import Retry from './../../../../components/Retry';
 import Link from './../../../../components/Link';
@@ -23,10 +23,11 @@ import AppIndicator from '../../../../components/AppIndicator';
 
 const FrontPage = () => {
   const navigation = useNavigation();
-  const {user} = useContext(SignUpInfoContext);
-  const {userUID} = useContext(AppContext);
+  const { user } = useContext(SignUpInfoContext);
+  const { userUID } = useContext(AppContext);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [shouldShowIndicator, setShouldShowIndicator] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [isLoadingPersonalities, setIsLoadingPersonalities] = useState(true);
 
@@ -44,12 +45,17 @@ const FrontPage = () => {
   }, []);
 
   useEffect(() => {
+    setShouldShowIndicator(true)
     const subscribe = firestore()
       .collection('STUDENTS')
       .doc(userUID)
       .onSnapshot(documentSnapShot => {
         setPersonalities(documentSnapShot.data()?.personalities ?? null);
         setIsLoadingPersonalities(false);
+
+        setTimeout(() => {
+          setShouldShowIndicator(false)
+        }, 4000);
       });
 
     return () => subscribe();
@@ -118,9 +124,10 @@ const FrontPage = () => {
                 onPress={() => null}
               />
             ))
-          ) : (
+          ) : shouldShowIndicator ? (
             <AppIndicator />
-          )}
+          ) : <Link readOnly text={`no personalities added yet..`} color={colors.chip} centered={false} />
+          }
         </View>
       </View>
     </>

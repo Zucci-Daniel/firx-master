@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import {BottomTab} from '../../navigation/create/CreateNavigation';
-import {tabBarBottomConfig, colors, brandFont} from '../../config/config';
+import { BottomTab } from '../../navigation/create/CreateNavigation';
+import { tabBarBottomConfig, colors, brandFont } from '../../config/config';
 import AppTabButton from '../../components/AppTabButton';
-import {useContext} from 'react';
+import { useContext } from 'react';
 import HomeStack from './home/HomeStack';
-import {AppContext} from './../../appContext';
+import { AppContext } from './../../appContext';
 import Notification from './notification/Notification';
 import Menu from './menu/Menu';
 import ButtonText from './../../components/ButtonText';
 
-const MainNavigation = ({navigation, route}) => {
+const MainNavigation = ({ navigation, route }) => {
 
-  const {showBottomTab} = useContext(AppContext);
+  const { showBottomTab } = useContext(AppContext);
   const [currentRoute, setCurrentRoute] = useState('homeStack');
 
   const handleRouteChange = (destination, routeName) => {
@@ -25,7 +25,7 @@ const MainNavigation = ({navigation, route}) => {
   return (
     <>
       <BottomTab.Navigator
-        sceneContainerStyle={{backgroundColor: 'black'}}
+        sceneContainerStyle={{ backgroundColor: colors.neonBg }}
         initialRouteName="homeStack"
         screenOptions={{
           headerShown: false,
@@ -54,8 +54,8 @@ const MainNavigation = ({navigation, route}) => {
         <BottomTab.Screen
           name="homeStack"
           component={HomeStack}
-          options={({route}) => ({
-            tabBarButton: ({color, size}) => (
+          options={({ route }) => ({
+            tabBarButton: ({ color, size }) => (
               <AppTabButton
                 isActive={currentRoute === route.name ? true : false}
                 onPress={() => handleRouteChange('homeStack', route.name)}
@@ -70,8 +70,8 @@ const MainNavigation = ({navigation, route}) => {
         <BottomTab.Screen
           name="notification"
           component={Notification}
-          options={({route}) => ({
-            tabBarButton: ({color, size}) => (
+          options={({ route }) => ({
+            tabBarButton: ({ color, size }) => (
               <AppTabButton
                 isActive={currentRoute === route.name ? true : false}
                 onPress={() => handleRouteChange('notification', route.name)}
@@ -96,8 +96,8 @@ const MainNavigation = ({navigation, route}) => {
         <BottomTab.Screen
           name="menu"
           component={Menu}
-          options={({route}) => ({
-            tabBarButton: ({color, size}) => (
+          options={({ route }) => ({
+            tabBarButton: ({ color, size }) => (
               <AppTabButton
                 isActive={currentRoute === route.name ? true : false}
                 onPress={() => handleRouteChange('menu', route.name)}

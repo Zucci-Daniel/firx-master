@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PostActionIcon from './PostActionIcon';
 import {
   height,
@@ -34,6 +34,9 @@ const PostActions = ({
   onPostInfo = () => {
     console.log('info');
   },
+  onPostShare = () => {
+    console.log('sharing post..');
+  },
   sheetRef,
   children,
 }) => {
@@ -49,6 +52,11 @@ const PostActions = ({
       title: 'More info',
       onPress: onPostInfo,
       iconName: 'info-outline',
+    },
+    {
+      title: 'share profile',
+      onPress: () => shareReceipt(),
+      iconName: 'share',
     },
     {
       title: 'Delete',
@@ -69,7 +77,11 @@ const PostActions = ({
       onPress: onSavePost,
       iconName: 'save-alt',
     },
-
+    {
+      title: 'share post',
+      onPress: onPostShare,
+      iconName: 'share',
+    },
     {
       title: 'Repost',
       onPress: onRepost,
@@ -100,7 +112,7 @@ const PostActions = ({
 
   return (
     <Sheet sheetRef={sheetRef} modalStyle={styles.sheetStyle}>
-      <View style={[styles.container, {height: undefined}]}>
+      <View style={[styles.container, { height: undefined }]}>
         {iAuthoredThis && (
           <View style={styles.actionRow}>
             {authoredPostActions.map((action, index) => (
