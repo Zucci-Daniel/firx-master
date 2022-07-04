@@ -77,6 +77,10 @@ const EditPersonality = () => {
     setPersonalitiesArray(personalityTraits);
     setIsLoading(false);
   }, []);
+
+
+
+
   return (
     <View style={styles.container}>
       {personalities.length > 0 && !isUpdating ? (
@@ -89,6 +93,7 @@ const EditPersonality = () => {
         <AppIndicator
           forSubmiting
           extraIndicatorStyle={styles.extraIndicatorStyle}
+
         />
       ) : null}
       {/* ///maps from the selected personalities */}
@@ -124,8 +129,7 @@ const EditPersonality = () => {
           text={'select personalities'}
         />
         {/* <AppScrollView> */}
-        <ScrollView>
-
+        <ScrollView contentContainerStyle={{ paddingBottom: 600 }}>
           <View style={styles.scrollContainer}>
             {!isLoading ? (
               personalitiesArray.map((item, index) => (
@@ -144,7 +148,7 @@ const EditPersonality = () => {
         </ScrollView>
         {/* </AppScrollView> */}
       </View>
-    </View>
+    </View >
   );
 };
 
@@ -180,5 +184,10 @@ const styles = StyleSheet.create({
   },
   save: {
     margin: universalPadding,
+  },
+  extraIndicatorStyle: {
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    alignSelf: 'center',
   },
 });

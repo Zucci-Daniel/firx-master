@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {TextInput} from '../imports/all_packages';
-import {colors, sMargin, inputBorder, brandFont} from '../config/config';
+import { StyleSheet } from 'react-native';
+import { TextInput } from '../imports/all_packages';
+import { colors, sMargin, inputBorder, brandFont } from '../config/config';
 
 export default AppInput = ({
   label = 'Email',
@@ -25,10 +25,11 @@ export default AppInput = ({
       value={value}
       onChangeText={text => onChangeText(text)}
       underlineColor={colors.fadeWhite}
+
       style={[
         styles.TextInput,
         extraStyles,
-        {backgroundColor: background ? background : colors.pureWhite},
+        { backgroundColor: background ? background : colors.pureWhite },
       ]}
       theme={{
         colors: {
@@ -58,5 +59,6 @@ const styles = StyleSheet.create({
     marginVertical: sMargin,
     borderRadius: inputBorder,
     fontFamily: brandFont.medium,
+    textTransform: 'capitalize'
   },
 });

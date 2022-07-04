@@ -13,7 +13,9 @@ import {
   handleUnfollowAuthor,
 } from '../hooks/postOperations';
 import PosterInitials from './Post/utils/PosterInitials';
-import { convertToReadableDate } from './../functions/commonFunctions';
+import { appShare, convertToReadableDate } from './../functions/commonFunctions';
+import Clipboard from '@react-native-community/clipboard';
+import { commonFunctions } from '../imports/all_files';
 
 const Feed = ({
   useData = [],
@@ -39,6 +41,7 @@ const Feed = ({
   const [selectedMyPost, setSelectedMyPost] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [copiedText, setCopiedText] = useState('');
 
   const updateState = id => {
     setIsUpdating(true);
@@ -155,6 +158,23 @@ const Feed = ({
       });
   };
 
+
+  const copyToClipboard = () => {
+    Clipboard.setString(`${selectedPost.posterName}`);
+  };
+
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getString();
+    setCopiedText(text);
+  };
+
+
+  const handleCopy = async () => {
+    copyToClipboard()
+    await fetchCopiedText()
+    commonFunctions.showToast('Post Link Copied!', `copied ${copiedText}'s post`, 'success')
+  }
+
   const handleRowRender = (type, data, index, extendedState) => {
     const { item, type: innerType } = data;
 
@@ -190,6 +210,8 @@ const Feed = ({
         <PostActions
           sheetRef={sheetRef}
           iAuthoredThis={extendedState.selectedMyPost}
+          onCopyPostLink={handleCopy}
+          onPostShare={() => appShare(selectedPost.posterName)}
           onDeletePost={() => _deletePost(selectedPost.postID)}
           onSavePost={() => _savePost(selectedPost.postID, userUID)}
           onUnfollow={() =>
@@ -228,6 +250,7 @@ const Feed = ({
       <View style={styles.container}>
         {data.dataProvider._data.length !== 0 ? (
           <RecyclerListView
+            style={{ backgroundColor: colors.neonBg }}
             forceNonDeterministicRendering={true} //to make sure it fits the height of it's content
             dataProvider={data.dataProvider}
             layoutProvider={handleLayoutProvider}

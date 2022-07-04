@@ -2,6 +2,7 @@ import Toast from 'react-native-toast-message';
 import dayjs from 'dayjs';
 import RNLocation from 'react-native-location';
 import { Alert } from 'react-native';
+import Share from 'react-native-share';
 
 //this function basically calls a reuseable toast method.
 export const showToast = (
@@ -91,3 +92,15 @@ export const getUserLocation = async () => {
 
 
 }
+
+
+export const appShare = async (whatToShare = `https://www.npmjs.com/package/react-native-share`) => {
+  try {
+    await Share.open({
+      url: whatToShare,
+      title: 'Link to react native share package.'
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

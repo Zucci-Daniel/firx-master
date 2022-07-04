@@ -1,13 +1,13 @@
-import React, {useEffect, useState, useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {colors, universalPadding, width} from '../../../../config/config';
+import React, { useEffect, useState, useContext } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { colors, universalPadding, width } from '../../../../config/config';
 import firestore from '@react-native-firebase/firestore';
-import {AppContext} from './../../../../appContext';
+import { AppContext } from './../../../../appContext';
 
-import {commonFunctions} from '../../../../imports/all_files';
+import { commonFunctions } from '../../../../imports/all_files';
 
 import Link from './../../../../components/Link';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import Feed from './../../../../components/Feed';
 import AppIndicator from '../../../../components/AppIndicator';
@@ -16,20 +16,20 @@ import { SelectedUserContext } from './selectedUserContext';
 
 const SelectedUserAuthoredPosts = () => {
 
-    const {
-        selectedUserDoc,
-        setSelectedUserDoc,
-        isFetching,
-        setIsFetching,
-        id,
-        setId,
-      } = useContext(SelectedUserContext);
+  const {
+    selectedUserDoc,
+    setSelectedUserDoc,
+    isFetching,
+    setIsFetching,
+    id,
+    setId,
+  } = useContext(SelectedUserContext);
 
   const navigation = useNavigation();
   const [authoredPosts, setAuthoredPosts] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(true); //use this state to show a loading animation.
 
-  const {userUID} = useContext(AppContext);
+  const { userUID } = useContext(AppContext);
 
   useEffect(() => {
     try {
@@ -38,10 +38,10 @@ const SelectedUserAuthoredPosts = () => {
         .where('posterUserUID', '==', id)
         .onSnapshot(querySnapshot => {
           let posts = [];
-          querySnapshot.forEach(postSnapShot => {
-            posts.push({
+          querySnapshot?.forEach(postSnapShot => {
+            posts?.push({
               item: {
-                ...postSnapShot.data(),
+                ...postSnapShot?.data(),
               },
               type: 'normal',
             });
@@ -57,7 +57,7 @@ const SelectedUserAuthoredPosts = () => {
       );
     }
 
-    return () => {};
+    return () => { };
   }, []);
 
   if (isFetchingData) return <AppIndicator />;
@@ -69,10 +69,10 @@ const SelectedUserAuthoredPosts = () => {
           <Feed
             useData={authoredPosts}
             userUID={userUID}
-            // loadMoreData={handleLoadMoreData}
-            // loading={() =>
-            //   postIsFinished == false ? <MiniLoading /> : <Finished />
-            // }
+          // loadMoreData={handleLoadMoreData}
+          // loading={() =>
+          //   postIsFinished == false ? <MiniLoading /> : <Finished />
+          // }
           />
         </>
       ) : (

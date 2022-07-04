@@ -1,16 +1,16 @@
-import React, {useContext} from 'react';
-import {StyleSheet, View, Linking} from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, View, Linking } from 'react-native';
 import Twitter from './icons/Twitter';
 import WhatsApp from './icons/WhatsApp';
 import Ig from './icons/Ig';
 import Fb from './icons/Fb';
 import Phone from './icons/Phone';
-import {SignUpInfoContext} from './../screens/forms/signUpInfoContext';
-import {universalPadding} from '../config/config';
+import { SignUpInfoContext } from './../screens/forms/signUpInfoContext';
+import { universalPadding } from '../config/config';
 import AppLink from 'react-native-app-link';
 
-const SocialHandles = ({instagram, whatsapp, facebook, phone, twitter}) => {
-  const {user} = useContext(SignUpInfoContext);
+const SocialHandles = ({ instagram, whatsapp, facebook, phone, twitter }) => {
+  const { user } = useContext(SignUpInfoContext);
 
   const openLink = async (link, tel = false) => {
     try {

@@ -15,6 +15,9 @@ import { SignUpInfoContext } from './../../forms/signUpInfoContext';
 import { extractFirstTwoLetterOfWordToUpperCase } from '../../../hooks/justHooks';
 import Security from './Security';
 import { detectBiometrics } from '../../../hooks/operations';
+import Clipboard from '@react-native-community/clipboard';
+import { commonFunctions } from '../../../imports/all_files';
+import { appShare } from '../../../functions/commonFunctions';
 
 const HomeStack = ({ navigation }) => {
 
@@ -24,7 +27,7 @@ const HomeStack = ({ navigation }) => {
 
   const { user, setUser } = useContext(SignUpInfoContext);
   const [isBiometricSupported, setIsBiometricSupported] = useState(null)
-
+  const [copiedText, setCopiedText] = useState('');
 
   const _handleBiometrics = async () => {
     const response = await detectBiometrics()
@@ -36,7 +39,7 @@ const HomeStack = ({ navigation }) => {
     }
   }
 
-  console.log(isBiometricSupported)
+
 
   useEffect(() => {
     //check if biometric is supported
@@ -54,13 +57,18 @@ const HomeStack = ({ navigation }) => {
       color: colors.pureWhite,
     },
     {
+      title: 'share profile',
+      onPress: () => appShare(),
+      iconName: 'share',
+    },
+    {
       title: 'view my profile',
-      onPress: () => null,
+      onPress: () => navigation.navigate('menu', { screen: 'profile' }),
       iconName: 'account-circle',
     },
     {
       title: 'copy profile link',
-      onPress: () => null,
+      onPress: () => handleCopy(),
       iconName: 'content-copy',
     },
     {
@@ -68,6 +76,7 @@ const HomeStack = ({ navigation }) => {
       onPress: () => null,
       iconName: 'switch-account',
     },
+
     {
       title: 'add security',
       onPress: () => isBiometricSupported ? navigation.navigate('security') : null,
@@ -76,8 +85,25 @@ const HomeStack = ({ navigation }) => {
     },
   ];
 
+
+  const copyToClipboard = () => {
+    Clipboard.setString('https://www.npmjs.com/package/react-native-share');
+  };
+
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getString();
+    setCopiedText(text);
+  };
+
+
+  const handleCopy = async () => {
+    copyToClipboard()
+    await fetchCopiedText()
+    commonFunctions.showToast('Profile Link Copied!', `copied ${copiedText}`, 'success')
+  }
+
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: colors.neonBg }}>
       <Stack.Navigator
         screenOptions={{
           animation: 'slide_from_left',
@@ -169,7 +195,7 @@ const HomeStack = ({ navigation }) => {
           </View>
         </View>
       </Sheet>
-    </>
+    </View>
   );
 };
 
