@@ -1,15 +1,15 @@
-import React, {useContext, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {SelectedUserContext} from './selectedUserContext';
+import React, { useContext, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { SelectedUserContext } from './selectedUserContext';
 import AnimatedImage from './../../../../components/AnimatedImage';
 import ProfilePane from './../../../../components/ProfilePane';
 import SweetButton from './../../../../components/SweetButton';
 import SocialHandles from './../../../../components/SocialHandles';
 import InfoText from './../../../../components/InfoText';
-import {colors, universalPadding, width} from '../../../../config/config';
+import { colors, universalPadding, width } from '../../../../config/config';
 import SeparatedButtons from '../../../../components/SeparatedButtons';
 import MediaSkeleton from './../../../../components/MediaSkeleton';
-import {MemoAppChip} from './../../../../components/AppChip';
+import { MemoAppChip } from './../../../../components/AppChip';
 import Link from './../../../../components/Link';
 import PlaceHolderParagraph from './../../../../components/PlaceHolderParagraph';
 
@@ -21,8 +21,8 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background! 2', remoteMessage);
 });
 
-const UserMainProfile = ({navigation, route}) => {
-  const {selectedUserDoc, isFetching} = useContext(SelectedUserContext);
+const UserMainProfile = ({ navigation, route }) => {
+  const { selectedUserDoc, isFetching } = useContext(SelectedUserContext);
   const [showModal, setShowModal] = useState(false);
   const [userToken, setUserToken] = useState(null);
 
@@ -31,7 +31,7 @@ const UserMainProfile = ({navigation, route}) => {
   const hideModal = () => setShowModal(false);
 
   const handleGotoAcc = () => {
-    navigation.navigate('userMedia', {screen: 'userAccommodation'});
+    navigation.navigate('userMedia', { screen: 'userAccommodation' });
   };
 
   const handleLocalNotification = async () => {
@@ -77,12 +77,12 @@ const UserMainProfile = ({navigation, route}) => {
     try {
       await messaging().sendMessage({
         to: fcmToken,
-        data: {title: 'hi boo', body: 'tesingggg'},
+        data: { title: 'hi boo', body: 'tesingggg' },
         contentAvailable: true,
         notification: {
           title: 'zucci sent something',
           body: 'thats true',
-          android: {priority: 'high'},
+          android: { priority: 'high' },
         },
       });
     } catch (error) {
@@ -129,9 +129,9 @@ const UserMainProfile = ({navigation, route}) => {
 
   if (selectedUserDoc?.firstName == undefined) {
     return (
-      <View style={{padding: 20}}>
+      <View style={{ padding: 20 }}>
         <Link
-          extraStyle={{textTransform: 'lowercase', textAlign: 'center'}}
+          extraStyle={{ textTransform: 'lowercase', textAlign: 'center' }}
           text={`if you're sure your network is stable, then it looks like this user doesn't exist, they probably must have left this platform... you can only see what they post and maybe thier names, but can't see their profile due to some restrictions.
         `}
         />
@@ -206,14 +206,14 @@ const UserMainProfile = ({navigation, route}) => {
             <View style={styles.scrollContainer}>
               {!isFetching && selectedUserDoc?.personalities?.length > 0
                 ? selectedUserDoc?.personalities.map((item, index) => (
-                    <MemoAppChip
-                      readOnly
-                      bg={colors.skeletonAnimationBg}
-                      value={item}
-                      key={index}
-                      onPress={() => null}
-                    />
-                  ))
+                  <MemoAppChip
+                    readOnly
+                    bg={colors.skeletonAnimationBg}
+                    value={item}
+                    key={index}
+                    onPress={() => null}
+                  />
+                ))
                 : null}
             </View>
           </View>

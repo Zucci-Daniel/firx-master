@@ -8,9 +8,9 @@ import AppTabButton from '../../components/AppTabButton';
 import { useContext } from 'react';
 import HomeStack from './home/HomeStack';
 import { AppContext } from './../../appContext';
-import Notification from './notification/Notification';
 import Menu from './menu/Menu';
 import ButtonText from './../../components/ButtonText';
+import Search from './search/Search';
 
 const MainNavigation = ({ navigation, route }) => {
 
@@ -68,13 +68,13 @@ const MainNavigation = ({ navigation, route }) => {
         />
 
         <BottomTab.Screen
-          name="notification"
-          component={Notification}
+          name="search"
+          component={Search}
           options={({ route }) => ({
             tabBarButton: ({ color, size }) => (
               <AppTabButton
                 isActive={currentRoute === route.name ? true : false}
-                onPress={() => handleRouteChange('notification', route.name)}
+                onPress={() => handleRouteChange('search', route.name)}
                 name="search"
                 size={20}
               />
@@ -90,7 +90,7 @@ const MainNavigation = ({ navigation, route }) => {
               fontWeight: 'bold',
             },
             headerRight: () => <ButtonText title="mark all as read" />,
-            headerTitle: 'Notifications',
+            headerTitle: 'Search',
           })}
         />
         <BottomTab.Screen

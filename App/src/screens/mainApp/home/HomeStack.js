@@ -13,7 +13,6 @@ import Sheet from '../../../components/Sheet';
 import MenuItem from '../../../components/MenuItem';
 import { SignUpInfoContext } from './../../forms/signUpInfoContext';
 import { extractFirstTwoLetterOfWordToUpperCase } from '../../../hooks/justHooks';
-import Security from './Security';
 import { detectBiometrics } from '../../../hooks/operations';
 import Clipboard from '@react-native-community/clipboard';
 import { commonFunctions } from '../../../imports/all_files';
@@ -93,6 +92,7 @@ const HomeStack = ({ navigation }) => {
   const fetchCopiedText = async () => {
     const text = await Clipboard.getString();
     setCopiedText(text);
+    console.log('lol')
   };
 
 

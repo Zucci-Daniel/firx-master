@@ -1,15 +1,14 @@
-import { React } from '../../imports/all_RnComponents';
+
+import React from 'react';
 
 import { Stack } from '../../navigation/create/CreateNavigation';
 import EditProfile from './menu/profile/EditProfile';
-import { HomeContextProvider } from './home/homeContext';
 import EditPersonality from './menu/profile/EditPersonality';
 import Camera from './home/Camera';
 import AccommodationSection from './menu/Accommodation/AccommodationSection';
 import { View } from 'react-native';
 import { colors } from '../../config/config';
 import MainNavigation from './MainNavigation';
-import { FeedContextProvider } from '../../store/feedStore/feedContext';
 import AppHeader from './../../components/AppHeader';
 import Security from './home/Security';
 

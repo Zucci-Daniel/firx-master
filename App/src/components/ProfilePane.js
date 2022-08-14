@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Subheading} from '../imports/all_packages';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Subheading } from '../imports/all_packages';
 
 import {
   colors,
@@ -10,8 +10,8 @@ import {
   width,
   avatarEditWidth,
 } from '../config/config';
-import {SignUpInfoContext} from '../screens/forms/signUpInfoContext';
-import {useContext} from 'react';
+import { SignUpInfoContext } from '../screens/forms/signUpInfoContext';
+import { useContext } from 'react';
 import Follow from './Follow';
 import SeparatedButtons from './SeparatedButtons';
 import AppImage from './AppImage';
@@ -32,12 +32,12 @@ export default function ProfilePane({
   dark = false,
   bg,
   externalProfileImage,
-  profileImageSize,
+  profileImageSize = avatarEditWidth / 1.3,
   onLongPressImage,
-  onPressOutImage,
+  onPressOutImage, showFollowers = true
 }) {
   const {
-    user: {firstName, lastName, department, level, profileImage},
+    user: { firstName, lastName, department, level, profileImage },
   } = useContext(SignUpInfoContext);
 
   return (
@@ -57,7 +57,7 @@ export default function ProfilePane({
         <AppImage
           onPressOutImage={onPressOutImage}
           onLongPressImage={onLongPressImage}
-          size={avatarEditWidth / 1.3}
+          size={profileImageSize}
           source={externalProfileImage ? externalProfileImage : profileImage}
           readOnly
         />
@@ -71,10 +71,10 @@ export default function ProfilePane({
           </Subheading>
         </View>
       </View>
-      <SeparatedButtons extraStyle={{justifyContent: 'space-around'}}>
+      {showFollowers && <SeparatedButtons extraStyle={{ justifyContent: 'space-around' }}>
         <Follow detail="followers" value="219,000" />
         <Follow detail="following" value="21" />
-      </SeparatedButtons>
+      </SeparatedButtons>}
     </TouchableOpacity>
   );
 }
